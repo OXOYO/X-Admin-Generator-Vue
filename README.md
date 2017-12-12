@@ -6,6 +6,7 @@
 
 ## 技术栈：
   前端： vue + vuex + vue-router + iview + axios
+  
   API：koa + koa-router + jsonwebtoken + mysql + sequelize
 
 ## 前端 [X-Admin-Generator-Vue](https://github.com/OXOYO/X-Admin-Generator-Vue)
