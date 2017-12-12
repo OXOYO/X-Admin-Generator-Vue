@@ -8,7 +8,7 @@
   前端： vue + vuex + vue-router + iview + axios
   API：koa + koa-router + jsonwebtoken + mysql + sequelize
 
-## 前端 [Admin-Generator-Vue]()
+## 前端 [X-Admin-Generator-Vue](https://github.com/OXOYO/X-Admin-Generator-Vue)
 
 ### Start
 ``` bash
@@ -23,6 +23,11 @@
   # build for production with minification
   npm run build
 ```
+用户登录，需要 [X-Admin-API-Generator-Koa](https://github.com/OXOYO/X-Admin-API-Generator-Koa) 支持
+
+账号：admin
+密码：123456
+
 ### 目录结构
 
 ```bash
@@ -114,7 +119,7 @@
 ```
 3.新模块开发可以参考 `Users` 模块
 
-## API [Admin-API-Generator-Koa]()
+## API [X-Admin-API-Generator-Koa](https://github.com/OXOYO/X-Admin-API-Generator-Koa)
 
 ### Start
 
