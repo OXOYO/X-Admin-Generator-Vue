@@ -37,20 +37,20 @@
     </div>
     <components
       v-for="item in menuList"
-      :is="item.children ? 'Submenu' : 'MenuItem'"
+      :is="item.children && item.children.length ? 'Submenu' : 'MenuItem'"
       :key="item.name"
       :name="item.name"
     >
       <!-- 有子节点 -->
       <template
-        v-if="item.children"
+        v-if="item.children && item.children.length"
         slot="title"
       >
         <Icon class="layout-icon" :type="item.icon" :size="iconSize"></Icon>
         <span class="layout-text">{{ item.title }}</span>
       </template>
       <MenuItem
-        v-if="item.children"
+        v-if="item.children && item.children.length"
         v-for="childItem in item.children"
         :key="childItem.name"
         :name="childItem.name"
@@ -59,8 +59,8 @@
         <span class="layout-text">{{ childItem.title }}</span>
       </MenuItem>
       <!-- 无子节点 -->
-      <Icon v-if="!item.children" class="layout-icon" :type="item.icon" :size="iconSize"></Icon>
-      <span v-if="!item.children" class="layout-text">{{ item.title }}</span>
+      <Icon v-if="!(item.children && item.children.length)" class="layout-icon" :type="item.icon" :size="iconSize"></Icon>
+      <span v-if="!(item.children && item.children.length)" class="layout-text">{{ item.title }}</span>
     </components>
   </Menu>
 </template>
@@ -119,12 +119,21 @@
         // 没有用户信息则返回全部菜单
         if (userInfo) {
           // 根据权限码显示菜单
-          for (let i = 0, len = menuList.length, item; i < len; i++) {
-            item = menuList[i]
-            if (item.enable && item.sidebar && item.userType.includes(userInfo.type)) {
-              tmpArr.push(item)
-            }
+          let handler = function (list) {
+            return list.filter(item => {
+              // 判断当前节点是否启用、是否放置在sidebar、是否允许当前用户类别
+              if (item.enable && item.sidebar && item.userType.includes(userInfo.type)) {
+                // 处理子节点
+                if (item.children && item.children.length) {
+                  item.children = handler(item.children)
+                }
+                return true
+              } else {
+                return false
+              }
+            })
           }
+          tmpArr = handler(menuList)
         } else {
           tmpArr = menuList
         }
@@ -136,4 +145,3 @@
     }
   }
 </script>
-

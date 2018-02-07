@@ -63,7 +63,19 @@ export default {
           title: 'DemoModule002',
           enable: true,
           sidebar: true,
-          userType: [0, 1]
+          userType: [0, 1],
+          children: [
+            // FIXME 【TEST】测试用数据
+            {
+              id: 401,
+              index: 401,
+              name: 'admin.DemoModule002.test',
+              title: 'DemoModule002.test',
+              enable: true,
+              sidebar: false,
+              userType: [0]
+            }
+          ]
         }
       ]
     }
