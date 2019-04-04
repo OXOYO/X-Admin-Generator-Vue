@@ -1,16 +1,13 @@
 /**
-* Created by OXOYO on 2017/12/6.
+* Created by yangfan9244 on 2019/4/4.
 *
+* About 
 */
 
-<style scoped lang="less" rel="stylesheet/less">
-
-</style>
+<style scoped lang="less" rel="stylesheet/less"></style>
 
 <template>
-  <div>
-    <h1>TODO About</h1>
-  </div>
+  <h1>TODO About</h1>
 </template>
 
 <script>
@@ -18,4 +15,3 @@
     name: 'About'
   }
 </script>
-

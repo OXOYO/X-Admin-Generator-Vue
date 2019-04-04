@@ -4,12 +4,11 @@
 
 import bus from './bus'
 import filters from './filters'
-import store from './store'
+import sort from './sort'
 
 export default {
   bus,
   filters,
-  // 注册store
-  store
-  // 注册路由
+  // 排序
+  sort
 }

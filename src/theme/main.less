@@ -1,0 +1,71 @@
+/*
+  页面通用样式
+*/
+
+html {
+  height: 100%;
+  width: 100%;
+}
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.clear {
+  clear: both;
+}
+// 主容器
+.main-box {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow: auto;
+}
+// 查询面板
+.search-panel {
+
+  .search-form {
+    float: left;
+  }
+  .search-form-table {
+    width: 100%;
+  }
+  .search-form-page{
+    float:right;
+    margin:10px 0;
+  }
+  .btn-group {
+    margin-top: 10px;
+  }
+}
+
+// 透明遮罩
+.mask-disabled {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: transparent;
+  z-index: 10;
+}
+
+.loading-block {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  /*height: 100%;*/
+  min-height: 400px;
+
+  .spin-icon-load{
+    animation: loading-animation 1s linear infinite;
+  }
+  @keyframes loading-animation {
+    from { transform: rotate(0deg);}
+    50%  { transform: rotate(180deg);}
+    to   { transform: rotate(360deg);}
+  }
+}

@@ -1,31 +1,23 @@
 /**
- * Created by OXOYO on 2017/12/5.
+ * Created by yangfan9244 on 2019/4/4.
+ *
+ * 全局组件
  */
+import Copyright from './Copyright'
+import Wallpaper from './Wallpaper'
 
-import NoData from './NoData.vue'
-import RainDay from './RainDay.vue'
-import Wallpaper from './Wallpaper.vue'
-import Copyright from './Copyright.vue'
-import UPanel from './UPanel.vue'
-import USwitch from './USwitch.vue'
+const obj = {
+  Copyright,
+  Wallpaper
+}
 
-export default {
-  components: {
-    NoData,
-    RainDay,
-    Wallpaper,
-    Copyright,
-    UPanel,
-    USwitch
-  },
-  // 注册全局组件
-  register: function (Vue) {
-    let _t = this
-    let components = _t.components
-    for (let key in components) {
-      if (key && components[key]) {
-        Vue.component(key, components[key])
-      }
+const components = {}
+components.install = function (Vue, options) {
+  for (let name in obj) {
+    if (name && obj[name]) {
+      Vue.component(name, obj[name])
     }
   }
 }
+
+export default components
