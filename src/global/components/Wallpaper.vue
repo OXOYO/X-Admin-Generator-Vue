@@ -1,5 +1,5 @@
 /**
-* Created by yangfan9244 on 2017/11/17.
+* Created by OXOYO on 2017/11/17.
 *
 * 桌面壁纸
 */
@@ -90,12 +90,12 @@
       })
     },
     methods: {
-      init: function () {
+      init () {
         let _t = this
         // 切换壁纸
         _t.doSwitch()
       },
-      doSwitch: function () {
+      doSwitch () {
         let _t = this
         switch (_t.switchType) {
           case 'random':
@@ -120,7 +120,7 @@
         }
       },
       // 执行默认壁纸
-      doSwitchByRandom: function (type) {
+      doSwitchByRandom (type) {
         let _t = this
         if (!type) {
           // 1.随机壁纸类型
@@ -197,7 +197,7 @@
           }
         }
       },
-      lazyLoadImg: function (src) {
+      lazyLoadImg (src) {
         let _t = this
         // 渐进加载
         let img = new Image()
@@ -216,21 +216,21 @@
         }
       }
     },
-    created: function () {
+    created () {
       let _t = this
       // 初始化
       _t.init()
     },
-    mounted: function () {
+    mounted () {
       let _t = this
       // 监听事件
-      _t.$utils.bus.$on('platform/wallpaper/switch', function () {
+      _t.$X.utils.bus.$on('platform/wallpaper/switch', function () {
         _t.doSwitch()
       })
     },
-    beforeDestroy: function () {
+    beforeDestroy () {
       let _t = this
-      _t.$utils.bus.$off([
+      _t.$X.utils.bus.$off([
         'platform/wallpaper/switch'
       ])
     }

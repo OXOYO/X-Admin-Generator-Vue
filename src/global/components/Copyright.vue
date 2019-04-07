@@ -1,5 +1,5 @@
 /**
-* Created by yangfan9244 on 2019/4/4.
+* Created by OXOYO on 2019/4/4.
 *
 */
 
@@ -7,7 +7,7 @@
   .copy-right {
     position: absolute;
     z-index: 200;
-    bottom: 40px;
+    bottom: 0;
     width: 100%;
     text-align: center;
     padding: 10px 0 20px;
@@ -17,8 +17,8 @@
 
 <template>
   <div class="copy-right">
-    {{ $config.system.copyright }}
-    Version {{ $config.system.version }}
+    {{ $X.config.system.copyright }}
+    Version {{ $X.config.system.version }}
   </div>
 </template>
 
@@ -27,4 +27,3 @@
     name: 'Copyright'
   }
 </script>
-

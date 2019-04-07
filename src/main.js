@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import iView from 'iview'
 import './theme/index.less'
-import VueI18n from 'vue-i18n'
+import * as Cookies from 'js-cookie'
 
 import App from './App.vue'
-import routerInstance from './router'
-import storeInstance from './store'
+import i18n from './i18n'
+import router from './router'
+import store from './store'
 import './registerServiceWorker'
 
 import utils from './global/utils'
@@ -19,25 +20,25 @@ Vue.config.debug = isDev
 Vue.config.devtools = isDev
 Vue.config.productionTip = isDev
 Vue.config.performance = isDev
+// 挂载 $X 命名空间
+Vue.prototype.$X = {
+  isDev,
+  utils,
+  config,
+  http,
+  Cookies
+}
 
 // 注册插件
 Vue.use(iView, {
   transfer: true
 })
-Vue.use(VueI18n)
+// 注册全局组件
 Vue.use(components)
 
-// 注册全局 utils
-Vue.prototype.$utils = utils
-// 注册全局 config
-Vue.prototype.$config = config
-// 注册 $http
-Vue.prototype.$http = http
-
-console.log('process.env.API_BASE', process.env)
-
 new Vue({
-  store: storeInstance,
-  router: routerInstance,
+  i18n: i18n(Vue),
+  store: store(Vue),
+  router: router(Vue),
   render: h => h(App)
 }).$mount('#app')

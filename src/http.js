@@ -1,11 +1,10 @@
 /**
- * Created by yangfan9244 on 2019/4/4.
+ * Created by OXOYO on 2019/4/4.
  *
  *
  */
 import Vue from 'vue'
 import axios from 'axios'
-import * as Cookies from 'js-cookie'
 
 // 创建 实例
 const http = axios.create({
@@ -16,8 +15,8 @@ const http = axios.create({
 http.interceptors.request.use((config) => {
   // loading 进度条启动
   Vue.prototype.$Loading.start()
-  let tokenKey = Vue.prototype.$config.cookie.getItem('token')
-  let tokenVal = Cookies.get(tokenKey) || ''
+  let tokenKey = Vue.prototype.$X.config.cookie.getItem('token')
+  let tokenVal = Vue.prototype.$X.Cookies.get(tokenKey) || ''
   // 设置请求头
   config.headers.common[tokenKey] = tokenVal
 
@@ -37,20 +36,20 @@ http.interceptors.response.use(function (response) {
       if (resData.code === 9999) {
         // FIXME 清空Session Storeage
         sessionStorage.clear()
-        let keysArr = Object.keys(Cookies.get())
+        let keysArr = Object.keys(Vue.prototype.$X.Cookies.get())
         // FIXME 处理待排除的key
         let unless = []
-        for (let i = 0, len = Vue.prototype.$config.cookie.unless.length; i < len; i++) {
-          let key = Vue.prototype.$config.cookie.unless[i]
-          let val = Vue.prototype.$config.cookie.getItem(key)
+        for (let i = 0, len = Vue.prototype.$X.config.cookie.unless.length; i < len; i++) {
+          let key = Vue.prototype.$X.config.cookie.unless[i]
+          let val = Vue.prototype.$X.config.cookie.getItem(key)
           unless.push(val)
         }
         for (let i = 0, len = keysArr.length; i < len; i++) {
           let key = keysArr[i]
           // 判断是否需要排除
           if (!unless.includes(key)) {
-            Cookies.remove(key, {
-              path: Vue.prototype.$config.cookie.path
+            Vue.prototype.$X.Cookies.remove(key, {
+              path: Vue.prototype.$X.config.cookie.path
             })
           }
         }

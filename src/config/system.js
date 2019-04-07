@@ -1,5 +1,5 @@
 /**
- * Created by yangfan9244 on 2019/4/4.
+ * Created by OXOYO on 2019/4/4.
  *
  *
  */
@@ -10,5 +10,6 @@ export default {
   title: 'X-Admin-Generator-Vue',
   subtitle: 'X-Admin',
   minTitle: 'X',
-  copyright: '© 2019 OXOYO All Rights Reserved. OXOYO 版权所有'
+  logo: require('../assets/logo.png'),
+  copyright: '© 2019 OXOYO All Rights Reserved.'
 }

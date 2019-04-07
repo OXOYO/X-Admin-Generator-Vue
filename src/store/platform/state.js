@@ -1,7 +1,13 @@
 /**
- * Created by yangfan9244 on 2019/4/4.
+ * Created by OXOYO on 2019/4/4.
  *
  *
  */
 
-export default {}
+export default {
+  background: {
+    name: '',
+    source: null
+  },
+  userInfo: {}
+}

@@ -1,5 +1,5 @@
 /**
-* Created by yangfan9244 on 2019/4/4.
+* Created by OXOYO on 2019/4/4.
 *
 * 前台内容区
 */
@@ -17,8 +17,8 @@
 <template>
   <div class="home-content">
     <!-- 壁纸 -->
-    <Wallpaper switchType="bing"></Wallpaper>
-    <h1>TODO HomeContent</h1>
+    <!--<Wallpaper switchType="bing"></Wallpaper>-->
+    <slot></slot>
   </div>
 </template>
 

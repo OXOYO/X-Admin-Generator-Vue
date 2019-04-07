@@ -1,5 +1,5 @@
 /**
-* Created by yangfan9244 on 2017/12/5.
+* Created by OXOYO on 2017/12/5.
 *
 * DemoApp 应用根组件
 */
@@ -18,15 +18,15 @@
 
   export default {
     name: 'DemoApp',
-    created: function () {
+    created () {
       let _t = this
       // 将store注册到apps下
-      _t.$store.registerModule([_t.$utils.store.getModuleName('Apps'), Store.moduleName], Store.store)
+      _t.$store.registerModule(['apps', Store.moduleName], Store.store)
     },
-    destroyed: function () {
+    destroyed () {
       let _t = this
       // 卸载store
-      _t.$store.unregisterModule([_t.$utils.store.getModuleName('Apps'), Store.moduleName])
+      _t.$store.unregisterModule(['apps', Store.moduleName])
     }
   }
 </script>

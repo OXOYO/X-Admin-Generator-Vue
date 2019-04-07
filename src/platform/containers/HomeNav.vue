@@ -1,5 +1,5 @@
 /**
-* Created by yangfan9244 on 2017/12/6.
+* Created by OXOYO on 2017/12/6.
 *
 * 前台导航栏
 */
@@ -12,6 +12,8 @@
     right: 0;
     background: transparent;
     z-index: 2000;
+    height: 60px;
+    overflow: hidden;
 
     &:hover {
       background: #386ed3;
@@ -23,20 +25,23 @@
       }
     }
     .nav-logo {
-      height: 30px;
-      line-height: 30px;
+      height: 60px;
+      overflow: hidden;
       text-align: center;
-      /*background: #5b6270;*/
-      border-radius: 3px;
       float: left;
       position: relative;
-      top: 15px;
-      left: 20px;
+      padding: 0 20px;
 
       a {
+        line-height: 0;
+
         &:hover {
           color: #ff8300;
         }
+      }
+      img {
+        width: 60px;
+        height: 60px;
       }
     }
     .home-nav-menu {
@@ -62,32 +67,43 @@
   <div class="home-nav">
     <Menu class="nav" mode="horizontal" theme="light" @on-select="triggerMenu">
       <div class="nav-logo">
-        <router-link :to="{ name: 'platform.home'}">{{ $config.system.title }}</router-link>
+        <router-link :to="{ name: 'platform.home'}">
+          <img :src="$X.config.system.logo" alt="">
+        </router-link>
       </div>
       <div class="home-nav-menu">
         <Menu-item name="SignIn">
           <Icon type="log-in"></Icon>
-          登录
+          {{ $t('HomeNav.sigin') }}
         </Menu-item>
         <Menu-item name="About">
           <Icon type="ios-keypad"></Icon>
-          关于
+          {{ $t('HomeNav.about') }}
         </Menu-item>
+        <SwitchLang></SwitchLang>
+        <SwitchBackground></SwitchBackground>
       </div>
     </Menu>
   </div>
 </template>
 
 <script>
+  import SwitchLang from '../components/SwitchLang'
+  import SwitchBackground from '../components/SwitchBackground'
+
   export default {
     name: 'HomeNav',
+    components: {
+      SwitchLang,
+      SwitchBackground
+    },
     methods: {
-      triggerMenu: function (routerName) {
+      triggerMenu (routerName) {
         let _t = this
         if (routerName === 'SignIn') {
-          _t.$router.push({name: 'platform.home.signin'})
+          _t.$router.push({ name: 'platform.home.signin' })
         } else if (routerName === 'About') {
-          _t.$router.push({name: 'platform.home.about'})
+          _t.$router.push({ name: 'platform.home.about' })
         }
       }
     }
