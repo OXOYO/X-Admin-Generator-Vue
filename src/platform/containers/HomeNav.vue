@@ -74,11 +74,11 @@
       <div class="home-nav-menu">
         <Menu-item name="SignIn">
           <Icon type="log-in"></Icon>
-          {{ $t('HomeNav.sigin') }}
+          {{ $t('L00001') }}
         </Menu-item>
         <Menu-item name="About">
           <Icon type="ios-keypad"></Icon>
-          {{ $t('HomeNav.about') }}
+          {{ $t('L00002') }}
         </Menu-item>
         <SwitchLang></SwitchLang>
         <SwitchBackground></SwitchBackground>

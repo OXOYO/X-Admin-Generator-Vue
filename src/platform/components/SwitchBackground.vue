@@ -4,9 +4,12 @@
 */
 
 <style scoped lang="less" rel="stylesheet/less">
-  .switch-background {
+  .switch-box {
     display: inline-block;
-    padding: 0 20px;
+
+    .switch-item {
+      padding: 0 20px;
+    }
 
     .current {
       display: inline-block;
@@ -23,8 +26,8 @@
 </style>
 
 <template>
-  <div class="switch-background">
-    <Dropdown trigger="click" @on-click="handleChange">
+  <div class="switch-box">
+    <Dropdown class="switch-item" trigger="click" @on-click="handleChange">
       <a href="javascript:void(0)" class="current">
         <img :src="background.source" alt="">
         <Icon type="ios-arrow-down"></Icon>
@@ -66,21 +69,24 @@
         }
       }
     },
+    computed: {
+      cookieKey () {
+        return this.$X.config.cookie.getItem('background')
+      }
+    },
     methods: {
       init () {
         let _t = this
         // 从cookie获取background
-        let key = _t.$X.config.cookie.getItem('background')
-        let val = _t.$X.Cookies.get(key)
+        let name = _t.$X.Cookies.get(_t.cookieKey)
         let keys = Object.keys(_t.backgroundMap)
         // 触发change
-        _t.handleChange(val || keys[0])
+        _t.handleChange(name || keys[0])
       },
       handleChange (name) {
         let _t = this
         // 更新cookie
-        let key = _t.$X.config.cookie.getItem('background')
-        _t.$X.Cookies.set(key, name, {
+        _t.$X.Cookies.set(_t.cookieKey, name, {
           expires: 7,
           path: _t.$X.config.cookie.path
         })

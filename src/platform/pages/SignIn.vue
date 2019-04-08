@@ -47,12 +47,12 @@
     <div class="login-modal-body">
       <Form class="login-form" ref="signInForm" :model="signInForm" :rules="signInFormRules">
         <Form-item prop="account">
-          <Input type="text" v-model="signInForm.account" :placeholder="$t('SigIn.signInForm.account.placeholder')">
+          <Input type="text" v-model="signInForm.account" :placeholder="$t('L00003')">
           <Icon type="md-person" slot="prepend" style="font-size: 16px;"></Icon>
           </Input>
         </Form-item>
         <Form-item prop="password">
-          <Input :type="passwordInputType" v-model="signInForm.password" :placeholder="$t('SigIn.signInForm.password.placeholder')" @on-enter="handleSignIn">
+          <Input :type="passwordInputType" v-model="signInForm.password" :placeholder="$t('L00005')" @on-enter="handleSignIn">
           <Icon type="md-lock" slot="prepend" style="font-size: 16px;"></Icon>
           <Button slot="append" :icon="passwordInputType === 'password' ? 'md-eye' : 'md-eye-off'" style="font-size: 16px; line-height: 1;" @click="showPassword"></Button>
           </Input>
@@ -60,7 +60,7 @@
       </Form>
     </div>
     <div slot="footer">
-      <Button type="primary" :loading="loading" @click="handleSignIn">{{ $t('SigIn.sigIn') }}</Button>
+      <Button type="primary" :loading="loading" @click="handleSignIn">{{ $t('L00001') }}</Button>
     </div>
   </Modal>
 </template>
@@ -87,11 +87,11 @@ export default {
       let _t = this
       return {
         account: [
-          { required: true, message: _t.$t('SigIn.signInForm.account.rules.required'), trigger: 'change' }
+          { required: true, message: _t.$t('L00004'), trigger: 'change' }
         ],
         password: [
-          { required: true, message: _t.$t('SigIn.signInForm.password.rules.required'), trigger: 'change' },
-          { type: 'string', min: 6, max: 16, message: _t.$t('SigIn.signInForm.password.rules.min_max'), trigger: 'change' }
+          { required: true, message: _t.$t('L00006'), trigger: 'change' },
+          { type: 'string', min: 6, max: 16, message: _t.$t('L00007'), trigger: 'change' }
         ]
       }
     }
@@ -107,11 +107,11 @@ export default {
       if (!res || res.code !== 200) {
         return
       }
-      let userInfo = res.data.userInfo || null
-      let token = res.data[_t.$X.config.cookie.getItem('token')] || null
+      let userInfo = res.data.userInfo
+      let token = res.data[_t.$X.config.cookie.getItem('token')]
       console.log('userInfo', userInfo, token)
       if (userInfo && token) {
-        _t.$Message.success('登录成功！')
+        _t.$Message.success(_t.$t('L00008'))
         // 存储token信息
         _t.$store.commit('platform/userInfo/update', userInfo)
         _t.$X.Cookies.set(_t.$X.config.cookie.getItem('token'), token)
@@ -119,7 +119,7 @@ export default {
           _t.$router.push({name: 'platform.admin'})
         })
       } else {
-        _t.$Message.error('登录失败，接口返回数据异常！')
+        _t.$Message.error(_t.$t('L00009'))
       }
     },
     showPassword: function () {

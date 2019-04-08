@@ -85,7 +85,7 @@
       }
     },
     computed: {
-      ...mapState('Platform/Wallpaper', {
+      ...mapState('platform/Wallpaper', {
         wallpaperInfo: state => state.currentWallpaper
       })
     },

@@ -4,7 +4,11 @@
 * Home
 */
 
-<style scoped lang="less" rel="stylesheet/less"></style>
+<style scoped lang="less" rel="stylesheet/less">
+  .layout-home {
+    overflow: auto;
+  }
+</style>
 
 <template>
   <!-- 系统首页 -->

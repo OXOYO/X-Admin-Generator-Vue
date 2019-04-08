@@ -26,5 +26,14 @@ export default {
       })
       return res
     }
+  },
+  resource: {
+    // 获取完整资源列表
+    getAllResourceList: async (data) => {
+      let res = await Vue.prototype.$X.http.get('/Platform/resource/list/all', {
+        params: data
+      })
+      return res
+    }
   }
 }

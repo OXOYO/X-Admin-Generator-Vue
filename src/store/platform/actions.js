@@ -19,5 +19,11 @@ export default {
   'components/wallpaper/bing': async ({ commit }, payload) => {
     let res = await api.components.getBingWallpaper(payload)
     return res
+  },
+  // 获取资源列表
+  'resource/list/all': async ({ commit }, payload) => {
+    // 调接口
+    let res = await api.resource.getAllResourceList(payload)
+    return res
   }
 }

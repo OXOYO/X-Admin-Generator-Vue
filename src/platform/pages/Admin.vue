@@ -8,12 +8,20 @@
 
 <template>
   <div class="layout layout-admin">
-    <h1>TODO Admin</h1>
+    <AdminSidebar></AdminSidebar>
+    <AdminContent></AdminContent>
   </div>
 </template>
 
 <script>
+  import AdminSidebar from '../containers/AdminSidebar'
+  import AdminContent from '../containers/AdminContent'
+
   export default {
-    name: 'Admin'
+    name: 'Admin',
+    components: {
+      AdminSidebar,
+      AdminContent
+    }
   }
 </script>

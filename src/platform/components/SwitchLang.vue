@@ -5,15 +5,18 @@
 */
 
 <style scoped lang="less" rel="stylesheet/less">
-  .switch-lang {
+  .switch-box {
     display: inline-block;
-    padding: 0 20px;
+
+    .switch-item {
+      padding: 0 20px;
+    }
   }
 </style>
 
 <template>
-  <div class="switch-lang">
-    <Dropdown @on-click="handleChange">
+  <div class="switch-box">
+    <Dropdown class="switch-item" @on-click="handleChange">
       <a href="javascript:void(0)">
         {{ localeLabel }}
         <Icon type="ios-arrow-down"></Icon>
@@ -33,7 +36,6 @@
 </template>
 
 <script>
-  import Vue from 'vue'
   export default {
     name: 'SwitchLang',
     data () {

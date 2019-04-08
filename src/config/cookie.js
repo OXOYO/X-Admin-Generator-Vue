@@ -11,7 +11,9 @@ export default {
     account: 'a',
     token: 't',
     locale: 'l',
-    background: 'b'
+    background: 'b',
+    admin_sidebar_isCollapsed: 'c',
+    userGroup: 'ug'
   },
   // 退出时无需清除的cookie key
   unless: [],

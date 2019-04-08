@@ -10,5 +10,8 @@ export default {
   },
   'userInfo/update': (state, data) => {
     state.userInfo = data
+  },
+  'userInfo/reset': (state, data) => {
+    state.userInfo = data
   }
 }
