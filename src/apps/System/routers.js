@@ -3,12 +3,11 @@
  */
 
 export default {
-  path: 'Users',
-  name: 'platform.admin.Users',
-  dir: 'Users',
+  path: 'System',
+  name: 'platform.admin.System',
   component: resolve => require(['./pages/Index'], resolve),
   meta: {
-    title: '用户管理',
+    title: 'System',
     requiresAuth: true,
     scrollToTop: true
   }

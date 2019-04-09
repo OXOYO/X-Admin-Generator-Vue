@@ -4,6 +4,15 @@
  */
 
 export default {
+  // Resource title
+  R00001: 'Home',
+  R00002: 'User Management',
+  R00003: 'Resource Management',
+  R00004: 'Role Management',
+  R00005: 'Login',
+  R00006: 'About',
+  R00007: 'System Management',
+  // System text
   L00001: 'SigIn',
   L00002: 'About',
   L00003: 'Please enter your username',

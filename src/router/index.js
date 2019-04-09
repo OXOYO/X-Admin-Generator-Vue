@@ -3,49 +3,20 @@
  *
  *
  */
-import Router from 'vue-router'
-
 import home from './home'
-import admin from './admin'
 
-export default function (Vue) {
-  // 注册路由
-  Vue.use(Router)
-  // TODO 动态注册路由
-  const routeArr = [
-    home,
-    admin
+export default async function (Vue) {
+  // 获取前台路由子节点
+  let children = await Vue.prototype.$X.utils.routers.getRoutes(Vue.prototype.$X,'home',{
+    parent_id: 0,
+    position: ['home', 'home-nav'],
+    enable: [1],
+    type: ['module-system', 'module-app', 'module-link']
+  })
+  console.log('homeChildren', children, home)
+  home.children = children
+  return [
+    // FIXME 此处只注册home路由
+    home
   ]
-  // 路由实例
-  const routerInstance = new Router({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes: routeArr,
-    scrollBehavior: (to, from, savedPosition) => {
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        const position = {}
-        if (to.hash) {
-          position.selector = to.hash
-        }
-        if (to.matched.some(m => m.meta.scrollToTop)) {
-          position.x = 0
-          position.y = 0
-        }
-        return position
-      }
-    }
-  })
-  // 注册全局前置守卫
-  routerInstance.beforeEach((to, from, next) => {
-    Vue.prototype.$Loading.start()
-    next()
-  })
-  // 注册全局后置钩子
-  routerInstance.afterEach((to, from) => {
-    Vue.prototype.$Loading.finish()
-  })
-
-  return routerInstance
 }

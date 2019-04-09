@@ -13,5 +13,11 @@ export default {
   },
   'userInfo/reset': (state, data) => {
     state.userInfo = data
+  },
+  'home/resourceMap/update': (state, data) => {
+    state.home.resourceMap = data
+  },
+  'admin/resourceMap/update': (state, data) => {
+    state.admin.resourceMap = data
   }
 }

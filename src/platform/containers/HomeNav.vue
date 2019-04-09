@@ -72,14 +72,16 @@
         </router-link>
       </div>
       <div class="home-nav-menu">
-        <Menu-item name="SignIn">
-          <Icon type="log-in"></Icon>
-          {{ $t('L00001') }}
-        </Menu-item>
-        <Menu-item name="About">
-          <Icon type="ios-keypad"></Icon>
-          {{ $t('L00002') }}
-        </Menu-item>
+        <template v-if="resourceMap['home-nav']">
+          <Menu-item
+            v-for="(item, index) in resourceMap['home-nav']"
+            :key="index"
+            :name="item.name"
+          >
+            <Icon v-if="item.icon" :type="item.icon"></Icon>
+            {{ item.lang ? $t(item.lang) : item.title }}
+          </Menu-item>
+        </template>
         <SwitchLang></SwitchLang>
         <SwitchBackground></SwitchBackground>
       </div>
@@ -88,6 +90,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   import SwitchLang from '../components/SwitchLang'
   import SwitchBackground from '../components/SwitchBackground'
 
@@ -97,13 +101,16 @@
       SwitchLang,
       SwitchBackground
     },
+    computed: {
+      ...mapState('platform', {
+        resourceMap: state => state.home.resourceMap
+      })
+    },
     methods: {
       triggerMenu (routerName) {
         let _t = this
-        if (routerName === 'SignIn') {
-          _t.$router.push({ name: 'platform.home.signin' })
-        } else if (routerName === 'About') {
-          _t.$router.push({ name: 'platform.home.about' })
+        if (routerName) {
+          _t.$router.push({ name: routerName })
         }
       }
     }

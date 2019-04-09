@@ -27,5 +27,11 @@ export default {
       title: '普通用户',
       icon: 'ios-person-outline'
     }
-  ]
+  ],
+  home: {
+    resourceMap: {}
+  },
+  admin: {
+    resourceMap: {}
+  }
 }

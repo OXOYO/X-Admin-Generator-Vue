@@ -13,26 +13,5 @@ export default {
     requiresAuth: false,
     scrollToTop: true
   },
-  children: [
-    {
-      path: 'signin',
-      name: 'platform.home.signin',
-      component: () => import(/* webpackChunkName: 'SignIn' */ '../platform/pages/SignIn'),
-      meta: {
-        title: '登录',
-        requiresAuth: false,
-        scrollToTop: true
-      }
-    },
-    {
-      path: 'about',
-      name: 'platform.home.about',
-      component: () => import(/* webpackChunkName: 'About' */ '../platform/pages/About'),
-      meta: {
-        title: '关于',
-        requiresAuth: false,
-        scrollToTop: true
-      }
-    }
-  ]
+  children: []
 }

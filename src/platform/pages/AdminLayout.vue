@@ -223,9 +223,9 @@ export default {
         resourceList = res.data.list || []
       }
       // 处理资源
+      let resourceMap = {}
       if (resourceList.length) {
         // FIXME 挂载位置：home 前台隐式 home-nav 前台导航 admin 后台隐式 admin-nav 后台导航 admin-sidebar 后台侧边栏
-        let resourceMap = {}
         let sidebarList = []
         let navList = []
         for (let i = 0, len = resourceList.length; i < len; i++) {
@@ -235,11 +235,21 @@ export default {
           }
           resourceMap[item.position].push(item)
         }
-        _t.resourceMap = resourceMap
-      } else {
-        _t.resourceMap = {}
       }
+      _t.resourceMap = resourceMap
       // 处理路由
+      console.log('resourceMap', _t.resourceMap)
+      let keys = Object.keys(_t.resourceMap)
+      let moduleArr = []
+      for (let i = 0, len = keys.length; i < len; i++) {
+        let key = keys[i]
+        if (key.includes('admin')) {
+          let tmpArr = _t.resourceMap[key]
+          moduleArr = tmpArr.map(item => item.dir)
+          console.log('moduleArr', moduleArr)
+          _t.$X.utils.routers.addRoutes(_t, moduleArr, 'admin')
+        }
+      }
     }
   },
   created () {

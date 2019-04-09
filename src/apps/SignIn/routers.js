@@ -3,12 +3,11 @@
  */
 
 export default {
-  path: 'Users',
-  name: 'platform.admin.Users',
-  dir: 'Users',
+  path: 'SigIn',
+  name: 'platform.home.SigIn',
   component: resolve => require(['./pages/Index'], resolve),
   meta: {
-    title: '用户管理',
+    title: 'SigIn',
     requiresAuth: true,
     scrollToTop: true
   }

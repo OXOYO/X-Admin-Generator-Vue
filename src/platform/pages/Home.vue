@@ -50,6 +50,7 @@
         }
         return style
       }
-    }
+    },
+    methods: {}
   }
 </script>
