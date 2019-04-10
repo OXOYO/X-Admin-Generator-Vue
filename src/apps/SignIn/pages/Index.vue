@@ -71,96 +71,96 @@
 </template>
 
 <script>
-import Store from '../store'
+  import Store from '../store'
 
-export default {
-  name: 'SignIn',
-  data () {
-    return {
-      // 是否显示登录弹窗
-      isShowModal: false,
-      loading: false,
-      // 表单数据
-      signInForm: {
-        account: '',
-        password: ''
-      },
-      // 密码输入框类型
-      passwordInputType: 'password'
-    }
-  },
-  computed: {
-    signInFormRules () {
-      let _t = this
+  export default {
+    name: 'SignIn',
+    data () {
       return {
-        account: [
-          { required: true, message: _t.$t('L00004'), trigger: 'change' }
-        ],
-        password: [
-          { required: true, message: _t.$t('L00006'), trigger: 'change' },
-          { type: 'string', min: 6, max: 16, message: _t.$t('L00007'), trigger: 'change' }
-        ]
+        // 是否显示登录弹窗
+        isShowModal: false,
+        loading: false,
+        // 表单数据
+        signInForm: {
+          account: '',
+          password: ''
+        },
+        // 密码输入框类型
+        passwordInputType: 'password'
       }
-    }
-  },
-  methods: {
-    handleSignIn: async function () {
-      let _t = this
-      // 调用接口执行登录
-      let res = await _t.$store.dispatch('platform/user/signIn', {
-        account: _t.signInForm.account.trim(),
-        password: _t.signInForm.password.trim()
-      })
-      if (!res || res.code !== 200) {
-        return
+    },
+    computed: {
+      signInFormRules () {
+        let _t = this
+        return {
+          account: [
+            { required: true, message: _t.$t('L00004'), trigger: 'change' }
+          ],
+          password: [
+            { required: true, message: _t.$t('L00006'), trigger: 'change' },
+            { type: 'string', min: 6, max: 16, message: _t.$t('L00007'), trigger: 'change' }
+          ]
+        }
       }
-      let userInfo = res.data.userInfo
-      let token = res.data[_t.$X.config.cookie.getItem('token')]
-      console.log('userInfo', userInfo, token)
-      if (userInfo && token) {
-        _t.$Message.success(_t.$t('L00008'))
-        // 存储token信息
-        _t.$store.commit('platform/userInfo/update', userInfo)
-        _t.$X.Cookies.set(_t.$X.config.cookie.getItem('token'), token)
-        // FIXME 动态添加后台路由
-        await _t.$X.utils.routers.addAdminRoute(_t)
-        // 跳转后台
-        _t.$nextTick(function () {
-          console.log('router.push')
-          _t.$router.push({name: 'platform.admin'})
+    },
+    methods: {
+      handleSignIn: async function () {
+        let _t = this
+        // 调用接口执行登录
+        let res = await _t.$store.dispatch('platform/user/signIn', {
+          account: _t.signInForm.account.trim(),
+          password: _t.signInForm.password.trim()
         })
-      } else {
-        _t.$Message.error(_t.$t('L00009'))
+        if (!res || res.code !== 200) {
+          return
+        }
+        let userInfo = res.data.userInfo
+        let token = res.data[_t.$X.config.cookie.getItem('token')]
+        console.log('userInfo', userInfo, token)
+        if (userInfo && token) {
+          _t.$Message.success(_t.$t('L00008'))
+          // 存储token信息
+          _t.$store.commit('platform/userInfo/update', userInfo)
+          _t.$X.Cookies.set(_t.$X.config.cookie.getItem('token'), token)
+          // FIXME 动态添加后台路由
+          await _t.$X.utils.routers.addAdminRoute(_t)
+          // 跳转后台
+          _t.$nextTick(function () {
+            console.log('router.push')
+            _t.$router.push({ name: 'platform.admin' })
+          })
+        } else {
+          _t.$Message.error(_t.$t('L00009'))
+        }
+      },
+      showPassword: function () {
+        let _t = this
+        _t.passwordInputType = _t.passwordInputType === 'password' ? 'text' : 'password'
+      },
+      handleCancel () {
+        let _t = this
+        _t.isShowModal = false
+        _t.$nextTick(function () {
+          _t.$router.push({ name: 'platform.home' })
+        })
       }
     },
-    showPassword: function () {
+    created () {
       let _t = this
-      _t.passwordInputType = _t.passwordInputType === 'password' ? 'text' : 'password'
+      _t.isShowModal = true
+      // 将store注册到apps下
+      _t.$store.registerModule(['apps', Store.moduleName], Store.store)
     },
-    handleCancel () {
+    beforeRouteLeave (to, from, next) {
       let _t = this
-      _t.isShowModal = false
-      _t.$nextTick(function () {
-        _t.$router.push({name: 'platform.home'})
-      })
+      // 销毁组件
+      _t.$destroy()
+      next()
+    },
+    destroyed () {
+      let _t = this
+      // 卸载store
+      _t.$store.unregisterModule(['apps', Store.moduleName])
     }
-  },
-  created () {
-    let _t = this
-    _t.isShowModal = true
-    // 将store注册到apps下
-    _t.$store.registerModule(['apps', Store.moduleName], Store.store)
-  },
-  beforeRouteLeave (to, from, next) {
-    let _t = this
-    // 销毁组件
-    _t.$destroy()
-    next()
-  },
-  destroyed () {
-    let _t = this
-    // 卸载store
-    _t.$store.unregisterModule(['apps', Store.moduleName])
   }
-}
 </script>

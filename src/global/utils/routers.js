@@ -23,8 +23,6 @@ export default {
     let resourceMap = {}
     if (resourceList.length) {
       // FIXME 挂载位置：home 前台隐式 home-nav 前台导航 admin 后台隐式 admin-nav 后台导航 admin-sidebar 后台侧边栏
-      let sidebarList = []
-      let navList = []
       for (let i = 0, len = resourceList.length; i < len; i++) {
         let item = resourceList[i]
         if (!resourceMap.hasOwnProperty(item.position)) {
@@ -50,9 +48,9 @@ export default {
           let moduleName = moduleArr[i]
           try {
             // 加载路由
-            module = require('@/apps/' + moduleName + '/routers.js')
-            if (module) {
-              routerArr.push(module.default)
+            let moduleRouters = require('@/apps/' + moduleName + '/routers.js')
+            if (moduleRouters) {
+              routerArr.push(moduleRouters.default)
             }
           } catch (e) {
             console.warn(e)
@@ -68,9 +66,9 @@ export default {
       let moduleName = moduleArr[i]
       try {
         // 加载路由
-        module = require('@/apps/' + moduleName + '/routers.js')
-        if (module) {
-          children.push(module.default)
+        let moduleRouters = require('@/apps/' + moduleName + '/routers.js')
+        if (moduleRouters) {
+          children.push(moduleRouters.default)
         }
       } catch (e) {
         console.warn(e)

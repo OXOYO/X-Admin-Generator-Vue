@@ -7,7 +7,7 @@
 export default {
   path: '/admin',
   name: 'platform.admin',
-  component: () => import(/* webpackChunkName: 'Admin' */ '../platform/pages/AdminLayout'),
+  component: () => import(/* webpackChunkName: 'Admin' */ '../platform/pages/Admin'),
   meta: {
     title: '后台',
     requiresAuth: true,
