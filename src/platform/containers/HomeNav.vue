@@ -11,7 +11,7 @@
     left: 0;
     right: 0;
     background: transparent;
-    z-index: 2000;
+    z-index: 1000;
     height: 60px;
     overflow: hidden;
 
@@ -76,7 +76,7 @@
           <Menu-item
             v-for="(item, index) in resourceMap['home-nav']"
             :key="index"
-            :name="item.name"
+            :name="'home-nav' + '|' + index"
           >
             <Icon v-if="item.icon" :type="item.icon"></Icon>
             {{ item.lang ? $t(item.lang) : item.title }}
@@ -107,10 +107,18 @@
       })
     },
     methods: {
-      triggerMenu (routerName) {
+      triggerMenu (name) {
         let _t = this
-        if (routerName) {
-          _t.$router.push({ name: routerName })
+        if (name) {
+          let [type, index] = name.split('|')
+          if (type && parseInt(index) > -1) {
+            let target = _t.resourceMap[type][index]
+            if (['module-system', 'module-app'].includes(target.type)) {
+              _t.$router.push({ name: target.name })
+            } else if (['module-link'].includes(target.type)) {
+              window.open(target.url, target.title)
+            }
+          }
         }
       }
     }
