@@ -13,10 +13,11 @@ export default {
     locale: 'l',
     background: 'b',
     admin_sidebar_isCollapsed: 'c',
-    userGroup: 'ug'
+    userGroup: 'ug',
+    resourceMap: 'r'
   },
   // 退出时无需清除的cookie key
-  unless: [],
+  unless: ['locale', 'background', 'admin_sidebar_isCollapsed'],
   getItem (key) {
     return key ? this.prefix + this.items[key] : ''
   }

@@ -6,11 +6,13 @@ import bus from './bus'
 import filters from './filters'
 import sort from './sort'
 import routers from './routers'
+import storage from './storage'
 
 export default {
   bus,
   filters,
   // 排序
   sort,
-  routers
+  routers,
+  storage
 }

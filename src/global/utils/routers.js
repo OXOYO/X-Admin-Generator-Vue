@@ -8,7 +8,7 @@ import admin from '../../router/admin'
 
 export default {
   // 获取路由列表
-  async getRoutes ($X, targetType, params) {
+  async getRoutes ($X, types, params) {
     // 分发action，调接口
     let res = await $X.storeInstance.dispatch('platform/resource/list/all', params)
     if (!res || res.code !== 200) {
@@ -33,79 +33,51 @@ export default {
     }
     // 处理路由
     console.log('resourceMap', resourceMap)
-    // 分发mutation，更新resourceMap
-    $X.storeInstance.commit(`platform/${targetType}/resourceMap/update`, resourceMap)
-    let keys = Object.keys(resourceMap)
-    let moduleArr = []
-    let routerArr = []
-    for (let i = 0, len = keys.length; i < len; i++) {
-      let key = keys[i]
-      if (key.includes(targetType)) {
-        let tmpArr = resourceMap[key]
-        moduleArr = tmpArr.map(item => item.dir)
-        console.log('moduleArr', moduleArr)
-        for (let i = 0, len = moduleArr.length; i < len; i++) {
-          let moduleName = moduleArr[i]
-          try {
-            // 加载路由
-            let moduleRouters = require('@/apps/' + moduleName + '/routers.js')
-            if (moduleRouters) {
-              routerArr.push(moduleRouters.default)
+    console.log('types', types)
+    if (!Array.isArray(types)) {
+      types = [types]
+    }
+    let routerMap = {}
+    for (let i = 0, len = types.length; i < len; i++) {
+      let targetType = types[i]
+      // 存储数据
+      let key = $X.config.cookie.getItem('resourceMap') + '-' + targetType
+      sessionStorage.setItem(key, JSON.stringify(resourceMap))
+      // 分发mutation，更新resourceMap
+      $X.storeInstance.commit(`platform/${targetType}/resourceMap/update`, resourceMap)
+      let keys = Object.keys(resourceMap)
+      let routerArr = []
+      for (let i = 0, len = keys.length; i < len; i++) {
+        let key = keys[i]
+        if (key.includes(targetType)) {
+          let dirArr = []
+          for (let j = 0, l = resourceMap[key].length; j < l; j++) {
+            let item = resourceMap[key][j]
+            if (item.parent_id === 0) {
+              dirArr.push(item.dir)
             }
-          } catch (e) {
-            console.warn(e)
+          }
+          console.log('dirArr', dirArr)
+          for (let j = 0, l = dirArr.length; j < l; j++) {
+            let moduleName = dirArr[j]
+            try {
+              // 加载路由
+              let moduleRouters = require('@/apps/' + moduleName + '/routers.js')
+              if (moduleRouters) {
+                routerArr.push(moduleRouters.default)
+              }
+            } catch (e) {
+              console.warn(e)
+            }
           }
         }
       }
+      routerMap[targetType] = routerArr
     }
-    return routerArr
-  },
-  async addRoutes (_t, moduleArr) {
-    let children = []
-    for (let i = 0, len = moduleArr.length; i < len; i++) {
-      let moduleName = moduleArr[i]
-      try {
-        // 加载路由
-        let moduleRouters = require('@/apps/' + moduleName + '/routers.js')
-        if (moduleRouters) {
-          children.push(moduleRouters.default)
-        }
-      } catch (e) {
-        console.warn(e)
-      }
-    }
-    console.log('addRoutes children', children, _t.$router.options.routes)
-    // 已有路由
-    let routes = [..._t.$router.options.routes]
-    // 遍历待添加的路由
-    for (let i = 0, L1 = routes.length; i < L1; i++) {
-      let routeItem = routes[i]
-      for (let j = 0, L2 = children.length; j < L2; j++) {
-        let childItem = children[j]
-        if (routeItem.name + '.' + childItem.dir === childItem.name) {
-          // 判断是否已存在同名路由
-          let flag = false
-          if (routeItem.children && routeItem.children.length) {
-            flag = !!routeItem.children.find(target => target.name === childItem.name)
-          }
-          if (!flag) {
-            routeItem.children.push(childItem)
-          }
-        }
-      }
-      routes[i] = routeItem
-    }
-    _t.$router.addRoutes(routes)
-    console.log('routes', routes, _t.$router.options.routes)
-    // 防止重复配置相同路由
-    // if (_t.$router.options.routes.length <= 1) {
-    //   _t.$router.addRoutes(children)
-    //   // $router不是响应式的，所以手动将路由元注入路由对象
-    //   _t.$router.options.routes.push(children)
-    // }
+    return routerMap
   },
   // 注册后台路由
-  async addAdminRoute (_t) {
+  async addAdminRoute (_t, parent) {
     let that = this
     // 获取后台路由
     let children = await that.getRoutes(_t.$X, 'admin', {
@@ -114,16 +86,58 @@ export default {
       enable: [1],
       type: ['module-system', 'module-app', 'module-link']
     })
-    console.log('adminChildren', children)
-    admin.children = children
+    // 处理children路由
+    for (let i = 0, len = children.length; i < len; i++) {
+      let item = children[i]
+      if (!admin.children.find(target => target.name === item.name)) {
+        admin.children.push(item)
+      }
+    }
+    console.log('children', children)
+    console.log('adminChildren', admin.children)
+    // 只取一级路由
+    // admin.children = children.filter(item => item.parent_id === 0)
     let routes = _t.$router.options.routes
     console.log('routes', children, routes)
-    // 判断算法已存在admin路由
+    // 判断是否已存在admin路由
     if (!routes.find(item => item.name === admin.name)) {
       console.log('xxxxxxxxxx')
       _t.$router.addRoutes([admin])
       // $router不是响应式的，所以手动将路由元注入路由对象
       _t.$router.options.routes.push(admin)
+      console.log('_t.$router.options.routes', _t.$router.options.routes)
+    }
+  },
+  // 注册前台路由
+  async addHomeRoute (_t, parent) {
+    let that = this
+    // 获取后台路由
+    let children = await that.getRoutes(_t.$X, 'home', {
+      parent_id: 0,
+      position: ['home', 'home-nav'],
+      enable: [1],
+      type: ['module-system', 'module-app', 'module-link']
+    })
+    // 处理children路由
+    for (let i = 0, len = children.length; i < len; i++) {
+      let item = children[i]
+      if (!admin.children.find(target => target.name === item.name)) {
+        admin.children.push(item)
+      }
+    }
+    console.log('children', children)
+    console.log('adminChildren', admin.children)
+    // 只取一级路由
+    // admin.children = children.filter(item => item.parent_id === 0)
+    let routes = _t.$router.options.routes
+    console.log('routes', children, routes)
+    // 判断是否已存在admin路由
+    if (!routes.find(item => item.name === admin.name)) {
+      console.log('xxxxxxxxxx')
+      _t.$router.addRoutes([admin])
+      // $router不是响应式的，所以手动将路由元注入路由对象
+      _t.$router.options.routes.push(admin)
+      console.log('_t.$router.options.routes', _t.$router.options.routes)
     }
   }
 }

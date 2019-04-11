@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import iView from 'iview'
 import './theme/index.less'
+import Vuebar from 'vuebar'
 import * as Cookies from 'js-cookie'
 
 import App from './App.vue'
@@ -37,6 +38,8 @@ Vue.prototype.$X = {
 Vue.use(iView, {
   transfer: true
 })
+// 注册滚动条指令
+Vue.use(Vuebar)
 // 注册全局组件
 Vue.use(components)
 // 获取路由
@@ -64,16 +67,33 @@ router(Vue).then(function (routeArr) {
       }
     }
   })
+  console.log('routerInstance.options.routes', routerInstance.options.routes)
   // 注册全局前置守卫
-  routerInstance.beforeEach((to, from, next) => {
+  routerInstance.beforeEach(async (to, from, next) => {
+    console.log('to', to)
+    console.log('from', from)
     Vue.prototype.$Loading.start()
-    next()
+    // 判断token信息是否过期
+    let tokenKey = Vue.prototype.$X.config.cookie.getItem('token')
+    let tokenVal = Vue.prototype.$X.Cookies.get(tokenKey)
+    if (tokenVal) {
+      next()
+    } else {
+      // 清除存储的信息
+      Vue.prototype.$X.utils.storage.clear.apply(Vue.prototype)
+      // 处理路由跳转
+      if (['platform.admin'].includes(to.name)) {
+        next({ name: 'platform.home' })
+      } else {
+        next()
+      }
+    }
   })
   // 注册全局后置钩子
   routerInstance.afterEach((to, from) => {
     Vue.prototype.$Loading.finish()
   })
-  console.log('routerInstance', routerInstance.options.routes)
+
   new Vue({
     i18n: i18n(Vue),
     store: storeInstance,

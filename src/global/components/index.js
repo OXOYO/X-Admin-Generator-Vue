@@ -5,10 +5,12 @@
  */
 import Copyright from './Copyright'
 import Wallpaper from './Wallpaper'
+import Scrollbar from './Scrollbar'
 
 const obj = {
   Copyright,
-  Wallpaper
+  Wallpaper,
+  Scrollbar
 }
 
 const components = {}

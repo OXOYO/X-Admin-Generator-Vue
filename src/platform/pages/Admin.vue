@@ -17,7 +17,8 @@
   }
   .admin-logo {
     width: 100%;
-    background: #5b6270;
+    /*background: #5b6270;*/
+    background: rgba(0, 0, 0, .5);
     color: #fff;
     text-align: center;
     overflow: hidden;
@@ -71,12 +72,103 @@
     vertical-align: middle;
     font-size: 22px;
   }
+
+  .sidebar-menu-wrapper {
+    height: calc(~"100% - 64px");
+
+    .sidebar-menu {
+      height: 100%;
+      background: rgba(0, 0, 0, .2);
+
+      .layout-icon,
+      .layout-text {
+        color: #fff !important;
+
+        &:hover {
+          color: #2d8cf0 !important;
+        }
+      }
+    }
+    .sidebar-menu-collapsed {
+      height: 100%;
+      background: rgba(0, 0, 0, .2);
+
+      .ivu-dropdown {
+        width: 100%;
+
+        .ivu-dropdown-rel a {
+          width: 100%;
+        }
+      }
+      .ivu-tooltip {
+        width: 100%;
+
+        .ivu-tooltip-rel {
+          width: 100%;
+
+          .drop-menu-a {
+            padding: 14px 24px;
+            position: relative;
+            cursor: pointer;
+          }
+        }
+        .ivu-tooltip-popper .ivu-tooltip-content {
+          .ivu-tooltip-arrow {
+            border-right-color: #fff;
+          }
+          .ivu-tooltip-inner {
+            background: #fff;
+            color: #495060;
+          }
+        }
+      }
+
+      .layout-icon {
+        color: #ffffffb3;
+      }
+    }
+
+    .drop-menu-a{
+      display: inline-block;
+      padding: 6px 15px;
+      width: 100%;
+      text-align: center;
+      color: #495060;
+
+      &.active {
+        .layout-icon {
+          color: #2d8cf0;
+        }
+      }
+    }
+  }
+  .ivu-icon {
+    vertical-align: middle;
+  }
+  .layout-icon {
+    width: 16px;
+    height: 16px;
+    margin: 0 5px;
+    vertical-align: middle !important;
+  }
+  .layout-text {
+    vertical-align: middle !important;
+    overflow: hidden;
+  }
 </style>
 
 <template>
   <div class="layout layout-admin">
     <Layout>
-      <Sider class="admin-sidebar" ref="Sider" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
+      <Sider
+        class="admin-sidebar"
+        ref="Sider"
+        v-model="isCollapsed"
+        hide-trigger
+        collapsible
+        :collapsed-width="78"
+        :style="layoutStyle"
+      >
         <div class="admin-logo">
           <router-link :to="{ name: 'platform.admin'}">
             <template v-if="isCollapsed">
@@ -87,18 +179,103 @@
             </template>
           </router-link>
         </div>
-        <Menu active-name="activeSidebar" theme="dark" width="auto" :class="['menu-item', isCollapsed ? 'collapsed-menu' : '']">
-          <template v-if="resourceMap['admin-sidebar']">
-            <MenuItem
-              v-for="(item, index) in resourceMap['admin-sidebar']"
-              :key="index"
-              :name="item.name"
-            >
-              <Icon v-if="item.icon" :type="item.icon"></Icon>
-              <span>{{ item.title }}</span>
-            </MenuItem>
-          </template>
-        </Menu>
+        <div class="sidebar-menu-wrapper">
+          <Menu
+            ref="sidebarMenu"
+            v-if="!isCollapsed"
+            class="sidebar-menu"
+            :active-name="activeMenuName"
+            :open-names="openNames"
+            theme="light"
+            width="auto"
+            accordion
+            @on-select="triggerMenu"
+          >
+            <Scrollbar v-if="resourceTree.children && resourceTree.children.length">
+              <component
+                v-for="item in resourceTree.children"
+                :class="item.children && item.children.length ? 'sub-menu-item' : 'menu-item'"
+                :is="item.children && item.children.length ? 'Submenu' : 'MenuItem'"
+                :key="item.name"
+                :name="item.name"
+              >
+                <!-- 有子节点 -->
+                <template
+                  v-if="item.children && item.children.length"
+                >
+                  <template slot="title">
+                    <Icon class="layout-icon" :type="item.icon" :size="16"></Icon>
+                    <span class="layout-text">{{ item.title }}</span>
+                  </template>
+                  <MenuItem
+                    class="menu-item"
+                    v-for="childItem in item.children"
+                    :key="childItem.name"
+                    :name="childItem.name"
+                  >
+                    <Icon class="layout-icon" :type="childItem.icon" :size="16"></Icon>
+                    <span class="layout-text">{{ childItem.title }}</span>
+                  </MenuItem>
+                </template>
+                <!-- 无子节点 -->
+                <template
+                  v-else
+                >
+                  <Icon class="layout-icon" :type="item.icon" :size="16"></Icon>
+                  <span class="layout-text">{{ item.title }}</span>
+                </template>
+              </component>
+            </Scrollbar>
+          </Menu>
+          <div v-if="isCollapsed" class="sidebar-menu-collapsed">
+          <Scrollbar v-if="resourceTree.children && resourceTree.children.length">
+            <template v-for="(item, index) in resourceTree.children">
+              <Dropdown
+                v-if="item.children && item.children.length"
+                @on-click="triggerMenu"
+                class="collased-menu-dropdown"
+                transfer
+                :key="index"
+                :placement="item.placement ? item.placement : 'right-end'"
+              >
+                <a
+                  :class="{'drop-menu-a': true, 'active': openNames.find(target => target === item.name)}"
+                  type="text"
+                  @mouseover="handleMousemove($event, item.children, item)"
+                >
+                  <Icon class="layout-icon" :type="item.icon" :size="16"></Icon>
+                </a>
+                <DropdownMenu slot="list">
+                  <template
+                    v-for="childItem in item.children"
+                  >
+                    <DropdownItem
+                      :key="`drop-${childItem.name}`"
+                      :name="childItem.name"
+                      :selected="activeMenuName === childItem.name"
+                    >
+                      <Icon class="layout-icon" :type="childItem.icon" :size="16"></Icon>
+                      <span class="layout-text">{{ childItem.title }}</span>
+                    </DropdownItem>
+                  </template>
+                </DropdownMenu>
+              </Dropdown>
+              <Tooltip
+                v-else
+                transfer
+                :content="item.title" placement="right" :key="`drop-menu-${item.name}`">
+                <a
+                  @click="triggerMenu(item.name)"
+                  :class="{'drop-menu-a': true, 'active': activeMenuName === item.name}"
+                  :style="{textAlign: 'center'}"
+                >
+                  <Icon class="layout-icon" :type="item.icon" :size="16"></Icon>
+                </a>
+              </Tooltip>
+            </template>
+          </Scrollbar>
+        </div>
+        </div>
       </Sider>
       <Layout>
         <Header class="admin-header" style="padding: 0;">
@@ -136,16 +313,89 @@
     data () {
       return {
         isCollapsed: false,
-        // resourceMap: {},
-        activeSidebar: ''
+        activeMenuName: ''
       }
     },
     computed: {
       ...mapState('platform', {
+        background: state => state.background,
         resourceMap: state => state.admin.resourceMap
       }),
       cookieKey () {
         return this.$X.config.cookie.getItem('admin_sidebar_isCollapsed')
+      },
+      resourceTree () {
+        let _t = this
+        let arr = _t.resourceMap['admin-sidebar']
+        let tree = []
+        let handler = function (arr, parent) {
+          for (let i = 0, len = arr.length; i < len; i++) {
+            let item = arr[i]
+            if (item.parent_id === parent.id) {
+              let targetIndex = parent.children.findIndex(target => target.name === item.name)
+              let targetItem
+              if (targetIndex > -1) {
+                targetItem = parent.children[targetIndex]
+              } else {
+                targetIndex = parent.children.length
+                targetItem = {
+                  ...item,
+                  children: []
+                }
+                parent.children.push(targetItem)
+              }
+              // 查找子节点
+              parent.children[targetIndex] = handler(arr, targetItem)
+            }
+          }
+          return parent
+        }
+        tree = handler(arr, {
+          id: 0,
+          children: []
+        })
+        console.log('tree', tree)
+        return tree
+      },
+      openNames: function () {
+        let _t = this
+        let menuArr = _t.resourceTree.children || []
+        let tmpArr = []
+        let handler = function (arr, parentName) {
+          for (let i = 0, len = arr.length; i < len; i++) {
+            let item = arr[i]
+            if (_t.activeMenuName === item.name) {
+              tmpArr.push(parentName)
+            } else {
+              if (item.children && item.children.length) {
+                handler(item.children, item.name)
+              }
+            }
+          }
+        }
+        if (_t.activeMenuName) {
+          handler(menuArr, '')
+        }
+        if (tmpArr.length) {
+          // 手动更新打开的菜单
+          _t.$nextTick(() => {
+            _t.$refs.sidebarMenu.updateOpened()
+          })
+        }
+        return tmpArr
+      },
+      layoutStyle () {
+        let _t = this
+        let style = {
+          'background-color': '#54364a'
+        }
+        if (_t.background.name && _t.background.source) {
+          style = {
+            'background-size': 'cover',
+            'background-image': `url(${_t.background.source})`
+          }
+        }
+        return style
       }
     },
     methods: {
@@ -153,6 +403,7 @@
         let _t = this
         _t.getCollapsed()
         _t.getBaseInfo()
+        console.log('resourceTree', _t.resourceTree)
       },
       getCollapsed () {
         let _t = this
@@ -171,7 +422,7 @@
         // 更新cookie
         _t.setCollapsed()
       },
-      // TODO 获取用户信息
+      // 获取用户信息
       async getBaseInfo () {
         let _t = this
         // 分发action，获取当前登录用户基本信息
@@ -205,55 +456,39 @@
           }
           // 分发mutations，更新用户基本信息
           _t.$store.commit('platform/userInfo/update', userInfo)
-          // 获取当前用户组所对应的资源的列表
-          // _t.getResourceList(userInfo.currentUserGroup.resource_id)
         } else {
           _t.$Message.info(_t.$t('L00011'))
         }
       },
-      // TODO 获取资源列表
-      async getResourceList (ids) {
+      triggerMenu (name) {
         let _t = this
-        let resourceList = []
-        // 分发action，调接口
-        let res = await _t.$store.dispatch('platform/resource/list/all', {
-          ids: ids,
-          enable: [1],
-          type: ['module-system', 'module-app', 'module-link']
-        })
-        if (!res || res.code !== 200) {
-          return
-        }
-        // 处理返回数据
-        if (res.data.count && res.data.list && res.data.list.length) {
-          resourceList = res.data.list || []
-        }
-        // 处理资源
-        let resourceMap = {}
-        if (resourceList.length) {
-          // FIXME 挂载位置：home 前台隐式 home-nav 前台导航 admin 后台隐式 admin-nav 后台导航 admin-sidebar 后台侧边栏
-          for (let i = 0, len = resourceList.length; i < len; i++) {
-            let item = resourceList[i]
-            if (!resourceMap.hasOwnProperty(item.position)) {
-              resourceMap[item.position] = []
+        console.log('name', name)
+        let target = _t.resourceMap['admin-sidebar'].find(item => item.name === name)
+        console.log('target', target)
+        if (target) {
+          if (['module-system', 'module-app'].includes(target.type)) {
+            _t.$router.push({ name: target.name })
+          } else if (['module-link'].includes(target.type)) {
+            if (target.target) {
+              window.open(target.url, target.title)
+            } else {
+              // 点击菜单跳转路由
+              _t.$router.push({
+                name: 'platform.admin.frame',
+                params: {
+                  name: target.name,
+                  info: target
+                }
+              })
             }
-            resourceMap[item.position].push(item)
           }
         }
-        _t.resourceMap = resourceMap
-        // 处理路由
-        console.log('resourceMap', _t.resourceMap)
-        let keys = Object.keys(_t.resourceMap)
-        let moduleArr = []
-        for (let i = 0, len = keys.length; i < len; i++) {
-          let key = keys[i]
-          if (key.includes('admin')) {
-            let tmpArr = _t.resourceMap[key]
-            moduleArr = tmpArr.map(item => item.dir)
-            console.log('moduleArr', moduleArr)
-            _t.$X.utils.routers.addRoutes(_t, moduleArr, 'admin')
-          }
-        }
+      },
+      handleMousemove: function (event, children, item) {
+        const { pageY } = event
+        const height = children.length * 38
+        const isOverflow = pageY + height < window.innerHeight
+        item.placement = isOverflow ? 'right-start' : 'right-end'
       }
     },
     created () {

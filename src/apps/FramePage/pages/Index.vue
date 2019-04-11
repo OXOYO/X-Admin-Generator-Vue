@@ -1,7 +1,7 @@
 /**
-* Created by OXOYO on 2019/4/4.
+* Created by OXOYO on 2017/12/5.
 *
-* iframe 窗口容器
+* FramePage 应用根组件
 */
 
 <style scoped lang="less" rel="stylesheet/less">
@@ -55,41 +55,45 @@
 </style>
 
 <template>
-  <div class="app-window-iframe">
-    <div class="loading" v-show="loadStatus === 'loading'">
-      <Spin fix>
-        <Icon class="loading-icon" type="load-c" size=18></Icon>
-        <div class="loading-text">加载中...</div>
-      </Spin>
+  <div class="main-box">
+    <div class="app-window-iframe">
+      <div class="loading" v-show="loadStatus === 'loading'">
+        <Spin fix>
+          <Icon class="loading-icon" type="load-c" size=18></Icon>
+          <div class="loading-text">加载中...</div>
+        </Spin>
+      </div>
+      <div
+        v-show="loadStatus === 'fail'"
+        :class="{ 'load-complete': true, 'load-fail': loadStatus === 'fail' }"
+      >
+        <Icon type="close-circled"></Icon>
+        <div class="load-text">加载应用程序</div>
+        <div class="load-text load-text-strong">{{ info.title }}</div>
+        <div class="load-text">失败！</div>
+      </div>
+      <iframe
+        v-show="loadStatus === 'success'"
+        class="iframe-box"
+        name="iframe-box"
+        :src="appPath"
+        :width="appWidth"
+        :height="appHeight"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        @load="handlerLoad"
+      >
+      </iframe>
     </div>
-    <div
-      v-show="loadStatus === 'fail'"
-      :class="{ 'load-complete': true, 'load-fail': loadStatus === 'fail' }"
-    >
-      <Icon type="close-circled"></Icon>
-      <div class="load-text">加载应用程序</div>
-      <div class="load-text load-text-strong">{{ info.title }}</div>
-      <div class="load-text">失败！</div>
-    </div>
-    <iframe
-      v-show="loadStatus === 'success'"
-      class="iframe-box"
-      name="iframe-box"
-      :src="appPath"
-      :width="appWidth"
-      :height="appHeight"
-      frameborder="0"
-      marginwidth="0"
-      marginheight="0"
-      @load="handlerLoad"
-    >
-    </iframe>
   </div>
 </template>
 
 <script>
+  import Store from '../store'
+
   export default {
-    name: 'FrameBox',
+    name: 'FramePage',
     data () {
       return {
         info: {},
@@ -151,8 +155,18 @@
       _t.init()
       next()
     },
+    created () {
+      let _t = this
+      // 将store注册到apps下
+      _t.$store.registerModule(['apps', Store.moduleName], Store.store)
+    },
     beforeDestroy () {
       document.body.onbeforeunload = null
+    },
+    destroyed () {
+      let _t = this
+      // 卸载store
+      _t.$store.unregisterModule(['apps', Store.moduleName])
     }
   }
 </script>

@@ -73,14 +73,14 @@
       </div>
       <div class="home-nav-menu">
         <template v-if="resourceMap['home-nav']">
-          <Menu-item
+          <MenuItem
             v-for="(item, index) in resourceMap['home-nav']"
             :key="index"
             :name="'home-nav' + '|' + index"
           >
             <Icon v-if="item.icon" :type="item.icon"></Icon>
             {{ item.lang ? $t(item.lang) : item.title }}
-          </Menu-item>
+          </MenuItem>
         </template>
         <SwitchLang></SwitchLang>
         <SwitchBackground></SwitchBackground>

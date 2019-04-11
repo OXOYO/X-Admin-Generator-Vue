@@ -58,11 +58,12 @@
     },
     methods: {
       handleGroupChange (index) {
+        let _t = this
         // 更新用户选中角色
         let currentUserGroup = _t.userInfo.user_groups[index] || {}
         // 设置用户组
         let userGroupKey = _t.$X.config.cookie.getItem('userGroup')
-        _t.$X.Cookies.set(userGroupKey, currentUserGroup.id, {path: _t.$X.config.cookie.path})
+        _t.$X.Cookies.set(userGroupKey, currentUserGroup.id, { path: _t.$X.config.cookie.path })
         // 分发mutations，更新用户基本信息
         _t.$store.commit(_t.$utils.store.getType('userInfo/update', 'Platform'), {
           ..._t.userInfo,
@@ -72,6 +73,9 @@
       handleAction (name) {
         let _t = this
         if (name === 'SignOut') {
+          // 清除存储的信息
+          _t.$X.utils.storage.clear.apply(_t)
+          /*
           // 清除用户状态
           _t.$Message.success(_t.$t('L00013'))
           // FIXME 清空Session Storeage
@@ -92,6 +96,7 @@
               _t.$X.Cookies.remove(key, {path: _t.$X.config.cookie.path})
             }
           }
+          */
           _t.$store.commit('platform/userInfo/reset', {})
           setTimeout(function () {
             // 点击菜单跳转路由

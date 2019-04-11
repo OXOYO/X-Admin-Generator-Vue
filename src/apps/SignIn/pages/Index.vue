@@ -123,7 +123,7 @@
           _t.$store.commit('platform/userInfo/update', userInfo)
           _t.$X.Cookies.set(_t.$X.config.cookie.getItem('token'), token)
           // FIXME 动态添加后台路由
-          await _t.$X.utils.routers.addAdminRoute(_t)
+          // await _t.$X.utils.routers.addAdminRoute(_t)
           // 跳转后台
           _t.$nextTick(function () {
             console.log('router.push')

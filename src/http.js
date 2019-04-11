@@ -34,6 +34,9 @@ http.interceptors.response.use(function (response) {
     if (resData.code !== 200) {
       Vue.prototype.$Message.error(response.msg || resData.msg || '请求异常，请检查上送、返回。')
       if (resData.code === 9999) {
+        // 清除存储的信息
+        Vue.prototype.$X.utils.storage.clear()
+        /*
         // FIXME 清空Session Storeage
         sessionStorage.clear()
         let keysArr = Object.keys(Vue.prototype.$X.Cookies.get())
@@ -53,6 +56,7 @@ http.interceptors.response.use(function (response) {
             })
           }
         }
+        */
         // 跳转登录页
         if (Vue.prototype.$router) {
           Vue.prototype.$router.push({
