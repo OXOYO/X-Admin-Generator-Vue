@@ -12,6 +12,7 @@ export default {
   R00005: 'Login',
   R00006: 'About',
   R00007: 'System',
+  R00008: 'System Log',
   // System text
   L00001: 'SigIn',
   L00002: 'About',
