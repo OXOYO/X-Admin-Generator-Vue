@@ -9,10 +9,10 @@
 </style>
 
 <template>
-  <div class="main-box" v-if="verifyPermission($route.name, 0)">
-    <UPanel>
+  <div class="main-box">
+    <XPanel>
       <div slot="header-right" class="panel-header">
-        <div class="action-btn" v-if="verifyPermission($route.name, 1)" @click.stop="handleAction('add')">
+        <div class="action-btn" @click.stop="handleAction('add')">
           <Tooltip transfer placement="top" content="新增">
             <Icon class="action-icon" type="plus"></Icon>
           </Tooltip>
@@ -26,14 +26,14 @@
       <div slot="body" class="panel-body">
         <SearchUsers></SearchUsers>
       </div>
-    </UPanel>
+    </XPanel>
     <!-- 新增/编辑弹窗 -->
-    <EditUser v-if="verifyPermission($route.name, 1)"></EditUser>
+    <!--<EditUser></EditUser>-->
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  // import { mapGetters } from 'vuex'
   import Store from '../store'
   import EditUser from '../containers/EditUser.vue'
   import SearchUsers from '../containers/SearchUsers.vue'
@@ -44,11 +44,11 @@
       EditUser,
       SearchUsers
     },
-    computed: {
-      ...mapGetters('Platform', [
-        'verifyPermission'
-      ])
-    },
+    // computed: {
+    //   ...mapGetters('Platform', [
+    //     'verifyPermission'
+    //   ])
+    // },
     methods: {
       // 处理操作
       handleAction: function (action) {
@@ -56,14 +56,14 @@
         switch (action) {
           case 'add':
             // 广播事件
-            _t.$utils.bus.$emit('Apps/Users/edit', {
+            _t.$X.utils.bus.$emit('Apps/Users/edit', {
               action: 'add',
               info: {}
             })
             break
           case 'refresh':
             // 刷新列表
-            _t.$utils.bus.$emit('Apps/Users/list/refresh')
+            _t.$X.utils.bus.$emit('Apps/Users/list/refresh')
             break
         }
       }
@@ -71,23 +71,22 @@
     created: function () {
       let _t = this
       // 将store注册到apps下
-      _t.$store.registerModule([_t.$utils.store.getModuleName('Apps'), Store.moduleName], Store.store)
-      _t.$utils.bus.$on('Apps/Users/list/init/start', function () {
+      _t.$store.registerModule(['apps', Store.moduleName], Store.store)
+      _t.$X.utils.bus.$on('Apps/Users/list/init/start', function () {
         _t.$nextTick(function () {
           // 初始化列表
-          _t.$utils.bus.$emit('Apps/Users/list/init')
+          _t.$X.utils.bus.$emit('Apps/Users/list/init')
         })
       })
       _t.$nextTick(function () {
         // 初始化列表
-        _t.$utils.bus.$emit('Apps/Users/list/init')
+        _t.$X.utils.bus.$emit('Apps/Users/list/init')
       })
     },
     destroyed: function () {
       let _t = this
       // 卸载store
-      _t.$store.unregisterModule([_t.$utils.store.getModuleName('Apps'), Store.moduleName])
+      _t.$store.unregisterModule(['apps', Store.moduleName])
     }
   }
 </script>
-

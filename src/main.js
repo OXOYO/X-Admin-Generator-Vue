@@ -4,6 +4,7 @@ import iView from 'iview'
 import './theme/index.less'
 import Vuebar from 'vuebar'
 import * as Cookies from 'js-cookie'
+import moment from 'moment'
 
 import App from './App.vue'
 import i18n from './i18n'
@@ -32,7 +33,8 @@ Vue.prototype.$X = {
   config,
   http,
   Cookies,
-  storeInstance
+  storeInstance,
+  moment
 }
 // 注册插件
 Vue.use(iView, {

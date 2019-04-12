@@ -210,14 +210,14 @@
         }
         // 按action类别分别处理
         if (_t.currentAction === 'add') {
-          actionPath = _t.$utils.store.getType('Users/add', 'Apps')
+          actionPath = _t.$X.utils.store.getType('Users/add', 'Apps')
         } else if (['edit', 'transfer'].includes(_t.currentAction)) {
-          actionPath = _t.$utils.store.getType('Users/edit', 'Apps')
+          actionPath = _t.$X.utils.store.getType('Users/edit', 'Apps')
         }
         // 分发action，执行保存
         let res = await _t.$store.dispatch(actionPath, payload)
         _t.doSaveLoading = false
-        if (!res || res.status !== 200) {
+        if (!res || res.code !== 200) {
           return
         }
         // 处理返回数据
@@ -225,7 +225,7 @@
         // 关闭弹窗
         _t.handleCancel()
         // 刷新列表
-        _t.$utils.bus.$emit('Apps/Users/list/refresh')
+        _t.$X.utils.bus.$emit('Apps/Users/list/refresh')
       },
       // 执行重置
       doReset: function () {
@@ -270,10 +270,10 @@
       getUserGroupList: async function () {
         let _t = this
         // 分发action，调接口
-        let res = await _t.$store.dispatch(_t.$utils.store.getType('Users/role/list/all', 'Apps'), {
+        let res = await _t.$store.dispatch(_t.$X.utils.store.getType('Users/role/list/all', 'Apps'), {
           status: [1]
         })
-        if (!res || res.status !== 200) {
+        if (!res || res.code !== 200) {
           return
         }
         // 处理返回数据
@@ -306,11 +306,11 @@
       getAdminList: async function () {
         let _t = this
         // 分发action，调接口
-        let res = await _t.$store.dispatch(_t.$utils.store.getType('Users/list/all', 'Apps'), {
+        let res = await _t.$store.dispatch(_t.$X.utils.store.getType('Users/list/all', 'Apps'), {
           status: [1],
           type: [0, 1]
         })
-        if (!res || res.status !== 200) {
+        if (!res || res.code !== 200) {
           return
         }
         // 处理返回数据
@@ -326,7 +326,7 @@
     created: async function () {
       let _t = this
       // 监听
-      _t.$utils.bus.$on('Apps/Users/edit', async function (data) {
+      _t.$X.utils.bus.$on('Apps/Users/edit', async function (data) {
         // 显示弹窗
         _t.isShowModal = true
         // 备份数据
@@ -343,7 +343,7 @@
     beforeDestroy: function () {
       let _t = this
       // 销毁监听
-      _t.$utils.bus.$off('Apps/Users/edit')
+      _t.$X.utils.bus.$off('Apps/Users/edit')
     }
   }
 </script>

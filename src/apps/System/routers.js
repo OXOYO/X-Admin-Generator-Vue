@@ -5,7 +5,7 @@
 export default {
   path: 'System',
   name: 'platform.admin.System',
-  component: resolve => require(['./pages/Index'], resolve),
+  component: () => import(/* webpackChunkName: 'System' */ './pages/Index'),
   meta: {
     title: 'System',
     requiresAuth: true,

@@ -5,7 +5,7 @@
 export default {
   path: 'FramePage/:name',
   name: 'platform.admin.FramePage',
-  component: resolve => require(['./pages/Index'], resolve),
+  component: () => import(/* webpackChunkName: 'FramePage' */ './pages/Index'),
   meta: {
     title: 'FramePage',
     requiresAuth: true,

@@ -8,7 +8,7 @@
 
 module.exports = {
   // 部署应用包时的基本URL，置空使用相对路径
-  publicPath: '',
+  publicPath: '/',
   // 打包输出目录
   outputDir: 'dist',
   // 静态资源目录
@@ -30,6 +30,14 @@ module.exports = {
         // 相关问题：https://github.com/ant-design/ant-design/issues/7927#issuecomment-372513256
         javascriptEnabled: true
       }
+    }
+  },
+  configureWebpack: {
+    output: {
+      // path: `${root}/public/assets/`,
+      // publicPath: '/lead/assets',
+      // filename: `${fileName()}.js`,
+      chunkFilename: '[name].[chunkhash].js'
     }
   }
 }

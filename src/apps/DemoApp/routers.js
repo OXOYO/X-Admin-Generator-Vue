@@ -5,7 +5,7 @@
 export default {
   path: 'DemoApp',
   name: 'platform.admin.DemoApp',
-  component: resolve => require(['./pages/Index'], resolve),
+  component: () => import(/* webpackChunkName: 'DemoApp' */ './pages/Index'),
   meta: {
     title: 'DemoApp',
     requiresAuth: true,

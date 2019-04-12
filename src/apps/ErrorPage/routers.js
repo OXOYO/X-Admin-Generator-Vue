@@ -5,7 +5,7 @@
 export default {
   path: 'ErrorPage/:num',
   name: 'platform.admin.ErrorPage',
-  component: resolve => require(['./pages/Index'], resolve),
+  component: () => import(/* webpackChunkName: 'ErrorPage' */ './pages/Index'),
   meta: {
     title: 'ErrorPage',
     requiresAuth: true,

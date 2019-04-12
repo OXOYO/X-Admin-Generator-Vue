@@ -102,7 +102,6 @@
       @on-change="pageChange"
       @on-page-size-change="pageSizeChange"
     ></Page>
-    <NoData :show="!pageInfo.total"></NoData>
   </div>
 </template>
 
@@ -209,7 +208,7 @@
               key: 'create_time',
               sortable: true,
               render: (h, params) => {
-                return _t.$utils.filters.formatDate((new Date(params.row['create_time'])).getTime())
+                return _t.$X.moment(params.row['create_time']).format('yyyy-MM-dd hh:mm')
               }
             },
             {
@@ -217,7 +216,7 @@
               key: 'update_time',
               sortable: true,
               render: (h, params) => {
-                return _t.$utils.filters.formatDate((new Date(params.row['update_time'])).getTime())
+                return _t.$X.moment(params.row['update_time']).format('yyyy-MM-dd hh:mm')
               }
             }
           ],
@@ -237,7 +236,7 @@
               title: '启用/停用',
               key: 'status',
               render: function (h, params) {
-                return h('USwitch',
+                return h('XSwitch',
                   {
                     props: {
                       size: 'large',
@@ -337,7 +336,7 @@
       }
     },
     computed: {
-      ...mapGetters('Platform', [
+      ...mapGetters('platform', [
         'userInfo',
         'userClass',
         'verifyPermission'
@@ -381,7 +380,7 @@
       getAccountList: async function () {
         let _t = this
         // 分发action，调接口
-        let res = await _t.$store.dispatch(_t.$utils.store.getType('Users/list', 'Apps'), {
+        let res = await _t.$store.dispatch('apps/Users/list', {
           currentPage: _t.pageInfo.currentPage,
           pageSize: _t.pageInfo.pageSize,
           keywords: _t.searchForm.keywords,
@@ -390,7 +389,7 @@
           type: _t.searchForm.type,
           group_id: _t.searchForm.group_id
         })
-        if (!res || res.status !== 200) {
+        if (!res || res.code !== 200) {
           return
         }
         // 处理返回数据
@@ -411,12 +410,12 @@
         if (index !== null) {
           let item = _t.tableData[index]
           // 准备参数执行状态更新
-          let res = await _t.$store.dispatch(_t.$utils.store.getType('Users/edit', 'Apps'), {
+          let res = await _t.$store.dispatch('apps/Users/edit', {
             ...item,
             // 0 停用 1 启用
             status: oldStatus ? 0 : 1
           })
-          if (!res || res.status !== 200) {
+          if (!res || res.code !== 200) {
             _t.$Message.error(oldStatus ? '停用失败！' : '启用失败！')
             return true
           }
@@ -448,10 +447,10 @@
           title: '提示',
           content: '确认删除所选账号吗？',
           onOk: async function () {
-            let res = await _t.$store.dispatch(_t.$utils.store.getType('Users/remove', 'Apps'), [
+            let res = await _t.$store.dispatch('apps/Users/remove', [
               item.id
             ])
-            if (!res || res.status !== 200) {
+            if (!res || res.code !== 200) {
               return
             }
             _t.$Message.info(res.msg || '删除账号成功！')
@@ -463,7 +462,7 @@
       doEdit: async function (item) {
         let _t = this
         // 广播事件
-        _t.$utils.bus.$emit('Apps/Users/edit', {
+        _t.$X.utils.bus.$emit('Apps/Users/edit', {
           action: 'edit',
           info: item
         })
@@ -471,7 +470,7 @@
       doTransfer: function (item) {
         let _t = this
         // 广播事件
-        _t.$utils.bus.$emit('Apps/Users/edit', {
+        _t.$X.utils.bus.$emit('Apps/Users/edit', {
           action: 'transfer',
           info: item
         })
@@ -529,10 +528,10 @@
       getUserGroupList: async function () {
         let _t = this
         // 分发action，调接口
-        let res = await _t.$store.dispatch(_t.$utils.store.getType('Users/role/list/all', 'Apps'), {
+        let res = await _t.$store.dispatch('apps/Users/role/list/all', {
           status: [1]
         })
-        if (!res || res.status !== 200) {
+        if (!res || res.code !== 200) {
           return
         }
         // 处理返回数据
@@ -565,11 +564,11 @@
     created: async function () {
       let _t = this
       // 监听
-      _t.$utils.bus.$on('Apps/Users/list/init', function () {
+      _t.$X.utils.bus.$on('Apps/Users/list/init', function () {
         // 初始化列表
         _t.initAccountList(true)
       })
-      _t.$utils.bus.$on('Apps/Users/list/refresh', function () {
+      _t.$X.utils.bus.$on('Apps/Users/list/refresh', function () {
         // 初始化列表
         _t.initAccountList()
       })
@@ -579,9 +578,8 @@
     beforeDestroy: function () {
       let _t = this
       // 销毁监听
-      _t.$utils.bus.$off('Apps/Users/list/init')
-      _t.$utils.bus.$off('Apps/Users/list/refresh')
+      _t.$X.utils.bus.$off('Apps/Users/list/init')
+      _t.$X.utils.bus.$off('Apps/Users/list/refresh')
     }
   }
 </script>
-

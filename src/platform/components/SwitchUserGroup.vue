@@ -65,7 +65,7 @@
         let userGroupKey = _t.$X.config.cookie.getItem('userGroup')
         _t.$X.Cookies.set(userGroupKey, currentUserGroup.id, { path: _t.$X.config.cookie.path })
         // 分发mutations，更新用户基本信息
-        _t.$store.commit(_t.$utils.store.getType('userInfo/update', 'Platform'), {
+        _t.$store.commit(_t.$X.utils.store.getType('userInfo/update', 'Platform'), {
           ..._t.userInfo,
           currentUserGroup
         })

@@ -33,33 +33,68 @@ export default {
     }
     // 处理路由
     console.log('resourceMap', resourceMap)
-    console.log('types', types)
     if (!Array.isArray(types)) {
       types = [types]
     }
     let routerMap = {}
-    for (let i = 0, len = types.length; i < len; i++) {
+    let handler = function (arr, parent) {
+      for (let i = 0, len = arr.length; i < len; i++) {
+        let item = arr[i]
+        if (item.parent_id === parent.id) {
+          let moduleName = item.dir
+          if (!Array.isArray(parent.children)) {
+            parent.children = []
+          }
+          let moduleRouters
+          try {
+            // 加载路由
+            moduleRouters = require('@/apps/' + moduleName + '/routers.js')
+          } catch (e) {
+            console.warn(e)
+          }
+          if (moduleRouters) {
+            // 处理子节点路由
+            moduleRouters = handler(arr, {
+              id: item.id,
+              parent_id: item.parent_id,
+              ...moduleRouters.default
+            })
+            parent.children.push(moduleRouters)
+          }
+        }
+      }
+      return parent
+    }
+    let routerTree = {
+      id: 0,
+      children: []
+    }
+    for (let i = 0, L1 = types.length; i < L1; i++) {
       let targetType = types[i]
       // 存储数据
-      let key = $X.config.cookie.getItem('resourceMap') + '-' + targetType
-      sessionStorage.setItem(key, JSON.stringify(resourceMap))
+      // let key = $X.config.cookie.getItem('resourceMap') + '-' + targetType
+      // sessionStorage.setItem(key, JSON.stringify(resourceMap))
       // 分发mutation，更新resourceMap
       $X.storeInstance.commit(`platform/${targetType}/resourceMap/update`, resourceMap)
       let keys = Object.keys(resourceMap)
       let routerArr = []
-      for (let i = 0, len = keys.length; i < len; i++) {
-        let key = keys[i]
+      for (let j = 0, L2 = keys.length; j < L2; j++) {
+        let key = keys[j]
         if (key.includes(targetType)) {
+          handler(resourceMap[key], routerTree)
+          /*
           let dirArr = []
-          for (let j = 0, l = resourceMap[key].length; j < l; j++) {
-            let item = resourceMap[key][j]
+          for (let k = 0, L3 = resourceMap[key].length; k < L3; k++) {
+            let item = resourceMap[key][k]
+            // FIXME 此处需考虑递归遍历
             if (item.parent_id === 0) {
               dirArr.push(item.dir)
+              // TODO 查找子节点
             }
           }
           console.log('dirArr', dirArr)
-          for (let j = 0, l = dirArr.length; j < l; j++) {
-            let moduleName = dirArr[j]
+          for (let k = 0, L3 = dirArr.length; k < L3; k++) {
+            let moduleName = dirArr[k]
             try {
               // 加载路由
               let moduleRouters = require('@/apps/' + moduleName + '/routers.js')
@@ -70,11 +105,14 @@ export default {
               console.warn(e)
             }
           }
+          */
         }
       }
+      console.log('routerTree', routerTree)
       routerMap[targetType] = routerArr
     }
-    return routerMap
+    // return routerMap
+    return routerTree
   },
   // 注册后台路由
   async addAdminRoute (_t, parent) {

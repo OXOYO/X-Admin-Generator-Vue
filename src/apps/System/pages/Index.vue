@@ -9,7 +9,7 @@
 
 <template>
   <div class="main-box">
-    <h1>TODO System</h1>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -30,4 +30,3 @@
     }
   }
 </script>
-

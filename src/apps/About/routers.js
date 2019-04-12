@@ -5,7 +5,7 @@
 export default {
   path: 'About',
   name: 'platform.home.About',
-  component: resolve => require(['./pages/Index'], resolve),
+  component: () => import(/* webpackChunkName: 'Users' */ './pages/Index'),
   meta: {
     title: 'About',
     requiresAuth: true,

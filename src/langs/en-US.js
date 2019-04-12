@@ -11,7 +11,7 @@ export default {
   R00004: 'Role Management',
   R00005: 'Login',
   R00006: 'About',
-  R00007: 'System Management',
+  R00007: 'System',
   // System text
   L00001: 'SigIn',
   L00002: 'About',

@@ -1,7 +1,7 @@
 /**
 * Created by OXOYO on 2017/12/5.
 *
-* DemoApp 应用根组件
+* Roles 应用根组件
 */
 
 <style scoped lang="less" rel="stylesheet/less">
@@ -9,7 +9,7 @@
 
 <template>
   <div class="main-box">
-    <h1>TODO DemoApp</h1>
+    <h1>TODO Roles</h1>
   </div>
 </template>
 
@@ -17,7 +17,7 @@
   import Store from '../store'
 
   export default {
-    name: 'DemoApp',
+    name: 'Roles',
     created () {
       let _t = this
       // 将store注册到apps下

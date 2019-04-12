@@ -4,7 +4,7 @@
 * Admin
 */
 
-<style scoped lang="less" rel="stylesheet/less">
+<style lang="less" rel="stylesheet/less">
   .layout-admin{
     background: #f5f7f9;
     overflow: hidden;
@@ -40,6 +40,11 @@
     .menu-right {
       float: right;
     }
+  }
+  .admin-content {
+    margin: 20px;
+    background: #fff;
+    minHeight: 260px;
   }
   .menu-icon{
     transition: all .3s;
@@ -80,13 +85,9 @@
       height: 100%;
       background: rgba(0, 0, 0, .2);
 
-      .layout-icon,
-      .layout-text {
+      &.ivu-menu,
+      .ivu-menu {
         color: #fff !important;
-
-        &:hover {
-          color: #2d8cf0 !important;
-        }
       }
     }
     .sidebar-menu-collapsed {
@@ -205,7 +206,7 @@
                 >
                   <template slot="title">
                     <Icon class="layout-icon" :type="item.icon" :size="16"></Icon>
-                    <span class="layout-text">{{ item.title }}</span>
+                    <span class="layout-text">{{ item.lang ? $t(item.lang) : item.title }}</span>
                   </template>
                   <MenuItem
                     class="menu-item"
@@ -214,7 +215,7 @@
                     :name="childItem.name"
                   >
                     <Icon class="layout-icon" :type="childItem.icon" :size="16"></Icon>
-                    <span class="layout-text">{{ childItem.title }}</span>
+                    <span class="layout-text">{{ childItem.lang ? $t(childItem.lang) : childItem.title }}</span>
                   </MenuItem>
                 </template>
                 <!-- 无子节点 -->
@@ -222,7 +223,7 @@
                   v-else
                 >
                   <Icon class="layout-icon" :type="item.icon" :size="16"></Icon>
-                  <span class="layout-text">{{ item.title }}</span>
+                  <span class="layout-text">{{ item.lang ? $t(item.lang) : item.title }}</span>
                 </template>
               </component>
             </Scrollbar>
@@ -255,7 +256,7 @@
                       :selected="activeMenuName === childItem.name"
                     >
                       <Icon class="layout-icon" :type="childItem.icon" :size="16"></Icon>
-                      <span class="layout-text">{{ childItem.title }}</span>
+                      <span class="layout-text">{{ childItem.lang ? $t(childItem.lang) : childItem.title }}</span>
                     </DropdownItem>
                   </template>
                 </DropdownMenu>
@@ -286,7 +287,7 @@
             <SwitchUserGroup></SwitchUserGroup>
           </div>
         </Header>
-        <Content class="admin-content" :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
+        <Content class="admin-content">
           <router-view>
             <h1>TODO CONTENT</h1>
           </router-view>
@@ -407,11 +408,11 @@
       },
       getCollapsed () {
         let _t = this
-        _t.isCollapsed = !!_t.$X.Cookies.get(_t.cookieKey)
+        _t.isCollapsed = _t.$X.Cookies.get(_t.cookieKey) === 'true'
       },
       setCollapsed () {
         let _t = this
-        _t.$X.Cookies.set(_t.cookieKey, !_t.isCollapsed, {
+        _t.$X.Cookies.set(_t.cookieKey, _t.isCollapsed, {
           expires: 7,
           path: _t.$X.config.cookie.path
         })

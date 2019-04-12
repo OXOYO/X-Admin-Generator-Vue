@@ -5,7 +5,7 @@
 export default {
   path: 'AdminIndex',
   name: 'platform.admin.AdminIndex',
-  component: resolve => require(['./pages/Index'], resolve),
+  component: () => import(/* webpackChunkName: 'AdminIndex' */ './pages/Index'),
   meta: {
     title: 'AdminIndex',
     requiresAuth: true,

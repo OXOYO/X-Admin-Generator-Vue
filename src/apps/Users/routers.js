@@ -6,7 +6,7 @@ export default {
   path: 'Users',
   name: 'platform.admin.Users',
   dir: 'Users',
-  component: resolve => require(['./pages/Index'], resolve),
+  component: () => import(/* webpackChunkName: 'Users' */ './pages/Index'),
   meta: {
     title: '用户管理',
     requiresAuth: true,

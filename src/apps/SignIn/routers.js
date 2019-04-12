@@ -5,7 +5,7 @@
 export default {
   path: 'SigIn',
   name: 'platform.home.SigIn',
-  component: resolve => require(['./pages/Index'], resolve),
+  component: () => import(/* webpackChunkName: 'SigIn' */ './pages/Index'),
   meta: {
     title: 'SigIn',
     requiresAuth: true,
