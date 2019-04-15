@@ -6,8 +6,12 @@
 
 import cookie from './cookie'
 import system from './system'
+import resourceTypeList from './resourceTypeList'
+import permissionTypeList from './permissionTypeList'
 
 export default {
   cookie,
-  system
+  system,
+  resourceTypeList,
+  permissionTypeList
 }

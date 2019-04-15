@@ -8,13 +8,25 @@ import Wallpaper from './Wallpaper'
 import Scrollbar from './Scrollbar'
 import XPanel from './XPanel'
 import XSwitch from './XSwitch'
+import TagList from './TagList'
+import HighLight from './HighLight.vue'
+import NoData from './NoData.vue'
+
+// 导入 element-ui
+import { Table as ElTable, TableColumn as ElTableColumn } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 const obj = {
   Copyright,
   Wallpaper,
   Scrollbar,
   XPanel,
-  XSwitch
+  XSwitch,
+  TagList,
+  HighLight,
+  NoData,
+  ElTable,
+  ElTableColumn
 }
 
 const components = {}

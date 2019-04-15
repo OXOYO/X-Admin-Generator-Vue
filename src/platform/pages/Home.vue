@@ -34,7 +34,7 @@
       HomeContent
     },
     computed: {
-      ...mapState('platform', {
+      ...mapState('Platform', {
         background: state => state.background
       }),
       layoutStyle () {

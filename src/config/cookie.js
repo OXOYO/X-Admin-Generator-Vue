@@ -14,7 +14,8 @@ export default {
     background: 'b',
     admin_sidebar_isCollapsed: 'c',
     userGroup: 'ug',
-    resourceMap: 'r'
+    resourceMap: 'r',
+    currentRoute: 'cr'
   },
   // 退出时无需清除的cookie key
   unless: ['locale', 'background', 'admin_sidebar_isCollapsed'],

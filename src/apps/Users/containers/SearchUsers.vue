@@ -185,7 +185,7 @@
                     tmpArr.push({
                       closable: false,
                       name: '',
-                      content: item.title
+                      content: item.name
                     })
                   })
                   content = h('TagList', {
@@ -208,7 +208,7 @@
               key: 'create_time',
               sortable: true,
               render: (h, params) => {
-                return _t.$X.moment(params.row['create_time']).format('yyyy-MM-dd hh:mm')
+                return h('span', _t.$X.moment(params.row['create_time']).format('YYYY-MM-DD hh:mm:ss'))
               }
             },
             {
@@ -216,7 +216,7 @@
               key: 'update_time',
               sortable: true,
               render: (h, params) => {
-                return _t.$X.moment(params.row['update_time']).format('yyyy-MM-dd hh:mm')
+                return h('span', _t.$X.moment(params.row['update_time']).format('YYYY-MM-DD hh:mm:ss'))
               }
             }
           ],
@@ -227,7 +227,11 @@
               sortable: true,
               render: function (h, params) {
                 let createUser = params.row.create_user || {}
-                return createUser.name && createUser.account ? createUser.name + ' ' + createUser.account : params.row.create_user_id
+                let text = params.row.create_user_id || '-'
+                if (createUser.name && createUser.account) {
+                  text = createUser.name + ' ' + createUser.account
+                }
+                return h('span', text)
               }
             }
           ],
@@ -268,7 +272,6 @@
                 let transferArr = [
                   h('Button', {
                     props: {
-                      type: 'ghost',
                       size: 'small'
                     },
                     style: {
@@ -336,7 +339,7 @@
       }
     },
     computed: {
-      ...mapGetters('platform', [
+      ...mapGetters('Platform', [
         'userInfo',
         'userClass',
         'verifyPermission'
@@ -380,7 +383,7 @@
       getAccountList: async function () {
         let _t = this
         // 分发action，调接口
-        let res = await _t.$store.dispatch('apps/Users/list', {
+        let res = await _t.$store.dispatch('Apps/Users/list', {
           currentPage: _t.pageInfo.currentPage,
           pageSize: _t.pageInfo.pageSize,
           keywords: _t.searchForm.keywords,
@@ -410,7 +413,7 @@
         if (index !== null) {
           let item = _t.tableData[index]
           // 准备参数执行状态更新
-          let res = await _t.$store.dispatch('apps/Users/edit', {
+          let res = await _t.$store.dispatch('Apps/Users/edit', {
             ...item,
             // 0 停用 1 启用
             status: oldStatus ? 0 : 1
@@ -447,7 +450,7 @@
           title: '提示',
           content: '确认删除所选账号吗？',
           onOk: async function () {
-            let res = await _t.$store.dispatch('apps/Users/remove', [
+            let res = await _t.$store.dispatch('Apps/Users/remove', [
               item.id
             ])
             if (!res || res.code !== 200) {
@@ -528,7 +531,7 @@
       getUserGroupList: async function () {
         let _t = this
         // 分发action，调接口
-        let res = await _t.$store.dispatch('apps/Users/role/list/all', {
+        let res = await _t.$store.dispatch('Apps/Users/role/list/all', {
           status: [1]
         })
         if (!res || res.code !== 200) {

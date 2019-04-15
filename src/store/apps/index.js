@@ -10,7 +10,7 @@ import mutations from './mutations'
 import getters from './getters'
 
 export default {
-  moduleName: 'apps',
+  moduleName: 'Apps',
   store: {
     namespaced: true,
     state,

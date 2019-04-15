@@ -109,7 +109,7 @@
     </Form>
     <div slot="footer">
       <Button type="primary" :loading="doSaveLoading" @click="doSave">保存</Button>
-      <Button type="ghost" :loading="doResetLoading" @click="doReset">重置</Button>
+      <Button :loading="doResetLoading" @click="doReset">重置</Button>
     </div>
   </Modal>
 </template>
@@ -181,7 +181,7 @@
       }
     },
     computed: {
-      ...mapState('platform', {
+      ...mapState('Platform', {
         userInfo: state => state.userInfo,
         userClass: state => state.userClass
       })
@@ -210,9 +210,9 @@
         }
         // 按action类别分别处理
         if (_t.currentAction === 'add') {
-          actionPath = _t.$X.utils.store.getType('Users/add', 'Apps')
+          actionPath = 'Apps/Users/add'
         } else if (['edit', 'transfer'].includes(_t.currentAction)) {
-          actionPath = _t.$X.utils.store.getType('Users/edit', 'Apps')
+          actionPath = 'Apps/Users/edit'
         }
         // 分发action，执行保存
         let res = await _t.$store.dispatch(actionPath, payload)
@@ -270,7 +270,7 @@
       getUserGroupList: async function () {
         let _t = this
         // 分发action，调接口
-        let res = await _t.$store.dispatch(_t.$X.utils.store.getType('Users/role/list/all', 'Apps'), {
+        let res = await _t.$store.dispatch('Apps/Users/role/list/all', {
           status: [1]
         })
         if (!res || res.code !== 200) {
@@ -306,7 +306,7 @@
       getAdminList: async function () {
         let _t = this
         // 分发action，调接口
-        let res = await _t.$store.dispatch(_t.$X.utils.store.getType('Users/list/all', 'Apps'), {
+        let res = await _t.$store.dispatch('Apps/Users/list/all', {
           status: [1],
           type: [0, 1]
         })

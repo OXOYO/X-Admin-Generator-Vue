@@ -5,7 +5,7 @@
 export default {
   path: 'SystemLog',
   name: 'platform.admin.SystemLog',
-  component: () => import(/* webpackChunkName: 'SystemLog' */ './pages/Index'),
+  component: resolve => require(['./pages/Index'], resolve),
   meta: {
     title: 'SystemLog',
     requiresAuth: true,

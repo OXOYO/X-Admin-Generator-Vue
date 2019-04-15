@@ -281,6 +281,7 @@
       <Layout>
         <Header class="admin-header" style="padding: 0;">
           <Icon @click.native="toggleCollapse" :class="['menu-icon', isCollapsed ? 'rotate-icon' : '']" style="margin: 0 20px;" type="md-menu" size="24"></Icon>
+          <BreadcrumbForAdmin></BreadcrumbForAdmin>
           <div class="menu-right">
             <SwitchLang></SwitchLang>
             <SwitchBackground></SwitchBackground>
@@ -303,24 +304,27 @@
   import SwitchLang from '../components/SwitchLang'
   import SwitchBackground from '../components/SwitchBackground'
   import SwitchUserGroup from '../components/SwitchUserGroup'
+  import BreadcrumbForAdmin from '../components/BreadcrumbForAdmin'
 
   export default {
     name: 'Admin',
     components: {
       SwitchLang,
       SwitchBackground,
-      SwitchUserGroup
+      SwitchUserGroup,
+      BreadcrumbForAdmin
     },
     data () {
       return {
-        isCollapsed: false,
-        activeMenuName: ''
+        isCollapsed: false
       }
     },
     computed: {
-      ...mapState('platform', {
+      ...mapState('Platform', {
         background: state => state.background,
-        resourceMap: state => state.admin.resourceMap
+        resourceMap: state => state.admin.resourceMap,
+        activeMenuName: state => state.admin.activeMenuName,
+        unless: state => state.unless
       }),
       cookieKey () {
         return this.$X.config.cookie.getItem('admin_sidebar_isCollapsed')
@@ -355,7 +359,6 @@
           id: 0,
           children: []
         })
-        console.log('tree', tree)
         return tree
       },
       openNames: function () {
@@ -404,7 +407,6 @@
         let _t = this
         _t.getCollapsed()
         _t.getBaseInfo()
-        console.log('resourceTree', _t.resourceTree)
       },
       getCollapsed () {
         let _t = this
@@ -427,7 +429,7 @@
       async getBaseInfo () {
         let _t = this
         // 分发action，获取当前登录用户基本信息
-        let res = await _t.$store.dispatch('platform/user/BaseInfo')
+        let res = await _t.$store.dispatch('Platform/user/BaseInfo')
         if (!res || res.code !== 200) {
           return
         }
@@ -456,16 +458,14 @@
             _t.$X.Cookies.remove(userGroupKey, { path: _t.$X.config.cookie.path })
           }
           // 分发mutations，更新用户基本信息
-          _t.$store.commit('platform/userInfo/update', userInfo)
+          _t.$store.commit('Platform/userInfo/update', userInfo)
         } else {
           _t.$Message.info(_t.$t('L00011'))
         }
       },
       triggerMenu (name) {
         let _t = this
-        console.log('name', name)
         let target = _t.resourceMap['admin-sidebar'].find(item => item.name === name)
-        console.log('target', target)
         if (target) {
           if (['module-system', 'module-app'].includes(target.type)) {
             _t.$router.push({ name: target.name })
@@ -490,11 +490,73 @@
         const height = children.length * 38
         const isOverflow = pageY + height < window.innerHeight
         item.placement = isOverflow ? 'right-start' : 'right-end'
+      },
+      // 用户鉴权
+      async doVerifyAccess (toName) {
+        let _t = this
+        // FIXME !!! 处理路由排除
+        if (_t.unless.verifyAccess.router.includes(toName)) {
+          return {
+            verifyFlag: true,
+            resources: null
+          }
+        }
+        // 分发action，调接口
+        let res = await _t.$store.dispatch('Platform/user/access/verify', {
+          name: toName
+        })
+        if (!res || res.code !== 200) {
+          return {
+            verifyFlag: false,
+            resources: []
+          }
+        }
+        let verifyFlag = !!res.data.verifyFlag
+        if (!verifyFlag) {
+          _t.$Message.error(res.msg)
+        }
+        return {
+          verifyFlag: verifyFlag,
+          resources: res.data.resources || []
+        }
+      },
+      // 更新当前激活菜单
+      updateActiveMenu: function (to) {
+        let _t = this
+        let activeMenu = _t.resourceMap['admin-sidebar'].find(target => target.name === to.name)
+        _t.$store.commit('Platform/admin/activeMenuName/update', activeMenu ? activeMenu.name : '')
       }
     },
     created () {
       let _t = this
       _t.init()
+    },
+    mounted () {
+      let _t = this
+      _t.updateActiveMenu(_t.$route)
+    },
+    // 路由守卫
+    async beforeRouteUpdate (to, from, next) {
+      let _t = this
+      let verifyRes = await _t.doVerifyAccess(to.name)
+      if (verifyRes.verifyFlag) {
+        _t.updateActiveMenu(to)
+        if (verifyRes.resources !== null) {
+          // 分发mutations，更新用户资源信息
+          _t.$store.commit('Platform/userInfo/resources/update', verifyRes.resources)
+        }
+        next()
+      } else {
+        // 清除存储的信息
+        _t.$X.utils.storage.clear.apply(_t)
+        _t.$store.commit('Platform/userInfo/reset', {})
+        setTimeout(function () {
+          // 点击菜单跳转路由
+          _t.$router.push({
+            name: 'platform.home'
+          })
+        }, 500)
+      }
     }
   }
 </script>

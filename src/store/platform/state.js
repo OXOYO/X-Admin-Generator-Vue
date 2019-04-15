@@ -10,6 +10,7 @@ export default {
     source: null
   },
   userInfo: {},
+  userResources: [],
   // 用户分类信息
   userClass: [
     {
@@ -32,6 +33,19 @@ export default {
     resourceMap: {}
   },
   admin: {
-    resourceMap: {}
+    resourceMap: {},
+    activeMenuName: ''
+  },
+  // 鉴权排除项
+  unless: {
+    verifyPermission: {
+      router: []
+    },
+    verifyAccess: {
+      router: [
+        'platform.admin.AdminIndex',
+        'platform.admin.frame'
+      ]
+    }
   }
 }

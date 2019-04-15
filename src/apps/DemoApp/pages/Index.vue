@@ -21,12 +21,12 @@
     created () {
       let _t = this
       // 将store注册到apps下
-      _t.$store.registerModule(['apps', Store.moduleName], Store.store)
+      _t.$store.registerModule(['Apps', Store.moduleName], Store.store)
     },
     destroyed () {
       let _t = this
       // 卸载store
-      _t.$store.unregisterModule(['apps', Store.moduleName])
+      _t.$store.unregisterModule(['Apps', Store.moduleName])
     }
   }
 </script>

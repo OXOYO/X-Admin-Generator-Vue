@@ -15,6 +15,10 @@ export default {
     let res = await api.user.getBaseInfo(payload)
     return res
   },
+  'user/access/verify': async({commit}, payload) => {
+    let res = await api.user.doVerifyAccess(payload)
+    return res
+  },
   // 获取bing壁纸
   'components/wallpaper/bing': async ({ commit }, payload) => {
     let res = await api.components.getBingWallpaper(payload)

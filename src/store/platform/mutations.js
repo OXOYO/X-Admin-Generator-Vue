@@ -11,6 +11,9 @@ export default {
   'userInfo/update': (state, data) => {
     state.userInfo = data
   },
+  'userInfo/resources/update': (state, data) => {
+    state.userResources = [...data]
+  },
   'userInfo/reset': (state, data) => {
     state.userInfo = data
   },
@@ -19,5 +22,8 @@ export default {
   },
   'admin/resourceMap/update': (state, data) => {
     state.admin.resourceMap = data
+  },
+  'admin/activeMenuName/update': (state, data) => {
+    state.admin.activeMenuName = data
   }
 }

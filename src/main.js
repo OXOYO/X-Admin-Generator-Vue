@@ -25,20 +25,24 @@ Vue.config.productionTip = isDev
 Vue.config.performance = isDev
 // store实例
 const storeInstance = store(Vue)
-
 // 挂载 $X 命名空间
 Vue.prototype.$X = {
   isDev,
   utils,
   config,
-  http,
+  http: http(Vue),
   Cookies,
   storeInstance,
   moment
 }
+// i18n实例
+const i18nInstance = i18n(Vue)
+
 // 注册插件
 Vue.use(iView, {
-  transfer: true
+  transfer: true,
+  // FIXME 修复$Modal弹窗报错BUG，【Issues】https://github.com/iview/iview/issues/4769#issuecomment-449851416
+  i18n: (path, options) => i18nInstance.t(path, options)
 })
 // 注册滚动条指令
 Vue.use(Vuebar)
@@ -69,20 +73,18 @@ router(Vue).then(function (routeArr) {
       }
     }
   })
-  console.log('routerInstance.options.routes', routerInstance.options.routes)
   // 注册全局前置守卫
   routerInstance.beforeEach(async (to, from, next) => {
-    console.log('to', to)
-    console.log('from', from)
+    const $X = Vue.prototype.$X
     Vue.prototype.$Loading.start()
     // 判断token信息是否过期
-    let tokenKey = Vue.prototype.$X.config.cookie.getItem('token')
-    let tokenVal = Vue.prototype.$X.Cookies.get(tokenKey)
+    let tokenKey = $X.config.cookie.getItem('token')
+    let tokenVal = $X.Cookies.get(tokenKey)
     if (tokenVal) {
       next()
     } else {
       // 清除存储的信息
-      Vue.prototype.$X.utils.storage.clear.apply(Vue.prototype)
+      $X.utils.storage.clear.apply(Vue.prototype)
       // 处理路由跳转
       if (['platform.admin'].includes(to.name)) {
         next({ name: 'platform.home' })
@@ -93,11 +95,15 @@ router(Vue).then(function (routeArr) {
   })
   // 注册全局后置钩子
   routerInstance.afterEach((to, from) => {
+    const $X = Vue.prototype.$X
     Vue.prototype.$Loading.finish()
+    // 存储当前路由
+    let Key = $X.config.cookie.getItem('currentRoute')
+    $X.Cookies.set(Key, to.name || to.path, { path: $X.config.cookie.path })
   })
 
   new Vue({
-    i18n: i18n(Vue),
+    i18n: i18nInstance,
     store: storeInstance,
     router: routerInstance,
     render: h => h(App)

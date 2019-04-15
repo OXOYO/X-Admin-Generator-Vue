@@ -14,12 +14,12 @@
       <div slot="header-right" class="panel-header">
         <div class="action-btn" @click.stop="handleAction('add')">
           <Tooltip transfer placement="top" content="新增">
-            <Icon class="action-icon" type="plus"></Icon>
+            <Icon class="action-icon" type="md-add"></Icon>
           </Tooltip>
         </div>
         <div class="action-btn" @click.stop="handleAction('refresh')">
           <Tooltip transfer placement="top" content="刷新">
-            <Icon class="action-icon" type="refresh"></Icon>
+            <Icon class="action-icon" type="md-refresh"></Icon>
           </Tooltip>
         </div>
       </div>
@@ -28,12 +28,12 @@
       </div>
     </XPanel>
     <!-- 新增/编辑弹窗 -->
-    <!--<EditUser></EditUser>-->
+    <EditUser></EditUser>
   </div>
 </template>
 
 <script>
-  // import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
   import Store from '../store'
   import EditUser from '../containers/EditUser.vue'
   import SearchUsers from '../containers/SearchUsers.vue'
@@ -44,11 +44,11 @@
       EditUser,
       SearchUsers
     },
-    // computed: {
-    //   ...mapGetters('Platform', [
-    //     'verifyPermission'
-    //   ])
-    // },
+    computed: {
+      ...mapGetters('Platform', [
+        'verifyPermission'
+      ])
+    },
     methods: {
       // 处理操作
       handleAction: function (action) {
@@ -71,7 +71,7 @@
     created: function () {
       let _t = this
       // 将store注册到apps下
-      _t.$store.registerModule(['apps', Store.moduleName], Store.store)
+      _t.$store.registerModule(['Apps', Store.moduleName], Store.store)
       _t.$X.utils.bus.$on('Apps/Users/list/init/start', function () {
         _t.$nextTick(function () {
           // 初始化列表
@@ -86,7 +86,7 @@
     destroyed: function () {
       let _t = this
       // 卸载store
-      _t.$store.unregisterModule(['apps', Store.moduleName])
+      _t.$store.unregisterModule(['Apps', Store.moduleName])
     }
   }
 </script>

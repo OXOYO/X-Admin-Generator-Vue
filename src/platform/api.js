@@ -16,6 +16,13 @@ export default {
     getBaseInfo: async (data) => {
       let res = await Vue.prototype.$X.http.get('/Platform/user/BaseInfo')
       return res
+    },
+    // 用户鉴权
+    doVerifyAccess: async (data) => {
+      let res = await Vue.prototype.$X.http.get('/Platform/user/access/verify', {
+        params: data
+      })
+      return res
     }
   },
   components: {

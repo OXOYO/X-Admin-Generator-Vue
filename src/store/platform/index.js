@@ -10,7 +10,7 @@ import mutations from './mutations'
 import getters from './getters'
 
 export default {
-  moduleName: 'platform',
+  moduleName: 'Platform',
   store: {
     namespaced: true,
     state,

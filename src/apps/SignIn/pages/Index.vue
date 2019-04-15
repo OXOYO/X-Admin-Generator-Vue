@@ -107,7 +107,7 @@
       handleSignIn: async function () {
         let _t = this
         // 调用接口执行登录
-        let res = await _t.$store.dispatch('platform/user/signIn', {
+        let res = await _t.$store.dispatch('Platform/user/signIn', {
           account: _t.signInForm.account.trim(),
           password: _t.signInForm.password.trim()
         })
@@ -116,17 +116,13 @@
         }
         let userInfo = res.data.userInfo
         let token = res.data[_t.$X.config.cookie.getItem('token')]
-        console.log('userInfo', userInfo, token)
         if (userInfo && token) {
           _t.$Message.success(_t.$t('L00008'))
           // 存储token信息
-          _t.$store.commit('platform/userInfo/update', userInfo)
+          _t.$store.commit('Platform/userInfo/update', userInfo)
           _t.$X.Cookies.set(_t.$X.config.cookie.getItem('token'), token)
-          // FIXME 动态添加后台路由
-          // await _t.$X.utils.routers.addAdminRoute(_t)
           // 跳转后台
           _t.$nextTick(function () {
-            console.log('router.push')
             _t.$router.push({ name: 'platform.admin' })
           })
         } else {
@@ -149,7 +145,7 @@
       let _t = this
       _t.isShowModal = true
       // 将store注册到apps下
-      _t.$store.registerModule(['apps', Store.moduleName], Store.store)
+      _t.$store.registerModule(['Apps', Store.moduleName], Store.store)
     },
     beforeRouteLeave (to, from, next) {
       let _t = this
@@ -160,7 +156,7 @@
     destroyed () {
       let _t = this
       // 卸载store
-      _t.$store.unregisterModule(['apps', Store.moduleName])
+      _t.$store.unregisterModule(['Apps', Store.moduleName])
     }
   }
 </script>

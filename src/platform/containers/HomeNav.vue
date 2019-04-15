@@ -102,7 +102,7 @@
       SwitchBackground
     },
     computed: {
-      ...mapState('platform', {
+      ...mapState('Platform', {
         resourceMap: state => state.home.resourceMap
       })
     },

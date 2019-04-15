@@ -10,6 +10,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
+    "element-ui": "^2.7.2",
+    "highlight.js": "^9.15.6",
     "iview": "^3.3.3",
     "js-cookie": "^2.2.0",
     "moment": "^2.24.0",

@@ -96,7 +96,7 @@
           source: _t.backgroundMap[name]
         }
         // 分发mutation，更新state
-        _t.$store.commit('platform/background/switch', _t.background)
+        _t.$store.commit('Platform/background/switch', _t.background)
       }
     },
     created () {

@@ -5,9 +5,9 @@
 export default {
   path: 'Roles',
   name: 'platform.admin.Roles',
-  component: () => import(/* webpackChunkName: 'Roles' */ './pages/Index'),
+  component: resolve => require(['./pages/Index'], resolve),
   meta: {
-    title: 'Roles',
+    title: '角色管理',
     requiresAuth: true,
     scrollToTop: true
   }

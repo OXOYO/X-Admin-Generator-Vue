@@ -5,28 +5,44 @@
 */
 
 <style scoped lang="less" rel="stylesheet/less">
+
 </style>
 
 <template>
-  <div class="main-box">
-    <h1>TODO SystemLog</h1>
+  <div class="main-box" v-if="verifyPermission($route.name, 0)">
+    <!-- 查询日志 -->
+    <SearchLogs></SearchLogs>
+    <!-- 日志详情 -->
+    <DetailLog></DetailLog>
   </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import Store from '../store'
+  import SearchLogs from '../containers/SearchLogs.vue'
+  import DetailLog from '../containers/DetailLog.vue'
 
   export default {
     name: 'SystemLog',
-    created () {
+    components: {
+      SearchLogs,
+      DetailLog
+    },
+    computed: {
+      ...mapGetters('Platform', [
+        'verifyPermission'
+      ])
+    },
+    created: function () {
       let _t = this
       // 将store注册到apps下
-      _t.$store.registerModule(['apps', Store.moduleName], Store.store)
+      _t.$store.registerModule(['Apps', Store.moduleName], Store.store)
     },
-    destroyed () {
+    destroyed: function () {
       let _t = this
       // 卸载store
-      _t.$store.unregisterModule(['apps', Store.moduleName])
+      _t.$store.unregisterModule(['Apps', Store.moduleName])
     }
   }
 </script>

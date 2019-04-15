@@ -85,7 +85,7 @@
       }
     },
     computed: {
-      ...mapState('platform/Wallpaper', {
+      ...mapState('Platform/Wallpaper', {
         wallpaperInfo: state => state.currentWallpaper
       })
     },
@@ -146,7 +146,7 @@
               style: {}
             }
             // 分发mutations，更新当前的壁纸信息
-            _t.$store.commit('platform/currentWallpaper/update', {
+            _t.$store.commit('Platform/currentWallpaper/update', {
               ..._t.currentWallpaper
             })
           }
@@ -168,7 +168,7 @@
         let _t = this
         let dayIndex = Math.floor(Math.random() * 17)
         // 分发action，执行保存
-        let res = await _t.$store.dispatch('platform/components/wallpaper/bing', {
+        let res = await _t.$store.dispatch('Platform/components/wallpaper/bing', {
           format: 'js',
           // idx 可选值 -1 || 1 ~ 16
           idx: dayIndex,
@@ -210,7 +210,7 @@
             background: 'url(' + src + ') center center / cover no-repeat fixed'
           }
           // 分发mutations，更新当前的壁纸信息
-          _t.$store.commit('platform/currentWallpaper/update', {
+          _t.$store.commit('Platform/currentWallpaper/update', {
             ..._t.currentWallpaper
           })
         }
@@ -224,14 +224,14 @@
     mounted () {
       let _t = this
       // 监听事件
-      _t.$X.utils.bus.$on('platform/wallpaper/switch', function () {
+      _t.$X.utils.bus.$on('Platform/wallpaper/switch', function () {
         _t.doSwitch()
       })
     },
     beforeDestroy () {
       let _t = this
       _t.$X.utils.bus.$off([
-        'platform/wallpaper/switch'
+        'Platform/wallpaper/switch'
       ])
     }
   }

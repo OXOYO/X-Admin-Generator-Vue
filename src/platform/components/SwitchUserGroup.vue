@@ -51,7 +51,7 @@
   export default {
     name: 'SwitchUserGroup',
     computed: {
-      ...mapState('platform', {
+      ...mapState('Platform', {
         userInfo: state => state.userInfo,
         userClass: state => state.userClass
       })
@@ -65,7 +65,7 @@
         let userGroupKey = _t.$X.config.cookie.getItem('userGroup')
         _t.$X.Cookies.set(userGroupKey, currentUserGroup.id, { path: _t.$X.config.cookie.path })
         // 分发mutations，更新用户基本信息
-        _t.$store.commit(_t.$X.utils.store.getType('userInfo/update', 'Platform'), {
+        _t.$store.commit('Platform/userInfo/update', {
           ..._t.userInfo,
           currentUserGroup
         })
@@ -75,29 +75,7 @@
         if (name === 'SignOut') {
           // 清除存储的信息
           _t.$X.utils.storage.clear.apply(_t)
-          /*
-          // 清除用户状态
-          _t.$Message.success(_t.$t('L00013'))
-          // FIXME 清空Session Storeage
-          sessionStorage.clear()
-          // 清空cookie
-          let keysArr = Object.keys(_t.$X.Cookies.get())
-          // FIXME 处理待排除的key
-          let unless = []
-          for (let i = 0, len = _t.$X.config.cookie.unless.length; i < len; i++) {
-            let key = _t.$X.config.cookie.unless[i]
-            let val = _t.$X.config.cookie.getItem(key)
-            unless.push(val)
-          }
-          for (let i = 0, len = keysArr.length; i < len; i++) {
-            let key = keysArr[i]
-            // 判断是否需要排除
-            if (!unless.includes(key)) {
-              _t.$X.Cookies.remove(key, {path: _t.$X.config.cookie.path})
-            }
-          }
-          */
-          _t.$store.commit('platform/userInfo/reset', {})
+          _t.$store.commit('Platform/userInfo/reset', {})
           setTimeout(function () {
             // 点击菜单跳转路由
             _t.$router.push({
