@@ -1,5 +1,7 @@
 # X-Admin-Generator-Vue
 
+基于Vue的后台管理平台脚手架
+
 ## Start 
 ```
  // clone repo
