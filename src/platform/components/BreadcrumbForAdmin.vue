@@ -16,7 +16,7 @@
     <Breadcrumb v-if="breadcrumbList && breadcrumbList.length">
       <Breadcrumb-item v-for="item in breadcrumbList" :key="item.name" :href="item.path">
         <Icon v-if="item.icon" :type="item.icon"></Icon>
-        <router-link :to="{ name: item.name }">{{ item.title }}</router-link>
+        <router-link :to="{ name: item.name }">{{ item.lang ? $t(item.lang) : item.title }}</router-link>
       </Breadcrumb-item>
     </Breadcrumb>
   </div>
@@ -33,6 +33,7 @@
       breadcrumbList: function () {
         let _t = this
         let breadcrumbList = _t.handleBreadcrumbList(_t.activeMenuName)
+        console.log('breadcrumbList', breadcrumbList)
         return breadcrumbList
       }
     }),
@@ -49,7 +50,8 @@
                 name: menuItem.name,
                 path: '',
                 title: menuItem.title,
-                icon: menuItem.icon
+                icon: menuItem.icon,
+                lang: menuItem.lang
               })
               // 查找父节点
               if (menuItem.parent_id !== 0) {
