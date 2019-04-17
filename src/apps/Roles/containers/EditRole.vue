@@ -176,17 +176,13 @@
       // 执行保存
       doSave: async function () {
         let _t = this
-        _t.doSaveLoading = true
         // 校验结果
-        let validResult = false
-        this.$refs['modalForm'].validate((valid) => {
+        let validResult
+        _t.$refs['modalForm'].validate((valid) => {
           validResult = valid
-          if (!valid) {
-            _t.$Message.error('表单验证失败！')
-            _t.doSaveLoading = false
-          }
         })
-        if (!validResult) {
+        if (validResult !== undefined && !validResult) {
+          _t.$Message.error('表单验证失败！')
           return
         }
         let permissionList = []
@@ -215,6 +211,7 @@
           return
         }
         // 分发action，执行保存
+        _t.doSaveLoading = true
         let res = await _t.$store.dispatch(actionPath, payload)
         _t.doSaveLoading = false
         if (!res || res.code !== 200) {

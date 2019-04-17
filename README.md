@@ -13,3 +13,8 @@
  // build for production
  npm run build
 ```
+
+## 账号
+
+超级管理员：root 123123
+管理员：admin 123123

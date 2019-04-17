@@ -33,31 +33,29 @@
       :model="detailInfo"
       :label-width="120"
     >
-      <template
-        v-for="key in Object.keys(detailInfo).filter(k => !['_index', '_rowKey'].includes(k))"
-      >
-        <FormItem v-if="key === 'title'" label="用户组名称" prop="title">
+      <template v-for="(key, index) in Object.keys(detailInfo).filter(k => !['_index', '_rowKey'].includes(k))">
+        <FormItem v-if="key === 'title'" label="用户组名称" prop="title" :key="key + '_' + index">
           <Input v-model="detailInfo.title" placeholder="用户组名称" readonly style="width: 400px;"></Input>
         </FormItem>
-        <FormItem v-else-if="key === 'description'" label="用户组描述" prop="description">
+        <FormItem v-else-if="key === 'description'" label="用户组描述" prop="description" :key="key + '_' + index">
           <Input v-model="detailInfo.description" placeholder="用户组描述" type="textarea" :rows="4" readonly style="width: 400px;"></Input>
         </FormItem>
-        <FormItem v-else-if="key === 'status'" label="状态" prop="status">
+        <FormItem v-else-if="key === 'status'" label="状态" prop="status" :key="key + '_' + index">
           <Radio-group v-model="detailInfo.status">
             <Radio :label="0" v-if="0 === detailInfo.status">停用</Radio>
             <Radio :label="1" v-if="1 === detailInfo.status">启用</Radio>
           </Radio-group>
         </FormItem>
-        <FormItem v-else-if="key === 'create_user'" label="创建人" prop="url">
+        <FormItem v-else-if="key === 'create_user'" label="创建人" prop="url" :key="key + '_' + index">
           <span>{{ detailInfo.create_user.name }} {{ detailInfo.create_user.account }}</span>
         </FormItem>
-        <FormItem  v-else-if="key === 'create_time'" label="创建时间" prop="create_time">
+        <FormItem  v-else-if="key === 'create_time'" label="创建时间" prop="create_time" :key="key + '_' + index">
           <div>{{ $X.moment(detailInfo[key]).format('YYYY-MM-DD hh:mm:ss') }}</div>
         </FormItem>
-        <FormItem  v-else-if="key === 'update_time'" label="更新时间" prop="update_time">
+        <FormItem  v-else-if="key === 'update_time'" label="更新时间" prop="update_time" :key="key + '_' + index">
           <div>{{ $X.moment(detailInfo[key]).format('YYYY-MM-DD hh:mm:ss') }}</div>
         </FormItem>
-        <FormItem v-else-if="key === 'resource_id'" label="资源">
+        <FormItem v-else-if="key === 'resource_id'" label="资源" :key="key + '_' + index">
           <ElTable
             class="table-card"
             :data="rowList"
@@ -103,8 +101,7 @@
                 <CheckboxGroup v-if="scope.row.permission.length" v-model="scope.row.permission" style="position: relative;">
                   <div class="mask-disabled" @click.stop.prevent></div>
                   <Checkbox
-                    v-for="(item, index) in $X.config.permissionTypeList"
-                    v-if="item.enable && scope.row.permission_type.includes(item.key) && scope.row.permission.includes(item.key)"
+                    v-for="(item, index) in $X.config.permissionTypeList.filter(item.enable && scope.row.permission_type.includes(item.key) && scope.row.permission.includes(item.key))"
                     :key="index"
                     :label="item.key"
                   >

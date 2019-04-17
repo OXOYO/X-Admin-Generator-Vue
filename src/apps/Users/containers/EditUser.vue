@@ -34,29 +34,29 @@
       :label-width="120"
     >
       <FormItem label="账号" prop="account">
-        <Input v-model="modalForm.account" placeholder="请输入账号" :disabled="currentAction === 'transfer'" style="width: 200px;"></Input>
+        <Input v-model="modalForm.account" placeholder="请输入账号" style="width: 200px;"></Input>
       </FormItem>
       <FormItem label="姓名" prop="name">
-        <Input v-model="modalForm.name" placeholder="请输入姓名" :disabled="currentAction === 'transfer'" style="width: 200px;"></Input>
+        <Input v-model="modalForm.name" placeholder="请输入姓名" style="width: 200px;"></Input>
       </FormItem>
       <FormItem label="级别" prop="type">
         <Radio-group v-model="modalForm.type">
-          <Radio :label="0" v-if="userInfo && [0].includes(userInfo.type)" :disabled="currentAction === 'transfer'">
+          <Radio :label="0" v-if="userInfo && [0].includes(userInfo.type)">
             <Icon :type="userClass[0]['icon']"></Icon>
             <span>超级管理员</span>
           </Radio>
-          <Radio :label="1" v-if="userInfo && [0].includes(userInfo.type)" :disabled="currentAction === 'transfer'">
+          <Radio :label="1" v-if="userInfo && [0].includes(userInfo.type)">
             <Icon :type="userClass[1]['icon']"></Icon>
             <span>管理员</span>
           </Radio>
-          <Radio :label="2" v-if="userInfo && [0, 1].includes(userInfo.type)" :disabled="currentAction === 'transfer'">
+          <Radio :label="2" v-if="userInfo && [0, 1].includes(userInfo.type)">
             <Icon :type="userClass[2]['icon']"></Icon>
             <span>普通用户</span>
           </Radio>
         </Radio-group>
       </FormItem>
       <FormItem label="用户组" prop="group_id">
-        <Select v-model="modalForm.group_id" multiple filterable :disabled="currentAction === 'transfer' || (userInfo.type === 1 && !hasUserGroup)" style="width: 300px;">
+        <Select v-model="modalForm.group_id" multiple filterable :disabled="userInfo.type === 1 && !hasUserGroup" style="width: 300px;">
           <OptionGroup
             v-for="item in userGroupMap"
             :label="item.createUser.name + ' ' + item.createUser.account"
@@ -66,10 +66,10 @@
               v-for="groupItem in item.list"
               :value="groupItem.id"
               :key="groupItem.id"
-              :label="groupItem.title + ' ' + item.createUser.name + ' ' + item.createUser.account"
+              :label="groupItem.name + ' ' + item.createUser.name + ' ' + item.createUser.account"
               :disabled="userInfo.type === 1 && groupItem.create_user_id !== userInfo.id"
             >
-              {{ groupItem.title }}
+              {{ groupItem.name }}
             </Option>
           </OptionGroup>
           <!--
@@ -89,22 +89,9 @@
       </FormItem>
       <FormItem label="状态" prop="status">
         <Radio-group v-model="modalForm.status">
-          <Radio :label="0" :disabled="currentAction === 'transfer'">停用</Radio>
-          <Radio :label="1" :disabled="currentAction === 'transfer'">启用</Radio>
+          <Radio :label="0">停用</Radio>
+          <Radio :label="1">启用</Radio>
         </Radio-group>
-      </FormItem>
-      <FormItem label="创建人" prop="create_user_id" v-if="currentAction === 'transfer'">
-        <Select v-model="modalForm.create_user_id">
-          <Option
-            v-for="item in adminList"
-            :value="item.id"
-            :key="item.id"
-            style="display: inline-block; width: 100%; position: relative;"
-          >
-            <span style="float: left; margin-top: 5px;">{{ item.name }}</span>
-            <span style="position: absolute; right: 35px; margin-top: 5px;">{{ item.account }}</span>
-          </Option>
-        </Select>
       </FormItem>
     </Form>
     <div slot="footer">
@@ -128,8 +115,7 @@
         // 弹窗标题
         modalTitle: {
           edit: '编辑',
-          add: '新增',
-          transfer: '转移'
+          add: '新增'
         },
         // 默认表单数据
         defModalForm: {
@@ -174,8 +160,6 @@
         backModalInfo: {},
         // 用户组列表
         userGroupMap: [],
-        // 管理员列表
-        adminList: [],
         // 当前管理员是否有自己创建的角色
         hasUserGroup: false
       }
@@ -190,20 +174,16 @@
       // 执行保存
       doSave: async function () {
         let _t = this
-        _t.doSaveLoading = true
         // 校验结果
-        let validResult = false
-        this.$refs['modalForm'].validate((valid) => {
+        let validResult
+        _t.$refs['modalForm'].validate((valid) => {
           validResult = valid
-          if (!valid) {
-            _t.$Message.error('表单验证失败！')
-            _t.doSaveLoading = false
-          }
         })
-        if (!validResult) {
+        if (validResult !== undefined && !validResult) {
+          _t.$Message.error('表单验证失败！')
           return
         }
-        let actionPath = ''
+        let actionPath
         let payload = {
           ..._t.modalForm,
           group_id: _t.modalForm.group_id.join(',')
@@ -211,10 +191,14 @@
         // 按action类别分别处理
         if (_t.currentAction === 'add') {
           actionPath = 'Apps/Users/add'
-        } else if (['edit', 'transfer'].includes(_t.currentAction)) {
+        } else if (_t.currentAction === 'edit') {
           actionPath = 'Apps/Users/edit'
         }
+        if (!actionPath) {
+          return
+        }
         // 分发action，执行保存
+        _t.doSaveLoading = true
         let res = await _t.$store.dispatch(actionPath, payload)
         _t.doSaveLoading = false
         if (!res || res.code !== 200) {
@@ -241,7 +225,7 @@
         _t.currentAction = _t.backModalInfo && _t.backModalInfo.action ? _t.backModalInfo.action : _t.currentAction
         let defModalForm = JSON.parse(JSON.stringify(_t.defModalForm))
 
-        if (['edit', 'transfer'].includes(_t.currentAction) && _t.backModalInfo && _t.backModalInfo.info) {
+        if (['edit'].includes(_t.currentAction) && _t.backModalInfo && _t.backModalInfo.info) {
           let backModalInfo = _t.backModalInfo.info instanceof Object ? JSON.parse(JSON.stringify(_t.backModalInfo.info)) : _t.backModalInfo.info
           let tmpArr = backModalInfo.group_id ? backModalInfo.group_id.split(',') : []
           tmpArr = tmpArr.map(idStr => parseInt(idStr))
@@ -301,26 +285,6 @@
         if (_t.userInfo.type === 1) {
           _t.hasUserGroup = _t.userGroupMap.hasOwnProperty(_t.userInfo.id)
         }
-      },
-      // 获取管理员列表
-      getAdminList: async function () {
-        let _t = this
-        // 分发action，调接口
-        let res = await _t.$store.dispatch('Apps/Users/list/all', {
-          status: [1],
-          type: [0, 1]
-        })
-        if (!res || res.code !== 200) {
-          return
-        }
-        // 处理返回数据
-        if (res.data.count && res.data.list && res.data.list.length) {
-          _t.$Message.success('查询管理员列表成功！')
-        } else {
-          _t.$Message.info('暂无数据！')
-        }
-        // 更新列表数据
-        _t.adminList = res.data.list || []
       }
     },
     created: async function () {
@@ -333,9 +297,6 @@
         _t.backModalInfo = data
         // 获取用户组列表
         await _t.getUserGroupList()
-        if (data.action === 'transfer') {
-          await _t.getAdminList()
-        }
         // 初始化表单数据
         _t.initFormData()
       })
@@ -347,4 +308,3 @@
     }
   }
 </script>
-

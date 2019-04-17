@@ -268,23 +268,7 @@
               key: 'action',
               width: 180,
               render: (h, params) => {
-                let btnArr = []
-                let transferArr = [
-                  h('Button', {
-                    props: {
-                      size: 'small'
-                    },
-                    style: {
-                      margin: '2px'
-                    },
-                    on: {
-                      click: () => {
-                        _t.handleAction('transfer', params.row)
-                      }
-                    }
-                  }, '转移')
-                ]
-                let editArr = [
+                let btnArr = [
                   h('Button', {
                     props: {
                       type: 'primary',
@@ -314,11 +298,6 @@
                     }
                   }, '删除')
                 ]
-                if (_t.userInfo && _t.userInfo.type === 0) {
-                  btnArr = [...transferArr, ...editArr]
-                } else {
-                  btnArr = [...editArr]
-                }
                 return h('div', btnArr)
               }
             }
@@ -470,14 +449,6 @@
           info: item
         })
       },
-      doTransfer: function (item) {
-        let _t = this
-        // 广播事件
-        _t.$X.utils.bus.$emit('Apps/Users/edit', {
-          action: 'transfer',
-          info: item
-        })
-      },
       // 根据用户type优雅降级
       handlerType: function (userInfo) {
         let _t = this
@@ -516,9 +487,6 @@
           return
         }
         switch (action) {
-          case 'transfer':
-            _t.doTransfer(item)
-            break
           case 'edit':
             _t.doEdit(item)
             break

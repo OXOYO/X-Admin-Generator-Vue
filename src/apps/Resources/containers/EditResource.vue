@@ -44,8 +44,7 @@
       <FormItem label="资源类别" prop="type">
         <Radio-group v-model="modalForm.type" @on-change="handleResourceTypeChange">
           <Radio
-            v-for="item in $X.config.resourceTypeList"
-            v-if="item.enable"
+            v-for="item in $X.config.resourceTypeList.filter(item => item.enable)"
             :key="item.name"
             :label="item.name"
           >
@@ -187,17 +186,13 @@
       // 执行保存
       doSave: async function () {
         let _t = this
-        _t.doSaveLoading = true
         // 校验结果
-        let validResult = false
-        this.$refs['modalForm'].validate((valid) => {
+        let validResult
+        _t.$refs['modalForm'].validate((valid) => {
           validResult = valid
-          if (!valid) {
-            _t.$Message.error('表单验证失败！')
-            _t.doSaveLoading = false
-          }
         })
-        if (!validResult) {
+        if (validResult !== undefined && !validResult) {
+          _t.$Message.error('表单验证失败！')
           return
         }
         // 按action类别分别处理
@@ -207,25 +202,27 @@
         } else if (_t.currentAction === 'edit') {
           actionPath = 'Apps/Resources/edit'
         }
-        if (actionPath) {
-          // 分发action，执行保存
-          let res = await _t.$store.dispatch(actionPath, {
-            ..._t.modalForm,
-            permission_type: _t.modalForm.permission_type.join(',')
-          })
-          _t.doSaveLoading = false
-          if (!res || res.code !== 200) {
-            return
-          }
-          // 处理返回数据
-          _t.$Message.success(res.msg || '保存成功！')
-          // 关闭弹窗
-          _t.handleCancel()
-          // 刷新列表
-          _t.$X.utils.bus.$emit('Apps/Resources/list/refresh')
-          // 刷新侧边栏
-          _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
+        if (!actionPath) {
+          return
         }
+        // 分发action，执行保存
+        _t.doSaveLoading = true
+        let res = await _t.$store.dispatch(actionPath, {
+          ..._t.modalForm,
+          permission_type: _t.modalForm.permission_type.join(',')
+        })
+        _t.doSaveLoading = false
+        if (!res || res.code !== 200) {
+          return
+        }
+        // 处理返回数据
+        _t.$Message.success(res.msg || '保存成功！')
+        // 关闭弹窗
+        _t.handleCancel()
+        // 刷新列表
+        _t.$X.utils.bus.$emit('Apps/Resources/list/refresh')
+        // 刷新侧边栏
+        _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
       },
       // 执行重置
       doReset: function () {

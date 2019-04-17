@@ -340,18 +340,14 @@
       // 执行查询
       doSearch: function (isShowResutl) {
         let _t = this
-        _t.doSearchLoading = true
         if (_t.currentTab === 'exactQuery') {
           // 校验结果
-          let validResult = false
+          let validResult
           _t.$refs['exactQuery'].validate((valid) => {
             validResult = valid
-            if (!valid) {
-              _t.$Message.error('表单验证失败！')
-              _t.doSearchLoading = false
-            }
           })
-          if (!validResult) {
+          if (validResult !== undefined && !validResult) {
+            _t.$Message.error('表单验证失败！')
             return
           }
         }
@@ -375,6 +371,7 @@
       getLogList: async function () {
         let _t = this
         // 分发action，调接口
+        _t.doSearchLoading = true
         let res = await _t.$store.dispatch('Apps/SystemLog/list', {
           ..._t.searchForm,
           date: _t.$X.moment(_t.searchForm.date).format('YYYY-MM-DD')

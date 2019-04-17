@@ -81,10 +81,10 @@
   >
     <div
       class="sort-list"
+      v-if="menuMap.children && menuMap.children.length"
     >
       <div
         class="sort-item"
-        v-if="menuMap.children && menuMap.children.length"
         v-for="item in menuMap.children"
         :key="item.name"
       >
