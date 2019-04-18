@@ -19,25 +19,26 @@
       <FormItem>
         <Input
           v-model="searchForm.keywords"
-          :placeholder="searchForm.filterType === 'account' ? '请输入账号' : '请输入姓名'"
+          :placeholder="$t(placeholderMap[searchForm.filterType])"
           @on-enter.stop.prevent="doSearch"
+          style="width: 400px;"
         >
           <Select v-model="searchForm.filterType" slot="prepend" style="width: 120px">
-            <Option value="account">账号</Option>
-            <Option value="name">姓名</Option>
+            <Option value="account">{{ $t('L00049') }}</Option>
+            <Option value="name">{{ $t('L00050') }}</Option>
             <!-- FIXME 只有超级管理员可以按创建人查询 -->
-            <Option v-if="userInfo.type === 0" value="createUserAccount">创建人账号</Option>
-            <Option v-if="userInfo.type === 0" value="createUserName">创建人姓名</Option>
+            <Option v-if="userInfo.type === 0" value="createUserAccount">{{ $t('L00051') }}</Option>
+            <Option v-if="userInfo.type === 0" value="createUserName">{{ $t('L00052') }}</Option>
           </Select>
         </Input>
       </FormItem>
       <FormItem>
         <CheckboxGroup v-model="searchForm.status">
           <Checkbox :label="1">
-            <span>启用</span>
+            <span>{{ $t('C00005') }}</span>
           </Checkbox>
           <Checkbox :label="0">
-            <span>停用</span>
+            <span>{{ $t('C00006') }}</span>
           </Checkbox>
         </CheckboxGroup>
       </FormItem>
@@ -45,15 +46,15 @@
         <CheckboxGroup v-model="searchForm.type">
           <Checkbox :label="2" v-if="userInfo && [0, 1].includes(userInfo.type)">
             <Icon :type="userClass[2]['icon']"></Icon>
-            <span>普通用户</span>
+            <span>{{ $t('C00025') }}</span>
           </Checkbox>
           <Checkbox :label="1" v-if="userInfo && [0].includes(userInfo.type)">
             <Icon :type="userClass[1]['icon']"></Icon>
-            <span>管理员</span>
+            <span>{{ $t('C00026') }}</span>
           </Checkbox>
           <Checkbox :label="0" v-if="userInfo && [0].includes(userInfo.type)">
             <Icon :type="userClass[0]['icon']"></Icon>
-            <span>超级管理员</span>
+            <span>{{ $t('C00027') }}</span>
           </Checkbox>
         </CheckboxGroup>
       </FormItem>
@@ -61,7 +62,7 @@
         prop="group_id"
         v-show="Object.keys(userGroupMap).length && (userInfo.type === 0 || (userInfo.type === 1 && !hasUserGroup))"
       >
-        <Select v-model="searchForm.group_id" clearable style="width: 200px;" placeholder="请选择用户组">
+        <Select v-model="searchForm.group_id" clearable style="width: 200px;" :placeholder="$t('L00053')">
           <OptionGroup
             v-for="item in userGroupMap"
             :label="item.createUser.name + ' ' + item.createUser.account"
@@ -73,13 +74,13 @@
               :key="groupItem.id"
               :label="groupItem.title + ' ' + item.createUser.name + ' ' + item.createUser.account"
             >
-              {{ groupItem.title }}
+              {{ groupItem.lang ? $t(groupItem.lang) : groupItem.name }}
             </Option>
           </OptionGroup>
         </Select>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="doSearch">查询</Button>
+        <Button type="primary" @click="doSearch">{{ $t('C00020') }}</Button>
       </FormItem>
     </Form>
     <div class="clear"></div>
@@ -119,6 +120,12 @@
           status: [],
           type: [],
           group_id: ''
+        },
+        placeholderMap: {
+          account: 'L00045',
+          name: 'L00046',
+          createUserAccount: 'L00047',
+          createUserName: 'L00048'
         },
         tableColumns: [],
         tableData: [],

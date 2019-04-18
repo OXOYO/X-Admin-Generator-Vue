@@ -60,7 +60,7 @@
       <div class="loading" v-show="loadStatus === 'loading'">
         <Spin fix>
           <Icon class="loading-icon" type="load-c" size=18></Icon>
-          <div class="loading-text">加载中...</div>
+          <div class="loading-text">{{ $t('L00014') }}</div>
         </Spin>
       </div>
       <div
@@ -68,9 +68,9 @@
         :class="{ 'load-complete': true, 'load-fail': loadStatus === 'fail' }"
       >
         <Icon type="close-circled"></Icon>
-        <div class="load-text">加载应用程序</div>
-        <div class="load-text load-text-strong">{{ info.title }}</div>
-        <div class="load-text">失败！</div>
+        <i18n :path="$t('L00015')" tag="div" class="load-text">
+          <div class="load-text-strong" place="title">{{ info.title }}</div>
+        </i18n>
       </div>
       <iframe
         v-show="loadStatus === 'success'"
