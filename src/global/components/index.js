@@ -4,7 +4,6 @@
  * 全局组件
  */
 import Copyright from './Copyright'
-import Wallpaper from './Wallpaper'
 import Scrollbar from './Scrollbar'
 import XPanel from './XPanel'
 import XSwitch from './XSwitch'
@@ -18,7 +17,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 const obj = {
   Copyright,
-  Wallpaper,
   Scrollbar,
   XPanel,
   XSwitch,

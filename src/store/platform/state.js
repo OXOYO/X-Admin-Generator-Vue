@@ -44,7 +44,8 @@ export default {
     verifyAccess: {
       router: [
         'platform.admin.AdminIndex',
-        'platform.admin.frame'
+        'platform.admin.FramePage',
+        'platform.admin.ErrorPage'
       ]
     }
   }

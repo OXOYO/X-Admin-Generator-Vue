@@ -168,9 +168,9 @@
         }
         // 处理返回数据
         if (res.data.count && res.data.list && res.data.list.length) {
-          _t.$Message.success(res.msg || '查询列表成功！')
+          _t.$Message.success(res.msg)
         } else {
-          _t.$Message.info('暂无数据！')
+          _t.$Message.info(_t.$t('L00011'))
         }
         // 更新数据
         _t.resourceList = res.data.list || []

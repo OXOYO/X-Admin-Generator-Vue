@@ -16,8 +16,6 @@
 
 <template>
   <div class="home-content">
-    <!-- 壁纸 -->
-    <!--<Wallpaper switchType="bing"></Wallpaper>-->
     <slot></slot>
   </div>
 </template>

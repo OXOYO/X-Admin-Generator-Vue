@@ -13,12 +13,12 @@
     <XPanel>
       <div slot="header-right" class="panel-header">
         <div class="action-btn" v-if="verifyPermission($route.name, 1)" @click.stop="handleAction('add')">
-          <Tooltip transfer placement="top" content="新增">
+          <Tooltip transfer placement="top" :content="$t('L00122')">
             <Icon class="action-icon" type="md-add"></Icon>
           </Tooltip>
         </div>
         <div class="action-btn" @click.stop="handleAction('refresh')">
-          <Tooltip transfer placement="top" content="刷新">
+          <Tooltip transfer placement="top" :content="$t('L00121')">
             <Icon class="action-icon" type="md-refresh"></Icon>
           </Tooltip>
         </div>

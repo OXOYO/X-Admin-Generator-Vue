@@ -182,7 +182,7 @@
           validResult = valid
         })
         if (validResult !== undefined && !validResult) {
-          _t.$Message.error('表单验证失败！')
+          _t.$Message.error(_t.$t('L00136'))
           return
         }
         let permissionList = []
@@ -218,7 +218,7 @@
           return
         }
         // 处理返回数据
-        _t.$Message.success(res.msg || '保存成功！')
+        _t.$Message.success(res.msg)
         // 关闭弹窗
         _t.handleCancel()
         // 刷新列表
@@ -273,9 +273,9 @@
         }
         // 处理返回数据
         if (res.data.count && res.data.list && res.data.list.length) {
-          _t.$Message.success(res.msg || '查询列表成功！')
+          _t.$Message.success(res.msg)
         } else {
-          _t.$Message.info('暂无数据！')
+          _t.$Message.info(_t.$t('L00011'))
         }
         // 更新数据
         _t.resourceList = res.data.list || []

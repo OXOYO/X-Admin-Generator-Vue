@@ -12,11 +12,11 @@ import en from './en-US'
 
 export default {
   label: {
-    zh: '简体中文',
-    en: 'English'
+    'zh-cn': '简体中文',
+    'en-us': 'English'
   },
   data: {
-    zh: { ..._zh, ...zh },
-    en: { ..._en, ...en }
+    'zh-cn': { ..._zh, ...zh },
+    'en-us': { ..._en, ...en }
   }
 }

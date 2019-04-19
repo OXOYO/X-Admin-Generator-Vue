@@ -46,7 +46,7 @@ export default function (Vue) {
     if (resData) {
       // 弹窗提示
       if (resData.code !== 200) {
-        Vue.prototype.$Message.error(response.msg || resData.msg || '请求异常，请检查上送、返回。')
+        Vue.prototype.$Message.error(response.msg || resData.msg || Vue.prototype.$t('L00134'))
         if (resData.code === 9999) {
           // 清除存储的信息
           $X.utils.storage.clear(true)
@@ -57,13 +57,13 @@ export default function (Vue) {
             })
           }
         }
-        return Promise.reject(new Error(response.msg || resData.msg || '请求异常，请检查上送、返回。')).catch(function (result) {
+        return Promise.reject(new Error(response.msg || resData.msg || Vue.prototype.$t('L00134'))).catch(function (result) {
           console.log(result)
         })
       }
     } else {
-      Vue.prototype.$Message.error('请求失败！')
-      return Promise.reject(new Error('请求失败！')).catch(function (result) {
+      Vue.prototype.$Message.error(Vue.prototype.$t('L00135'))
+      return Promise.reject(new Error(Vue.prototype.$t('L00135'))).catch(function (result) {
         console.log(result)
       })
     }

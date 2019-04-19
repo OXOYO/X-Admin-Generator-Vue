@@ -133,17 +133,17 @@
       <!-- 工具栏 -->
       <div class="header-tool" v-if="tool.length">
         <div v-if="tool.includes('fullScreen')" class="tool-btn" @click.stop="handleAction('fullScreen')">
-          <Tooltip class="tool-tooltip" :placement="placement" content="全屏">
+          <Tooltip class="tool-tooltip" :placement="placement" :content="$t('L00131')">
             <Icon class="tool-icon" type="arrow-expand"></Icon>
           </Tooltip>
         </div>
         <div v-if="tool.includes('selectAll')" class="tool-btn" @click.stop="handleAction('selectAll')">
-          <Tooltip class="tool-tooltip" :placement="placement" content="全选">
+          <Tooltip class="tool-tooltip" :placement="placement" :content="$t('L00132')">
             <Icon class="tool-icon" type="grid"></Icon>
           </Tooltip>
         </div>
         <div v-if="tool.includes('copy')" class="tool-btn" @click.stop="handleAction('copy')">
-          <Tooltip class="tool-tooltip" :placement="placement" content="复制">
+          <Tooltip class="tool-tooltip" :placement="placement" :content="$t('L00133')">
             <Icon class="tool-icon" type="ios-copy"></Icon>
           </Tooltip>
         </div>
@@ -203,7 +203,9 @@
       },
       nodata: {
         type: String,
-        default: '暂无数据！'
+        default: function () {
+          return this.$t('L00011')
+        }
       }
     },
     computed: {

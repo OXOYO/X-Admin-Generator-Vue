@@ -264,7 +264,10 @@
               <Tooltip
                 v-else
                 transfer
-                :content="item.title" placement="right" :key="`drop-menu-${item.name}`">
+                :content="item.lang ? $t(item.lang) : item.title"
+                placement="right"
+                :key="`drop-menu-${item.name}`"
+              >
                 <a
                   @click="triggerMenu(item.name)"
                   :class="{'drop-menu-a': true, 'active': activeMenuName === item.name}"
@@ -383,7 +386,7 @@
         if (tmpArr.length) {
           // 手动更新打开的菜单
           _t.$nextTick(() => {
-            _t.$refs.sidebarMenu.updateOpened()
+            _t.$refs.sidebarMenu && _t.$refs.sidebarMenu.updateOpened && _t.$refs.sidebarMenu.updateOpened()
           })
         }
         return tmpArr
@@ -435,7 +438,7 @@
         }
         // 处理返回数据
         if (res.data) {
-          _t.$Message.success(_t.$t('L00010'))
+          _t.$Message.success(res.msg)
           let userInfo = res.data
           let userGroupKey = _t.$X.config.cookie.getItem('userGroup')
           // 设置当前选中角色
@@ -475,7 +478,7 @@
             } else {
               // 点击菜单跳转路由
               _t.$router.push({
-                name: 'platform.admin.frame',
+                name: 'platform.admin.FramePage',
                 params: {
                   name: target.name,
                   info: target

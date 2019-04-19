@@ -19,16 +19,17 @@
       <FormItem>
         <Input
           v-model="searchForm.keywords"
-          :placeholder="filterTypeLabel[searchForm.filterType]['placeholder']"
+          :placeholder="$t(filterTypeLabel[searchForm.filterType].placeholder)"
           @on-enter.stop.prevent="doSearch"
+          style="width: 400px"
         >
         <Select v-model="searchForm.filterType" slot="prepend" style="width: 120px">
           <Option
-            v-for="(val, key) in filterTypeLabel"
+            v-for="(item, key) in filterTypeLabel"
             :value="key"
             :key="key"
           >
-            {{ val['label'] }}
+            {{ item.lang ? $t(item.lang) : item.label }}
           </Option>
         </Select>
         </Input>
@@ -36,15 +37,15 @@
       <FormItem>
         <CheckboxGroup v-model="searchForm.status">
           <Checkbox :label="1">
-            <span>启用</span>
+            <span>{{ $t('L00105') }}</span>
           </Checkbox>
           <Checkbox :label="0">
-            <span>停用</span>
+            <span>{{ $t('L00106') }}</span>
           </Checkbox>
         </CheckboxGroup>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="doSearch">查询</Button>
+        <Button type="primary" @click="doSearch">{{ $t('L00120') }}</Button>
       </FormItem>
     </Form>
     <div class="clear"></div>
@@ -81,12 +82,14 @@
         // 过滤方式提示语
         filterTypeLabel: {
           title: {
-            label: '用户组名称',
-            placeholder: '请输入用户组名称'
+            label: '用户组',
+            lang: 'L00056',
+            placeholder: 'L00067'
           },
           resource_id: {
             label: '资源ID',
-            placeholder: '请输入资源ID'
+            lang: 'L00068',
+            placeholder: 'L00069'
           }
         },
         searchForm: {
@@ -96,7 +99,23 @@
         },
         tableColumns: [],
         tableData: [],
-        columnsMap: {
+        // 分页信息
+        pageInfo: {
+          currentPage: 1,
+          total: 0,
+          pageSize: 10
+        }
+      }
+    },
+    computed: {
+      ...mapGetters('Platform', [
+        'userInfo',
+        'userClass',
+        'verifyPermission'
+      ]),
+      columnsMap () {
+        let _t = this
+        return {
           field: [
             {
               type: 'index',
@@ -108,27 +127,27 @@
               key: 'id'
             },
             {
-              title: '用户组名称',
+              title: _t.$t('L00056'),
               key: 'name'
             },
             // {
-            //   title: '描述信息',
+            //   title: _t.$t('L00065'),
             //   key: 'description'
             // },
             {
-              title: '资源',
+              title: _t.$t('L00066'),
               key: 'resource_id',
               render: (h, params) => {
                 let resourceIDArr = params.row.resource_id.split(',')
                 let text = '-'
                 if (resourceIDArr.length) {
-                  text = resourceIDArr.length + ' 个'
+                  text = resourceIDArr.length
                 }
                 return h('span', text)
               }
             },
             {
-              title: '启用/停用',
+              title: _t.$t('L00128'),
               key: 'status',
               render: function (h, params) {
                 return h('XSwitch',
@@ -144,10 +163,10 @@
                   [
                     h('span', {
                       slot: 'open'
-                    }, '启用'),
+                    }, _t.$t('L00105')),
                     h('span', {
                       slot: 'close'
-                    }, '停用')
+                    }, _t.$t('L00106'))
                   ]
                 )
               }
@@ -155,21 +174,21 @@
           ],
           time: [
             {
-              title: '创建时间',
+              title: _t.$t('L00043'),
               key: 'create_time',
               render: (h, params) => {
                 return h('span', _t.$X.moment(params.row['create_time']).format('YYYY-MM-DD hh:mm:ss'))
               }
             },
             {
-              title: '更新时间',
+              title: _t.$t('L00044'),
               key: 'update_time',
               render: (h, params) => {
                 return h('span', _t.$X.moment(params.row['update_time']).format('YYYY-MM-DD hh:mm:ss'))
               }
             },
             {
-              title: '操作',
+              title: _t.$t('L00120'),
               key: 'action',
               width: 170,
               render: (h, params) => {
@@ -187,7 +206,7 @@
                         _t.handleAction('detail', params.row)
                       }
                     }
-                  }, '详情')
+                  }, _t.$t('L00017'))
                 ]
                 let writeArr = [
                   h('Button', {
@@ -203,7 +222,7 @@
                         _t.handleAction('edit', params.row)
                       }
                     }
-                  }, '编辑'),
+                  }, _t.$t('L00123')),
                   h('Button', {
                     props: {
                       type: 'error',
@@ -217,7 +236,7 @@
                         _t.handleAction('remove', params.row)
                       }
                     }
-                  }, '删除')
+                  }, _t.$t('L00124'))
                 ]
                 if (_t.verifyPermission(_t.$route.name, 1)) {
                   btnArr = [
@@ -235,7 +254,7 @@
           ],
           createUser: [
             {
-              title: '创建者',
+              title: _t.$t('L00057'),
               key: 'create_user_id',
               render: function (h, params) {
                 let createUser = params.row.create_user || {}
@@ -247,21 +266,8 @@
               }
             }
           ]
-        },
-        // 分页信息
-        pageInfo: {
-          currentPage: 1,
-          total: 0,
-          pageSize: 10
         }
       }
-    },
-    computed: {
-      ...mapGetters('Platform', [
-        'userInfo',
-        'userClass',
-        'verifyPermission'
-      ])
     },
     methods: {
       // 执行查询
@@ -308,9 +314,9 @@
         }
         // 处理返回数据
         if (res.data.count && res.data.list && res.data.list.length) {
-          _t.$Message.success(res.msg || '查询列表成功！')
+          _t.$Message.success(res.msg)
         } else {
-          _t.$Message.info('暂无数据！')
+          _t.$Message.info(_t.$t('L00011'))
         }
         // 更新表格数据
         _t.tableData = res.data.list || []
@@ -330,11 +336,11 @@
             status: oldStatus ? 0 : 1
           })
           if (!res || res.code !== 200) {
-            _t.$Message.error(oldStatus ? '停用失败！' : '启用失败！')
+            _t.$Message.error(oldStatus ? _t.$t('L00137') : _t.$t('L00138'))
             return true
           }
           // 处理返回数据
-          _t.$Message.success(oldStatus ? '停用成功！' : '启用成功！')
+          _t.$Message.success(oldStatus ? _t.$t('L00139') : _t.$t('L00140'))
           return false
         } else {
           return true
@@ -362,8 +368,8 @@
         }
         // 删除列表中所选数据
         _t.$Modal.confirm({
-          title: '提示',
-          content: '确认删除所选数据吗？',
+          title: _t.$t('L00141'),
+          content: _t.$t('L00060'),
           onOk: async function () {
             let res = await _t.$store.dispatch('Apps/Roles/remove', [
               item.id
@@ -371,7 +377,7 @@
             if (!res || res.code !== 200) {
               return
             }
-            _t.$Message.info(res.msg || '删除数据成功！')
+            _t.$Message.info(res.msg)
             // 更新列表
             _t.initList()
           }

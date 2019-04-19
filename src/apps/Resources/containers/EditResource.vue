@@ -11,7 +11,7 @@
 <template>
   <Modal
     v-model="isShowModal"
-    :title="modalTitle[currentAction]"
+    :title="$t(modalTitle[currentAction])"
     :mask-closable="true"
     :closable="true"
     :width="900"
@@ -23,71 +23,74 @@
       :rules="modalFormRules"
       :label-width="120"
     >
-      <FormItem label="资源名称" prop="name">
-        <Input v-model="modalForm.name" placeholder="请输入资源名称（英文）" style="width: 400px;"></Input>
+      <FormItem :label="$t('L00018')" prop="name">
+        <Input v-model="modalForm.name" :placeholder="$t('L00019')" style="width: 400px;"></Input>
       </FormItem>
-      <FormItem label="资源标题" prop="title">
-        <Input v-model="modalForm.title" placeholder="请输入资源标题（中文/英文）" style="width: 400px;"></Input>
+      <FormItem :label="$t('L00020')" prop="title">
+        <Input v-model="modalForm.title" :placeholder="$t('L00021')" style="width: 400px;"></Input>
       </FormItem>
-      <FormItem label="资源描述" prop="description">
-        <Input v-model="modalForm.description" placeholder="请输入资源描述信息" type="textarea" :rows="4" style="width: 400px;"></Input>
+      <FormItem :label="$t('L00063')" prop="lang">
+        <Input v-model="modalForm.lang" :placeholder="$t('L00064')" style="width: 400px;"></Input>
       </FormItem>
-      <FormItem label="资源图标" prop="icon">
-        <Input v-model="modalForm.icon" placeholder="请输入资源图标" :icon="modalForm.icon" style="width: 200px;"></Input>
+      <FormItem :label="$t('L00022')" prop="description">
+        <Input v-model="modalForm.description" :placeholder="$t('L00023')" type="textarea" :rows="4" style="width: 400px;"></Input>
       </FormItem>
-      <FormItem label="父ID" prop="parent_id">
-        <InputNumber v-model="modalForm.parent_id" placeholder="请输入父节点ID，根节点为0" style="width: 200px;"></InputNumber>
+      <FormItem :label="$t('L00024')" prop="icon">
+        <Input v-model="modalForm.icon" :placeholder="$t('L00025')" :icon="modalForm.icon" style="width: 200px;"></Input>
       </FormItem>
-      <FormItem label="序号" prop="num">
-        <InputNumber v-model="modalForm.num" placeholder="请输入菜单顺序号，按升序排列" style="width: 200px;"></InputNumber>
+      <FormItem :label="$t('L00026')" prop="parent_id">
+        <InputNumber v-model="modalForm.parent_id" :placeholder="$t('L00058')" style="width: 200px;"></InputNumber>
       </FormItem>
-      <FormItem label="资源类别" prop="type">
+      <FormItem :label="$t('L00028')" prop="num">
+        <InputNumber v-model="modalForm.num" :placeholder="$t('L00061')" style="width: 200px;"></InputNumber>
+      </FormItem>
+      <FormItem :label="$t('L00030')" prop="type">
         <Radio-group v-model="modalForm.type" @on-change="handleResourceTypeChange">
           <Radio
             v-for="item in $X.config.resourceTypeList.filter(item => item.enable)"
             :key="item.name"
             :label="item.name"
           >
-            {{ item.label }}
+            {{ item.lang ? $t(item.lang) : item.label }}
           </Radio>
         </Radio-group>
       </FormItem>
-      <FormItem label="权限类别" prop="permission_type">
+      <FormItem :label="$t('L00031')" prop="permission_type">
         <CheckboxGroup v-model="modalForm.permission_type">
           <Checkbox
             v-for="(item, index) in permissionTypeList"
             :key="index"
             :label="item.key"
           >
-            <span>{{ item.label }}</span>
+            <span>{{ item.lang ? $t(item.lang) : item.label }}</span>
           </Checkbox>
         </CheckboxGroup>
       </FormItem>
-      <FormItem label="外链模块链接" prop="url" v-show="modalForm.type === 'module-link'">
-        <Input v-model="modalForm.url" placeholder="请输入外链模块连接"></Input>
+      <FormItem :label="$t('L00032')" prop="url" v-show="modalForm.type === 'module-link'">
+        <Input v-model="modalForm.url" :placeholder="$t('L00033')"></Input>
       </FormItem>
-      <FormItem label="新窗口打开" prop="target" v-show="modalForm.type === 'module-link'">
+      <FormItem :label="$t('L00034')"prop="target" v-show="modalForm.type === 'module-link'">
         <Radio-group v-model="modalForm.target">
-          <Radio :label="0">否</Radio>
-          <Radio :label="1">是</Radio>
+          <Radio :label="0">{{ $t('L00104') }}</Radio>
+          <Radio :label="1">{{ $t('L00103') }}</Radio>
         </Radio-group>
       </FormItem>
-      <FormItem label="状态" prop="enable">
+      <FormItem :label="$t('L00037')" prop="enable">
         <Radio-group v-model="modalForm.enable">
-          <Radio :label="0">停用</Radio>
-          <Radio :label="1">启用</Radio>
+          <Radio :label="0">{{ $t('L00106') }}</Radio>
+          <Radio :label="1">{{ $t('L00105') }}</Radio>
         </Radio-group>
       </FormItem>
-      <FormItem label="侧边栏显示" prop="sidebar" v-show="modalForm.type !== 'action'">
+      <FormItem :label="$t('L00040')" prop="sidebar" v-show="modalForm.type !== 'action'">
         <Radio-group v-model="modalForm.sidebar">
-          <Radio :label="0">隐藏</Radio>
-          <Radio :label="1">显示</Radio>
+          <Radio :label="0">{{ $t('L00108') }}</Radio>
+          <Radio :label="1">{{ $t('L00107') }}</Radio>
         </Radio-group>
       </FormItem>
     </Form>
     <div slot="footer">
-      <Button type="primary" :loading="doSaveLoading" @click="doSave">保存</Button>
-      <Button :loading="doResetLoading" @click="doReset">重置</Button>
+      <Button type="primary" :loading="doSaveLoading" @click="doSave">{{ $t('L00109') }}</Button>
+      <Button :loading="doResetLoading" @click="doReset">{{ $t('L00111') }}</Button>
     </div>
   </Modal>
 </template>
@@ -105,9 +108,9 @@
         currentAction: '',
         // 弹窗标题
         modalTitle: {
-          edit: '编辑',
-          add: '新增',
-          addChild: '新增子节点'
+          edit: 'L00123',
+          add: 'L00122',
+          addChild: 'L00062'
         },
         // 默认表单数据
         defModalForm: {
@@ -192,7 +195,7 @@
           validResult = valid
         })
         if (validResult !== undefined && !validResult) {
-          _t.$Message.error('表单验证失败！')
+          _t.$Message.error(_t.$t('L00136'))
           return
         }
         // 按action类别分别处理
@@ -216,7 +219,7 @@
           return
         }
         // 处理返回数据
-        _t.$Message.success(res.msg || '保存成功！')
+        _t.$Message.success(res.msg)
         // 关闭弹窗
         _t.handleCancel()
         // 刷新列表

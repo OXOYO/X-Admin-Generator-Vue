@@ -27,7 +27,9 @@
       },
       text: {
         type: String,
-        default: '暂无数据！'
+        default: function () {
+          return this.$t('L00011')
+        }
       }
     }
   }

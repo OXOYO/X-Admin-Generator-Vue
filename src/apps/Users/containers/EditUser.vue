@@ -33,29 +33,29 @@
       :rules="modalFormRules"
       :label-width="120"
     >
-      <FormItem label="账号" prop="account">
-        <Input v-model="modalForm.account" placeholder="请输入账号" style="width: 200px;"></Input>
+      <FormItem :label="$t('L00049')" prop="account">
+        <Input v-model="modalForm.account" :placeholder="$t('L00045')" style="width: 200px;"></Input>
       </FormItem>
-      <FormItem label="姓名" prop="name">
-        <Input v-model="modalForm.name" placeholder="请输入姓名" style="width: 200px;"></Input>
+      <FormItem :label="$t('L00050')" prop="name">
+        <Input v-model="modalForm.name" :placeholder="$t('L00046')" style="width: 200px;"></Input>
       </FormItem>
-      <FormItem label="级别" prop="type">
+      <FormItem :label="$t('L00055')" prop="type">
         <Radio-group v-model="modalForm.type">
           <Radio :label="0" v-if="userInfo && [0].includes(userInfo.type)">
             <Icon :type="userClass[0]['icon']"></Icon>
-            <span>超级管理员</span>
+            <span>{{ $t('L00127') }}</span>
           </Radio>
           <Radio :label="1" v-if="userInfo && [0].includes(userInfo.type)">
             <Icon :type="userClass[1]['icon']"></Icon>
-            <span>管理员</span>
+            <span>{{ $t('L00126') }}</span>
           </Radio>
           <Radio :label="2" v-if="userInfo && [0, 1].includes(userInfo.type)">
             <Icon :type="userClass[2]['icon']"></Icon>
-            <span>普通用户</span>
+            <span>{{ $t('L00125') }}</span>
           </Radio>
         </Radio-group>
       </FormItem>
-      <FormItem label="用户组" prop="group_id">
+      <FormItem :label="$t('L00056')" prop="group_id">
         <Select v-model="modalForm.group_id" multiple filterable :disabled="userInfo.type === 1 && !hasUserGroup" style="width: 300px;">
           <OptionGroup
             v-for="item in userGroupMap"
@@ -87,16 +87,16 @@
         </Select>
         <Alert v-if="userInfo.type === 1" class="notice" :type="hasUserGroup ? 'info' : 'error'" show-icon>{{ hasUserGroup ? '只可操作自己创建的用户组！' : '暂无可操作的用户组，请先创建用户组！' }}</Alert>
       </FormItem>
-      <FormItem label="状态" prop="status">
+      <FormItem :label="$t('L00037')" prop="status">
         <Radio-group v-model="modalForm.status">
-          <Radio :label="0">停用</Radio>
-          <Radio :label="1">启用</Radio>
+          <Radio :label="0">{{ $t('L00106') }}</Radio>
+          <Radio :label="1">{{ $t('L00105') }}</Radio>
         </Radio-group>
       </FormItem>
     </Form>
     <div slot="footer">
-      <Button type="primary" :loading="doSaveLoading" @click="doSave">保存</Button>
-      <Button :loading="doResetLoading" @click="doReset">重置</Button>
+      <Button type="primary" :loading="doSaveLoading" @click="doSave">{{ $t('L00109') }}</Button>
+      <Button :loading="doResetLoading" @click="doReset">{{ $t('L00111') }}</Button>
     </div>
   </Modal>
 </template>
@@ -180,7 +180,7 @@
           validResult = valid
         })
         if (validResult !== undefined && !validResult) {
-          _t.$Message.error('表单验证失败！')
+          _t.$Message.error(_t.$t('L00136'))
           return
         }
         let actionPath
@@ -205,7 +205,7 @@
           return
         }
         // 处理返回数据
-        _t.$Message.success(res.msg || '保存成功！')
+        _t.$Message.success(res.msg)
         // 关闭弹窗
         _t.handleCancel()
         // 刷新列表
@@ -262,9 +262,9 @@
         }
         // 处理返回数据
         if (res.data.count && res.data.list && res.data.list.length) {
-          _t.$Message.success(res.msg || '查询列表成功！')
+          _t.$Message.success(res.msg)
         } else {
-          _t.$Message.info('暂无数据！')
+          _t.$Message.info(_t.$t('L00011'))
         }
         // 更新数据
         let resList = res.data.list || []

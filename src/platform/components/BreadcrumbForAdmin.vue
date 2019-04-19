@@ -33,7 +33,6 @@
       breadcrumbList: function () {
         let _t = this
         let breadcrumbList = _t.handleBreadcrumbList(_t.activeMenuName)
-        console.log('breadcrumbList', breadcrumbList)
         return breadcrumbList
       }
     }),
@@ -75,7 +74,8 @@
             name: 'platform.admin.AdminIndex',
             path: '',
             title: '首页',
-            icon: 'home'
+            icon: 'home',
+            lang: 'R00001'
           })
         }
         // 反转

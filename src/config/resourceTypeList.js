@@ -9,21 +9,21 @@ export default [
   {
     name: 'module-system',
     label: '系统模块',
-    lang: 'C00017',
+    lang: 'L00117',
     color: '#ed3f14',
     enable: true
   },
   {
     name: 'module-app',
     label: '应用模块',
-    lang: 'C00018',
+    lang: 'L00118',
     color: '#ff9900',
     enable: true
   },
   {
     name: 'module-link',
     label: '外链模块',
-    lang: 'C00019',
+    lang: 'L00119',
     color: '#2d8cf0',
     enable: true
   }

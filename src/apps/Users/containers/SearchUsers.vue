@@ -35,10 +35,10 @@
       <FormItem>
         <CheckboxGroup v-model="searchForm.status">
           <Checkbox :label="1">
-            <span>{{ $t('C00005') }}</span>
+            <span>{{ $t('L00105') }}</span>
           </Checkbox>
           <Checkbox :label="0">
-            <span>{{ $t('C00006') }}</span>
+            <span>{{ $t('L00106') }}</span>
           </Checkbox>
         </CheckboxGroup>
       </FormItem>
@@ -46,15 +46,15 @@
         <CheckboxGroup v-model="searchForm.type">
           <Checkbox :label="2" v-if="userInfo && [0, 1].includes(userInfo.type)">
             <Icon :type="userClass[2]['icon']"></Icon>
-            <span>{{ $t('C00025') }}</span>
+            <span>{{ $t('L00125') }}</span>
           </Checkbox>
           <Checkbox :label="1" v-if="userInfo && [0].includes(userInfo.type)">
             <Icon :type="userClass[1]['icon']"></Icon>
-            <span>{{ $t('C00026') }}</span>
+            <span>{{ $t('L00126') }}</span>
           </Checkbox>
           <Checkbox :label="0" v-if="userInfo && [0].includes(userInfo.type)">
             <Icon :type="userClass[0]['icon']"></Icon>
-            <span>{{ $t('C00027') }}</span>
+            <span>{{ $t('L00127') }}</span>
           </Checkbox>
         </CheckboxGroup>
       </FormItem>
@@ -80,7 +80,7 @@
         </Select>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="doSearch">{{ $t('C00020') }}</Button>
+        <Button type="primary" @click="doSearch">{{ $t('L00120') }}</Button>
       </FormItem>
     </Form>
     <div class="clear"></div>
@@ -112,7 +112,7 @@
   export default {
     name: 'SearchUsers',
     data () {
-      let _t = this
+      // let _t = this
       return {
         searchForm: {
           keywords: '',
@@ -127,9 +127,30 @@
           createUserAccount: 'L00047',
           createUserName: 'L00048'
         },
-        tableColumns: [],
         tableData: [],
-        columnsMap: {
+        // 分页信息
+        pageInfo: {
+          currentPage: 1,
+          total: 0,
+          pageSize: 10
+        },
+        // 选中行信息
+        selectedRowData: [],
+        // 用户组列表
+        userGroupMap: [],
+        // 当前管理员是否有自己创建的角色
+        hasUserGroup: false
+      }
+    },
+    computed: {
+      ...mapGetters('Platform', [
+        'userInfo',
+        'userClass',
+        'verifyPermission'
+      ]),
+      columnsMap () {
+        let _t = this
+        return {
           field: [
             {
               type: 'index',
@@ -142,17 +163,17 @@
               sortable: true
             },
             {
-              title: '账号',
+              title: _t.$t('L00049'),
               key: 'account',
               sortable: true
             },
             {
-              title: '用户名',
+              title: _t.$t('L00054'),
               key: 'name',
               sortable: true
             },
             {
-              title: '级别',
+              title: _t.$t('L00055'),
               key: 'type',
               sortable: true,
               render: (h, params) => {
@@ -181,7 +202,7 @@
               }
             },
             {
-              title: '用户组',
+              title: _t.$t('L00056'),
               key: 'user_groups',
               render: (h, params) => {
                 let userGroupArr = params['row']['user_groups']
@@ -211,7 +232,7 @@
           ],
           time: [
             {
-              title: '创建时间',
+              title: _t.$t('L00043'),
               key: 'create_time',
               sortable: true,
               render: (h, params) => {
@@ -219,7 +240,7 @@
               }
             },
             {
-              title: '更新时间',
+              title: _t.$t('L00044'),
               key: 'update_time',
               sortable: true,
               render: (h, params) => {
@@ -229,7 +250,7 @@
           ],
           createUser: [
             {
-              title: '创建者',
+              title: _t.$t('L00057'),
               key: 'create_user_id',
               sortable: true,
               render: function (h, params) {
@@ -244,7 +265,7 @@
           ],
           status: [
             {
-              title: '启用/停用',
+              title: _t.$t('L00128'),
               key: 'status',
               render: function (h, params) {
                 return h('XSwitch',
@@ -260,10 +281,10 @@
                   [
                     h('span', {
                       slot: 'open'
-                    }, '启用'),
+                    }, _t.$t('L00105')),
                     h('span', {
                       slot: 'close'
-                    }, '停用')
+                    }, _t.$t('L00106'))
                   ]
                 )
               }
@@ -271,7 +292,7 @@
           ],
           action: [
             {
-              title: '操作',
+              title: _t.$t('L00129'),
               key: 'action',
               width: 180,
               render: (h, params) => {
@@ -289,7 +310,7 @@
                         _t.handleAction('edit', params.row)
                       }
                     }
-                  }, '编辑'),
+                  }, _t.$t('L00123')),
                   h('Button', {
                     props: {
                       type: 'error',
@@ -303,35 +324,37 @@
                         _t.handleAction('remove', params.row)
                       }
                     }
-                  }, '删除')
+                  }, _t.$t('L00124'))
                 ]
                 return h('div', btnArr)
               }
             }
           ]
-        },
-        // 分页信息
-        pageInfo: {
-          currentPage: 1,
-          total: 0,
-          pageSize: 10
-        },
-        // 选中行信息
-        selectedRowData: [],
-        // 用户组列表
-        userGroupMap: [],
-        // 当前管理员是否有自己创建的角色
-        hasUserGroup: false
+        }
+      },
+      tableColumns () {
+        let _t = this
+        let tableColumns = [
+          ..._t.columnsMap.field,
+          ..._t.columnsMap.createUser,
+          ..._t.columnsMap.status,
+          ..._t.columnsMap.time
+        ]
+        if (_t.verifyPermission(_t.$route.name, 1)) {
+          tableColumns = [
+            ...tableColumns,
+            ..._t.columnsMap.action
+          ]
+        }
+        return tableColumns
       }
     },
-    computed: {
-      ...mapGetters('Platform', [
-        'userInfo',
-        'userClass',
-        'verifyPermission'
-      ])
-    },
     methods: {
+      async init () {
+        let _t = this
+        // 获取用户角色列表
+        await _t.getUserGroupList()
+      },
       // 执行查询
       doSearch: function (event) {
         let _t = this
@@ -361,8 +384,6 @@
           // 根据用户type优雅降级
           // _t.handlerType(_t.userInfo)
         }
-        // 处理表格字段
-        _t.handleTableColumns()
         // 调接口，初始化数据
         _t.getAccountList()
       },
@@ -383,9 +404,9 @@
         }
         // 处理返回数据
         if (res.data.count && res.data.list && res.data.list.length) {
-          _t.$Message.success(res.msg || '查询用户列表成功！')
+          _t.$Message.success(res.msg)
         } else {
-          _t.$Message.info('暂无数据！')
+          _t.$Message.info(_t.$t('L00011'))
         }
         // 更新表格数据
         _t.tableData = res.data.list || []
@@ -405,11 +426,11 @@
             status: oldStatus ? 0 : 1
           })
           if (!res || res.code !== 200) {
-            _t.$Message.error(oldStatus ? '停用失败！' : '启用失败！')
+            _t.$Message.error(oldStatus ? _t.$t('L00137') : _t.$t('L00138'))
             return true
           }
           // 处理返回数据
-          _t.$Message.success(oldStatus ? '停用成功！' : '启用成功！')
+          _t.$Message.success(oldStatus ? _t.$t('L00139') : _t.$t('L00140'))
           return false
         } else {
           return true
@@ -433,7 +454,7 @@
         let _t = this
         // 删除用户列表中所选用户
         _t.$Modal.confirm({
-          title: '提示',
+          title: _t.$t('L00141'),
           content: '确认删除所选账号吗？',
           onOk: async function () {
             let res = await _t.$store.dispatch('Apps/Users/remove', [
@@ -442,7 +463,7 @@
             if (!res || res.code !== 200) {
               return
             }
-            _t.$Message.info(res.msg || '删除账号成功！')
+            _t.$Message.info(res.msg)
             // 更新账号列表
             _t.initAccountList()
           }
@@ -469,22 +490,6 @@
           }
         }
         _t.searchForm.type = type
-      },
-      handleTableColumns: function () {
-        let _t = this
-        let tableColumns = [
-          ..._t.columnsMap.field,
-          ..._t.columnsMap.createUser,
-          ..._t.columnsMap.status,
-          ..._t.columnsMap.time
-        ]
-        if (_t.verifyPermission(_t.$route.name, 1)) {
-          tableColumns = [
-            ...tableColumns,
-            ..._t.columnsMap.action
-          ]
-        }
-        _t.tableColumns = tableColumns
       },
       // 处理操作
       handleAction: function (action, item) {
@@ -514,9 +519,9 @@
         }
         // 处理返回数据
         if (res.data.count && res.data.list && res.data.list.length) {
-          _t.$Message.success(res.msg || '查询列表成功！')
+          _t.$Message.success(res.msg)
         } else {
-          _t.$Message.info('暂无数据！')
+          _t.$Message.info(_t.$t('L00011'))
         }
         // 更新数据
         let resList = res.data.list || []
@@ -541,6 +546,8 @@
     },
     created: async function () {
       let _t = this
+      // 初始化
+      _t.init()
       // 监听
       _t.$X.utils.bus.$on('Apps/Users/list/init', function () {
         // 初始化列表
@@ -550,8 +557,6 @@
         // 初始化列表
         _t.initAccountList()
       })
-      // 获取用户角色列表
-      await _t.getUserGroupList()
     },
     beforeDestroy: function () {
       let _t = this

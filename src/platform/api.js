@@ -25,15 +25,6 @@ export default {
       return res
     }
   },
-  components: {
-    // 获取bing壁纸
-    getBingWallpaper: async (data) => {
-      let res = await Vue.prototype.$X.http.get('/Platform/components/wallpaper/bing', {
-        params: data
-      })
-      return res
-    }
-  },
   resource: {
     // 获取完整资源列表
     getAllResourceList: async (data) => {

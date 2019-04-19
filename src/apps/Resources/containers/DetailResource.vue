@@ -72,20 +72,20 @@
         </FormItem>
         <FormItem v-else-if="key === 'target'" :label="$t('L00034')" prop="target" v-show="detailInfo.type === 'module-link'" :key="key + '_' + index">
           <Radio-group v-model="detailInfo.target">
-            <Radio :label="0" v-if="0 === detailInfo.target">{{ $t('C00004') }}</Radio>
-            <Radio :label="1" v-if="1 === detailInfo.target">{{ $t('C00003') }}</Radio>
+            <Radio :label="0" v-if="0 === detailInfo.target">{{ $t('L00104') }}</Radio>
+            <Radio :label="1" v-if="1 === detailInfo.target">{{ $t('L00103') }}</Radio>
           </Radio-group>
         </FormItem>
         <FormItem v-else-if="key === 'enable'" :label="$t('L00037')" prop="enable" :key="key + '_' + index">
           <Radio-group v-model="detailInfo.enable">
-            <Radio :label="0" v-if="0 === detailInfo.enable">{{ $t('C00006') }}</Radio>
-            <Radio :label="1" v-if="1 === detailInfo.enable">{{ $t('C00005') }}</Radio>
+            <Radio :label="0" v-if="0 === detailInfo.enable">{{ $t('L00106') }}</Radio>
+            <Radio :label="1" v-if="1 === detailInfo.enable">{{ $t('L00105') }}</Radio>
           </Radio-group>
         </FormItem>
         <FormItem v-else-if="key === 'sidebar'" :label="$t('L00040')" prop="sidebar" v-show="detailInfo.type !== 'action'" :key="key + '_' + index">
           <Radio-group v-model="detailInfo.sidebar">
-            <Radio :label="0" v-if="0 === detailInfo.sidebar">{{ $t('C00008') }}</Radio>
-            <Radio :label="1" v-if="1 === detailInfo.sidebar">{{ $t('C00007') }}</Radio>
+            <Radio :label="0" v-if="0 === detailInfo.sidebar">{{ $t('L00108') }}</Radio>
+            <Radio :label="1" v-if="1 === detailInfo.sidebar">{{ $t('L00107') }}</Radio>
           </Radio-group>
         </FormItem>
         <FormItem  v-else-if="key === 'create_time'" :label="$t('L00043')" prop="create_time" :key="key + '_' + index">
@@ -100,7 +100,7 @@
       </template>
     </Form>
     <div slot="footer">
-      <Button type="primary" @click="handleCancel">{{ $t('C00013') }}</Button>
+      <Button type="primary" @click="handleCancel">{{ $t('L00113') }}</Button>
     </div>
   </Modal>
 </template>

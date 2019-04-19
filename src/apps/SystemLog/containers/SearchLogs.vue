@@ -347,7 +347,7 @@
             validResult = valid
           })
           if (validResult !== undefined && !validResult) {
-            _t.$Message.error('表单验证失败！')
+            _t.$Message.error(_t.$t('L00136'))
             return
           }
         }
@@ -382,9 +382,9 @@
         }
         // 处理返回数据
         if (res.data && res.data.list && res.data.list.length) {
-          _t.$Message.success(res.msg || '查询日志列表成功！')
+          _t.$Message.success(res.msg)
         } else {
-          _t.$Message.info('暂无数据！')
+          _t.$Message.info(_t.$t('L00011'))
         }
         // 更新表格数据
         _t.tableData = res.data.list || []

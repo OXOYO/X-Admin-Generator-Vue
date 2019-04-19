@@ -9,21 +9,21 @@ export default [
   {
     key: 0,
     label: '读',
-    lang: 'C00014',
+    lang: 'L00114',
     resourceType: ['module-system', 'module-app'],
     enable: true
   },
   {
     key: 1,
     label: '写',
-    lang: 'C00015',
+    lang: 'L00115',
     resourceType: ['module-system', 'module-app'],
     enable: true
   },
   {
     key: 2,
     label: '访问',
-    lang: 'C00016',
+    lang: 'L00116',
     resourceType: ['module-link'],
     enable: true
   }
