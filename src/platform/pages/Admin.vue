@@ -324,6 +324,7 @@
     },
     computed: {
       ...mapState('Platform', {
+        userInfo: state => state.userInfo,
         background: state => state.background,
         resourceMap: state => state.admin.resourceMap,
         activeMenuName: state => state.admin.activeMenuName,
@@ -334,7 +335,17 @@
       },
       resourceTree () {
         let _t = this
-        let arr = _t.resourceMap['admin-sidebar']
+        let arr
+        // 按权限处理菜单显示
+        if (_t.userInfo && _t.userInfo.name) {
+          arr = _t.resourceMap['admin-sidebar']
+          if (_t.userInfo.type !== 0 && _t.userInfo.currentUserGroup) {
+            let userResourceList = _t.userInfo.currentUserGroup.resource_id.split(',')
+            arr = arr.filter(item => userResourceList.includes(item.id + ''))
+          }
+        } else {
+          arr = []
+        }
         let tree = []
         let handler = function (arr, parent) {
           for (let i = 0, len = arr.length; i < len; i++) {

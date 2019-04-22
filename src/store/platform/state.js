@@ -15,17 +15,23 @@ export default {
   userClass: [
     {
       type: 0,
+      enable: true,
       title: '超级管理员',
+      lang: 'L00127',
       icon: 'ios-people'
     },
     {
       type: 1,
+      enable: true,
       title: '管理员',
+      lang: 'L00126',
       icon: 'ios-person'
     },
     {
       type: 2,
+      enable: true,
       title: '普通用户',
+      lang: 'L00125',
       icon: 'ios-person-outline'
     }
   ],

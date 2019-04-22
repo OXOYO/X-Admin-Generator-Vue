@@ -20,7 +20,7 @@
     <Form
       ref="modalForm"
       :model="modalForm"
-      :rules="modalFormRules"
+      :rules="formRules"
       :label-width="120"
     >
       <FormItem :label="$t('L00018')" prop="name">
@@ -69,7 +69,7 @@
       <FormItem :label="$t('L00032')" prop="url" v-show="modalForm.type === 'module-link'">
         <Input v-model="modalForm.url" :placeholder="$t('L00033')"></Input>
       </FormItem>
-      <FormItem :label="$t('L00034')"prop="target" v-show="modalForm.type === 'module-link'">
+      <FormItem :label="$t('L00034')" prop="target" v-show="modalForm.type === 'module-link'">
         <Radio-group v-model="modalForm.target">
           <Radio :label="0">{{ $t('L00104') }}</Radio>
           <Radio :label="1">{{ $t('L00103') }}</Radio>
@@ -90,7 +90,7 @@
     </Form>
     <div slot="footer">
       <Button type="primary" :loading="doSaveLoading" @click="doSave">{{ $t('L00109') }}</Button>
-      <Button :loading="doResetLoading" @click="doReset">{{ $t('L00111') }}</Button>
+      <Button @click="doReset">{{ $t('L00111') }}</Button>
     </div>
   </Modal>
 </template>
@@ -128,49 +128,8 @@
         },
         // 表单数据
         modalForm: {},
-        // 表单校验规则
-        modalFormRules: {
-          title: [
-            {
-              required: true,
-              message: '请输入资源标题（中文/英文）',
-              trigger: 'blur'
-            }
-          ],
-          name: [
-            {
-              required: true,
-              message: '请输入资源名称（英文）',
-              trigger: 'blur'
-            }
-          ],
-          description: [
-            {
-              required: true,
-              message: '请输入资源描述',
-              trigger: 'blur'
-            }
-          ],
-          parent_id: [
-            {
-              required: true,
-              type: 'number',
-              message: '请输入父节点，根节点为0',
-              trigger: 'blur'
-            }
-          ],
-          permission_type: [
-            {
-              required: true,
-              type: 'array',
-              message: '请选择权限类别'
-            }
-          ]
-        },
         // 保存loading
         doSaveLoading: false,
-        // 重置loading
-        doResetLoading: false,
         // 备份数据
         backModalInfo: {}
       }
@@ -183,6 +142,41 @@
       permissionTypeList: function () {
         let _t = this
         return _t.$X.config.permissionTypeList.filter(item => item.enable && item.resourceType.includes(_t.modalForm.type))
+      },
+      // 表单校验规则
+      formRules () {
+        let _t = this
+        return {
+          title: [
+            {
+              required: true,
+              message: _t.$t('L00021'),
+              trigger: 'blur'
+            }
+          ],
+          name: [
+            {
+              required: true,
+              message: _t.$t('L00019'),
+              trigger: 'blur'
+            }
+          ],
+          parent_id: [
+            {
+              required: true,
+              type: 'number',
+              message: _t.$t('L00058'),
+              trigger: 'blur'
+            }
+          ],
+          permission_type: [
+            {
+              required: true,
+              type: 'array',
+              message: _t.$t('L00079')
+            }
+          ]
+        }
       }
     },
     methods: {
@@ -230,10 +224,8 @@
       // 执行重置
       doReset: function () {
         let _t = this
-        _t.doResetLoading = true
         // 初始化表单数据
         _t.initFormData()
-        _t.doResetLoading = false
       },
       // 初始化表单数据
       initFormData: function () {

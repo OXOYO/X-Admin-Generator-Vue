@@ -9,22 +9,23 @@
 <template>
   <div class="search-panel">
     <Tabs class="tabs-box" v-model="currentTab" @on-click="handleTabChange">
-      <Tab-pane label="模糊查询" name="fuzzyQuery">
+      <Tab-pane :label="$t('L00080')" name="fuzzyQuery">
         <Collapse v-model="currentActivePanel" class="search-form-collapse">
           <Panel name="searchForm">
-            <span class="panel-header">查询条件</span>
+            <span class="panel-header">{{ $t('L00082') }}</span>
             <Row slot="content">
               <Col :xs="24" :sm="24" :md="12" :lg="8">
                 <Form
                   class="search-form"
-                  :model="searchForm"
                   ref="fuzzyQuery"
+                  :model="searchForm"
+                  :rules="formRules.fuzzyQuery"
                   :label-width="120"
                   style="width: 500px;"
                   @submit.native.prevent
                 >
-                  <FormItem label="日志类别">
-                    <Select v-model="searchForm.logType" style="width: 200px;" placeholder="请选择日志类别">
+                  <FormItem :label="$t('L00084')">
+                    <Select v-model="searchForm.logType" style="width: 200px;" :placeholder="$t('L00085')">
                       <Option
                         v-for="item in logTypeList"
                         :value="item.name"
@@ -35,14 +36,14 @@
                       </Option>
                     </Select>
                   </FormItem>
-                  <FormItem label="日期">
-                    <DatePicker v-model="searchForm.date" type="date" transfer placeholder="请选择日期" style="width: 300px"></DatePicker>
+                  <FormItem :label="$t('L00086')" prop="date">
+                    <DatePicker v-model="searchForm.date" type="date" transfer :placeholder="$t('L00087')" style="width: 300px"></DatePicker>
                   </FormItem>
-                  <FormItem label="接口名称">
-                    <Input type="text" v-model="searchForm.origin" placeholder="请输入接口名称"></Input>
+                  <FormItem :label="$t('L00088')">
+                    <Input type="text" v-model="searchForm.origin" :placeholder="$t('L00089')"></Input>
                   </FormItem>
-                  <FormItem label="请求方式">
-                    <Select v-model="searchForm.method" multiple transfer style="width: 200px;" placeholder="请选择请求方式">
+                  <FormItem :label="$t('L00090')">
+                    <Select v-model="searchForm.method" multiple transfer style="width: 200px;" :placeholder="$t('L00091')">
                       <Option
                         v-for="item in methodList"
                         :value="item.value"
@@ -53,58 +54,54 @@
                       </Option>
                     </Select>
                   </FormItem>
-                  <FormItem label="响应状态">
-                    <Input type="text" v-model="searchForm.status" placeholder="请输入接口响应状态，多个请用英文逗号分隔"></Input>
+                  <FormItem :label="$t('L00092')">
+                    <Input type="text" v-model="searchForm.status" :placeholder="$t('L00093')"></Input>
                   </FormItem>
-                  <FormItem label="报文过滤">
+                  <FormItem :label="$t('L00094')">
                     <Input
                       v-model="searchForm.filterKeywords"
-                      placeholder="请输入关键词"
+                      :placeholder="$t('L00095')"
                       @on-enter.stop.prevent="doSearch"
                     >
                       <Select v-model="searchForm.filterType" slot="prepend" style="width: 120px">
-                        <Option value="request">request 报文</Option>
-                        <Option value="response">respons 报文</Option>
+                        <Option value="request">{{ $t('L00096') }}</Option>
+                        <Option value="response">{{ $t('L00097') }}</Option>
                       </Select>
                     </Input>
                   </FormItem>
-                  <FormItem label="用户过滤">
+                  <FormItem :label="$t('L00098')">
                     <Input
                       v-model="searchForm.filterUserKeywords"
-                      :placeholder="searchForm.filterUserType === 'account' ? '请输入OA账号' : '请输入姓名'"
+                      :placeholder="$t(placeholderMap[searchForm.filterUserType])"
                       @on-enter.stop.prevent="doSearch"
                     >
                       <Select v-model="searchForm.filterUserType" slot="prepend" style="width: 120px">
-                        <Option value="account">OA账号</Option>
-                        <Option value="name">姓名</Option>
+                        <Option value="account">{{ $t('L00049') }}</Option>
+                        <Option value="name">{{ $t('L00050') }}</Option>
                       </Select>
                     </Input>
                   </FormItem>
-                  <FormItem label="用户级别">
+                  <FormItem :label="$t('L00099')">
                     <CheckboxGroup v-model="searchForm.userType">
-                      <Checkbox :label="2">
-                        <Icon :type="userClass[2]['icon']"></Icon>
-                        <span>普通用户</span>
-                      </Checkbox>
-                      <Checkbox :label="1">
-                        <Icon :type="userClass[1]['icon']"></Icon>
-                        <span>管理员</span>
-                      </Checkbox>
-                      <Checkbox :label="0">
-                        <Icon :type="userClass[0]['icon']"></Icon>
-                        <span>超级管理员</span>
+                      <Checkbox
+                        v-for="(item, index) in userClass.filter(item => item.enable)"
+                        :key="index"
+                        :label="item.type"
+                      >
+                        <Icon :type="item.icon"></Icon>
+                        <span>{{ $t(item.lang) }}</span>
                       </Checkbox>
                     </CheckboxGroup>
                   </FormItem>
                   <FormItem>
-                    <Button type="primary" @click="() => doSearch(true)" :loading="doSearchLoading">查询</Button>
+                    <Button type="primary" @click="() => doSearch(true)" :loading="doSearchLoading">{{ $t('L00120') }}</Button>
                   </FormItem>
                 </Form>
               </Col>
             </Row>
           </Panel>
           <Panel name="searchResult">
-            <span class="panel-header">查询结果</span>
+            <span class="panel-header">{{ $t('L00083') }}</span>
             <div slot="content">
               <Table
                 class="search-form-table"
@@ -116,23 +113,23 @@
           </Panel>
         </Collapse>
       </Tab-pane>
-      <Tab-pane label="精确查询" name="exactQuery">
+      <Tab-pane :label="$t('L00081')" name="exactQuery">
         <Collapse v-model="currentActivePanel" class="search-form-collapse">
           <Panel name="searchForm">
-            <span class="panel-header">查询条件</span>
+            <span class="panel-header">{{ $t('L00082') }}</span>
             <Row slot="content">
               <Col :xs="24" :sm="24" :md="12" :lg="8">
                 <Form
                   class="search-form"
                   ref="exactQuery"
                   :model="searchForm"
-                  :rules="searchFormRules.exactQuery"
+                  :rules="formRules.exactQuery"
                   :label-width="120"
                   style="width: 500px;"
                   @submit.native.prevent
                 >
-                  <FormItem label="日志类别">
-                    <Select v-model="searchForm.logType" style="width: 200px;" placeholder="请选择日志类别">
+                  <FormItem :label="$t('L00084')">
+                    <Select v-model="searchForm.logType" style="width: 200px;" :placeholder="$t('L00085')">
                       <Option
                         v-for="item in logTypeList"
                         :value="item.name"
@@ -143,21 +140,21 @@
                       </Option>
                     </Select>
                   </FormItem>
-                  <FormItem label="日期">
-                    <DatePicker v-model="searchForm.date" type="date" transfer placeholder="请选择日期" style="width: 300px"></DatePicker>
+                  <FormItem :label="$t('L00086')" prop="date">
+                    <DatePicker v-model="searchForm.date" type="date" transfer :placeholder="$t('L00087')" style="width: 300px"></DatePicker>
                   </FormItem>
-                  <FormItem label="请求ID" prop="requestId">
-                    <Input type="text" v-model="searchForm.requestId" placeholder="请输入请求ID"></Input>
+                  <FormItem :label="$t('L000100')" prop="requestId">
+                    <Input type="text" v-model="searchForm.requestId" :placeholder="$t('L000142')"></Input>
                   </FormItem>
                   <FormItem>
-                    <Button type="primary" @click="() => doSearch(true)" :loading="doSearchLoading">查询</Button>
+                    <Button type="primary" @click="() => doSearch(true)" :loading="doSearchLoading">{{ $t('L00120') }}</Button>
                   </FormItem>
                 </Form>
               </Col>
             </Row>
           </Panel>
           <Panel name="searchResult">
-            <span class="panel-header">查询结果</span>
+            <span class="panel-header">{{ $t('L00083') }}</span>
             <div slot="content">
               <Table
                 class="search-form-table"
@@ -180,29 +177,11 @@
     name: 'SearchLogs',
     data () {
       let _t = this
-      let methodList = [
-        {
-          label: 'GET',
-          value: 'GET'
-        },
-        {
-          label: 'POST',
-          value: 'POST'
-        },
-        {
-          label: 'PUT',
-          value: 'PUT'
-        },
-        {
-          label: 'DELETE',
-          value: 'DELETE'
-        },
-        {
-          label: 'OPTIONS',
-          value: 'OPTIONS'
-        }
-      ]
       return {
+        placeholderMap: {
+          account: 'L00045',
+          name: 'L00046'
+        },
         searchForm: {
           filterKeywords: '',
           filterType: 'request',
@@ -217,17 +196,78 @@
           requestId: ''
         },
         doSearchLoading: false,
-        searchFormRules: {
+        tableData: [],
+        // 选中行信息
+        selectedRowData: [],
+        logTypeList: [
+          {
+            name: 'error'
+          },
+          {
+            name: 'result'
+          }
+        ],
+        methodList: [
+          {
+            label: 'GET',
+            value: 'GET'
+          },
+          {
+            label: 'POST',
+            value: 'POST'
+          },
+          {
+            label: 'PUT',
+            value: 'PUT'
+          },
+          {
+            label: 'DELETE',
+            value: 'DELETE'
+          },
+          {
+            label: 'OPTIONS',
+            value: 'OPTIONS'
+          }
+        ],
+        // 当前激活的面板
+        currentActivePanel: ['searchForm', 'searchResult'],
+        currentTab: 'fuzzyQuery'
+      }
+    },
+    computed: {
+      ...mapState('Platform', {
+        userClass: state => state.userClass
+      }),
+      formRules () {
+        let _t = this
+        return {
+          fuzzyQuery: {
+            date: [
+              {
+                required: true,
+                message: _t.$t('L00087')
+              }
+            ],
+          },
           exactQuery: {
+            date: [
+              {
+                required: true,
+                message: _t.$t('L00087')
+              }
+            ],
             requestId: [
               {
                 required: true,
-                message: '请输入请求ID'
+                message: _t.$t('L000142')
               }
             ]
           }
-        },
-        tableColumns: [
+        }
+      },
+      tableColumns () {
+        let _t = this
+        return [
           {
             type: 'index',
             width: 60,
@@ -252,7 +292,7 @@
           {
             title: 'method',
             key: 'method',
-            filters: methodList,
+            filters: _t.methodList,
             // filterMultiple: false,
             filterMethod: (value, row) => {
               return row.method === value
@@ -274,16 +314,16 @@
             }
           },
           {
-            title: 'responseStatus',
+            title: _t.$t('L00092'),
             key: 'responseStatus'
           },
           {
-            title: 'responseTime',
+            title: _t.$t('L000142'),
             key: 'responseTime',
             sortable: true
           },
           {
-            title: 'create_at',
+            title: _t.$t('L00043'),
             key: 'create_at',
             sortable: true,
             render: (h, params) => {
@@ -291,9 +331,9 @@
             }
           },
           {
-            title: '操作',
+            title: _t.$t('L00129'),
             key: 'action',
-            width: 80,
+            width: 100,
             render: (h, params) => {
               let btnArr = [
                 h('Button', {
@@ -308,48 +348,26 @@
                       _t.handleAction('detail', params.row)
                     }
                   }
-                }, '详情')
+                }, _t.$t('L00017'))
               ]
               return h('div', btnArr)
             }
           }
-        ],
-        tableData: [],
-        // 选中行信息
-        selectedRowData: [],
-        logTypeList: [
-          {
-            name: 'error'
-          },
-          {
-            name: 'result'
-          }
-        ],
-        methodList: methodList,
-        // 当前激活的面板
-        currentActivePanel: ['searchForm', 'searchResult'],
-        currentTab: 'fuzzyQuery'
+        ]
       }
-    },
-    computed: {
-      ...mapState('Platform', {
-        userClass: state => state.userClass
-      })
     },
     methods: {
       // 执行查询
       doSearch: function (isShowResutl) {
         let _t = this
-        if (_t.currentTab === 'exactQuery') {
-          // 校验结果
-          let validResult
-          _t.$refs['exactQuery'].validate((valid) => {
-            validResult = valid
-          })
-          if (validResult !== undefined && !validResult) {
-            _t.$Message.error(_t.$t('L00136'))
-            return
-          }
+        // 校验结果
+        let validResult
+        _t.$refs[_t.currentTab].validate((valid) => {
+          validResult = valid
+        })
+        if (validResult !== undefined && !validResult) {
+          _t.$Message.error(_t.$t('L00136'))
+          return
         }
         if (isShowResutl) {
           _t.currentActivePanel = ['searchResult']
@@ -410,8 +428,11 @@
         _t.tableData = []
         // 重置面板
         _t.currentActivePanel = ['searchForm', 'searchResult']
+        // 清空校验
+        _t.$refs[_t.currentTab].resetFields()
         // 重置searchForm
         _t.resetSearchForm()
+
       },
       resetSearchForm: function () {
         let _t = this
@@ -434,10 +455,6 @@
     created: async function () {
       let _t = this
       // 监听
-      _t.$X.utils.bus.$on('Apps/SystemLog/list/init', function () {
-        // 初始化列表
-        // _t.initList(true)
-      })
       _t.$X.utils.bus.$on('Apps/SystemLog/list/refresh', function () {
         // 初始化列表
         _t.initList()
@@ -446,7 +463,6 @@
     beforeDestroy: function () {
       let _t = this
       // 销毁监听
-      _t.$X.utils.bus.$off('Apps/SystemLog/list/init')
       _t.$X.utils.bus.$off('Apps/SystemLog/list/refresh')
     }
   }

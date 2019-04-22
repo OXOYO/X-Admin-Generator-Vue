@@ -12,7 +12,7 @@
   <Modal
     class="detail-modal"
     v-model="isShowModal"
-    :title="'日志详情：' + detailInfo.requestId"
+    :title="$t('L00017') + ' ' + detailInfo.requestId"
     :mask-closable="true"
     :closable="true"
     :width="900"
@@ -32,7 +32,7 @@
       </FormItem>
     </Form>
     <div slot="footer">
-      <Button type="primary" @click="handleCancel">关闭</Button>
+      <Button type="primary" @click="handleCancel">{{ $t('L00113') }}</Button>
     </div>
   </Modal>
 </template>
@@ -52,13 +52,6 @@
       init: function (detailInfo) {
         let _t = this
         _t.detailInfo = detailInfo
-        // setTimeout(function () {
-        //   Object.keys(_t.$refs).map(key => {
-        //     if (_t.$refs[key] && _t.$refs[key][0].render) {
-        //       _t.$refs[key][0].render()
-        //     }
-        //   })
-        // }, 0)
       },
       // 关闭弹窗
       handleCancel: function () {

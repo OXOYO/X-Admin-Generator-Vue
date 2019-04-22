@@ -77,7 +77,6 @@
   export default {
     name: 'SearchRoles',
     data () {
-      let _t = this
       return {
         // 过滤方式提示语
         filterTypeLabel: {

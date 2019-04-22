@@ -44,17 +44,13 @@
       </FormItem>
       <FormItem>
         <CheckboxGroup v-model="searchForm.type">
-          <Checkbox :label="2" v-if="userInfo && [0, 1].includes(userInfo.type)">
-            <Icon :type="userClass[2]['icon']"></Icon>
-            <span>{{ $t('L00125') }}</span>
-          </Checkbox>
-          <Checkbox :label="1" v-if="userInfo && [0].includes(userInfo.type)">
-            <Icon :type="userClass[1]['icon']"></Icon>
-            <span>{{ $t('L00126') }}</span>
-          </Checkbox>
-          <Checkbox :label="0" v-if="userInfo && [0].includes(userInfo.type)">
-            <Icon :type="userClass[0]['icon']"></Icon>
-            <span>{{ $t('L00127') }}</span>
+          <Checkbox
+            v-for="(item, index) in userClass.filter(item => item.enable && item.type >= userInfo.type)"
+            :key="index"
+            :label="item.type"
+          >
+            <Icon :type="item.icon"></Icon>
+            <span>{{ $t(item.lang) }}</span>
           </Checkbox>
         </CheckboxGroup>
       </FormItem>
@@ -72,7 +68,7 @@
               v-for="groupItem in item.list"
               :value="groupItem.id"
               :key="groupItem.id"
-              :label="groupItem.title + ' ' + item.createUser.name + ' ' + item.createUser.account"
+              :label="groupItem.name + ' ' + item.createUser.name + ' ' + item.createUser.account"
             >
               {{ groupItem.lang ? $t(groupItem.lang) : groupItem.name }}
             </Option>

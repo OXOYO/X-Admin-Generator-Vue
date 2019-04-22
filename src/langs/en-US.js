@@ -70,12 +70,43 @@ export default {
   L00061: 'Please enter the menu sequence number, in ascending order',
   L00062: 'Add child node',
   L00063: 'i18n',
-  L00063: 'Please enter a i18n key',
+  L00064: 'Please enter a i18n key',
   L00065: 'Description',
   L00066: 'Resource',
   L00067: 'Please enter user group',
   L00068: 'Resource ID',
   L00069: 'Please enter the resource ID',
+  L00070: 'User Group Description',
+  L00071: 'Please enter the user group description',
+  L00072: 'First level menu',
+  L00073: 'Secondary menu',
+  L00074: 'Three-level menu',
+  L00075: 'Four Level Menu',
+  L00076: 'Five-level menu',
+  L00077: 'Permission',
+  L00078: 'Please select at least one resource',
+  L00079: 'Please select the permission category',
+  L00080: 'Fuzzy query',
+  L00081: 'Exact query',
+  L00082: 'Query condition',
+  L00083: 'Query result',
+  L00084: 'Log category',
+  L00085: 'Please select the log category',
+  L00086: 'Date',
+  L00087: 'Please select the date',
+  L00088: 'interface name',
+  L00089: 'Please enter the interface name',
+  L00090: 'Request mode',
+  L00091: 'Please select the request method',
+  L00092: 'Response status',
+  L00093: 'Please enter the interface response status, please separate the comma with multiples',
+  L00094: 'Message filtering',
+  L00095: 'Please enter keywords',
+  L00096: 'request message',
+  L00097: 'respons message',
+  L00098: 'User Filtering',
+  L00099: 'User level',
+  L000100: 'Request ID',
 
   L00101: 'Success',
   L00102: 'Failed',
@@ -117,5 +148,14 @@ export default {
   L00138: 'Enable failed! ',
   L00139: 'Deactivated successfully! ',
   L00140: 'Enable success! ',
-  L00141: 'Hint'
+  L00141: 'Hint',
+
+  L000142: 'Please enter the request ID',
+  L000142: 'Response time',
+
+  el: {
+    table: {
+      emptyText: 'No data!'
+    }
+  }
 }

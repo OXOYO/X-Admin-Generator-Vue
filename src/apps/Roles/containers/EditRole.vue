@@ -29,22 +29,22 @@
     <Form
       ref="modalForm"
       :model="modalForm"
-      :rules="modalFormRules"
+      :rules="formRules"
       :label-width="120"
     >
-      <FormItem label="用户组名称" prop="title">
-        <Input v-model="modalForm.title" placeholder="请输入用户组名称" style="width: 400px"></Input>
+      <FormItem :label="$t('L00056')" prop="name">
+        <Input v-model="modalForm.name" :placeholder="$t('L00067')" style="width: 400px"></Input>
       </FormItem>
-      <FormItem label="用户组描述" prop="description">
-        <Input v-model="modalForm.description" placeholder="请输入用户组描述信息" type="textarea" :rows="4" style="width: 400px"></Input>
+      <FormItem :label="$t('L00070')" prop="description">
+        <Input v-model="modalForm.description" :placeholder="$t('L00071')" type="textarea" :rows="4" style="width: 400px"></Input>
       </FormItem>
-      <FormItem label="状态" prop="status">
+      <FormItem :label="$t('L00037')" prop="status">
         <Radio-group v-model="modalForm.status">
-          <Radio :label="0">停用</Radio>
-          <Radio :label="1">启用</Radio>
+          <Radio :label="0">{{ $t('L00106') }}</Radio>
+          <Radio :label="1">{{ $t('L00105') }}</Radio>
         </Radio-group>
       </FormItem>
-      <FormItem label="资源">
+      <FormItem :label="$t('L00066')">
         <ElTable
           class="table-card"
           :data="rowList"
@@ -53,39 +53,42 @@
         >
           <ElTableColumn
             prop="title"
-            label="一级菜单"
+            :label="$t('L00072')"
           >
             <template slot-scope="scope">
               <span v-if="scope.row.parent_id === 0">
                 <div class="circle" :style="{ 'background-color': handleResourceTypeTag(scope.row, 'color') }">{{ scope.row.id }}</div>
-                {{ scope.row.title }}
+                {{ scope.row.lang ? $t(scope.row.lang) : scope.row.title }}
               </span>
               <span v-else>
                 <div class="circle" :style="{ 'background-color': handleResourceTypeTag(scope.row.parent, 'color') }">{{ scope.row.parent.id }}</div>
-                {{ scope.row.parent.title }}
+                {{ scope.row.parent.lang ? $t(scope.row.parent.lang) : scope.row.parent.title }}
               </span>
             </template>
           </ElTableColumn>
           <ElTableColumn
             prop="second"
-            label="二级菜单">
+            :label="$t('L00073')"
+          >
             <template slot-scope="scope">
               <span v-if="scope.row.parent_id != 0">
                 <div class="circle" :style="{ 'background-color': handleResourceTypeTag(scope.row, 'color') }">{{ scope.row.id }}</div>
-                {{ scope.row.title }}
+                {{ scope.row.lang ? $t(scope.row.lang) : scope.row.title }}
               </span>
             </template>
           </ElTableColumn>
           <ElTableColumn
             prop="type"
-            label="资源类别">
+            :label="$t('L00030')"
+          >
             <template slot-scope="scope">
-              <Tag :color="handleResourceTypeTag(scope.row, 'color')">{{ handleResourceTypeTag(scope.row, 'label') }}</Tag>
+              <Tag :color="handleResourceTypeTag(scope.row, 'color')">{{ $t(handleResourceTypeTag(scope.row, 'lang')) }}</Tag>
             </template>
           </ElTableColumn>
           <ElTableColumn
             prop="permission"
-            label="读写权限">
+            :label="$t('L00077')"
+          >
             <template slot-scope="scope">
               <CheckboxGroup v-model="scope.row.permission" @on-change="(val) => handlePermissionChange(val, scope.$index)">
                 <Checkbox
@@ -93,7 +96,7 @@
                   :key="index"
                   :label="item.key"
                 >
-                 {{ item.label }}
+                  {{ item.lang ? $t(item.lang) : item.label }}
                 </Checkbox>
               </CheckboxGroup>
             </template>
@@ -102,8 +105,8 @@
       </FormItem>
     </Form>
     <div slot="footer">
-      <Button type="primary" :loading="doSaveLoading" @click="doSave">保存</Button>
-      <Button :loading="doResetLoading" @click="doReset">重置</Button>
+      <Button type="primary" :loading="doSaveLoading" @click="doSave">{{ $t('L00109') }}</Button>
+      <Button @click="doReset">{{ $t('L00111') }}</Button>
     </div>
   </Modal>
 </template>
@@ -121,7 +124,7 @@
         currentAction: '',
         // 默认表单数据
         defModalForm: {
-          title: '',
+          name: '',
           description: '',
           status: 1,
           resource_id: '',
@@ -129,36 +132,8 @@
         },
         // 表单数据
         modalForm: {},
-        // 表单校验规则
-        modalFormRules: {
-          title: [
-            {
-              required: true,
-              message: '请填写用户组名称',
-              trigger: 'blur'
-            }
-          ],
-          description: [
-            {
-              // required: true,
-              message: '请填写用户组描述信息',
-              trigger: 'blur'
-            }
-          ],
-          resource_id: [
-            {
-              required: true,
-              type: 'array',
-              min: 1,
-              message: '请至少选择一个资源',
-              trigger: 'change'
-            }
-          ]
-        },
         // 保存loading
         doSaveLoading: false,
-        // 重置loading
-        doResetLoading: false,
         // 备份数据
         backModalInfo: {},
         // 资源列表数据
@@ -170,7 +145,36 @@
     computed: {
       ...mapState('Platform', {
         userInfo: state => state.userInfo
-      })
+      }),
+      // 表单校验规则
+      formRules () {
+        let _t = this
+        return {
+          title: [
+            {
+              required: true,
+              message: _t.$t('L00067'),
+              trigger: 'blur'
+            }
+          ],
+          description: [
+            {
+              // required: true,
+              message: _t.$t('L00071'),
+              trigger: 'blur'
+            }
+          ],
+          resource_id: [
+            {
+              required: true,
+              type: 'array',
+              min: 1,
+              message: _t.$t('L00078'),
+              trigger: 'change'
+            }
+          ]
+        }
+      }
     },
     methods: {
       // 执行保存
@@ -189,12 +193,19 @@
         let resourceIdList = []
         _t.rowList.map(item => {
           if (item.permission.length) {
+            // 查找父节点
+            if (item.parent_id) {
+              if (!resourceIdList.includes(item.parent_id)) {
+                resourceIdList.push(item.parent_id)
+                // FIXME 父节点默认只有读权限
+                permissionList.push([item.parent_id, 0].join('|'))
+              }
+            }
             let tmpArr = [item.id, ...item.permission]
             resourceIdList.push(item.id)
             permissionList.push(tmpArr.join('|'))
           }
         })
-        _t.doSaveLoading = false
         let actionPath
         let payload = {
           ..._t.modalForm,
@@ -227,10 +238,8 @@
       // 执行重置
       doReset: function () {
         let _t = this
-        _t.doResetLoading = true
         // 初始化表单数据
         _t.initFormData()
-        _t.doResetLoading = false
       },
       // 初始化表单数据
       initFormData: function () {

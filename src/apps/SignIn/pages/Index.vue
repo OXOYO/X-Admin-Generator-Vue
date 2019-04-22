@@ -50,7 +50,7 @@
       <!--<div class="login-title">{{ $X.config.system.subtitle }}</div>-->
     </div>
     <div class="login-modal-body">
-      <Form class="login-form" ref="signInForm" :model="signInForm" :rules="signInFormRules">
+      <Form class="login-form" ref="signInForm" :model="signInForm" :rules="formRules">
         <Form-item prop="account">
           <Input type="text" v-model="signInForm.account" :placeholder="$t('L00003')">
             <Icon type="md-person" slot="prepend" style="font-size: 16px;"></Icon>
@@ -90,7 +90,7 @@
       }
     },
     computed: {
-      signInFormRules () {
+      formRules () {
         let _t = this
         return {
           account: [

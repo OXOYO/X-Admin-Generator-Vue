@@ -34,28 +34,28 @@
       :label-width="120"
     >
       <template v-for="(key, index) in Object.keys(detailInfo).filter(k => !['_index', '_rowKey'].includes(k))">
-        <FormItem v-if="key === 'title'" label="用户组名称" prop="title" :key="key + '_' + index">
-          <Input v-model="detailInfo.title" placeholder="用户组名称" readonly style="width: 400px;"></Input>
+        <FormItem v-if="key === 'name'" :label="$t('L00056')" prop="name" :key="key + '_' + index">
+          <Input v-model="detailInfo.name" readonly style="width: 400px;"></Input>
         </FormItem>
-        <FormItem v-else-if="key === 'description'" label="用户组描述" prop="description" :key="key + '_' + index">
-          <Input v-model="detailInfo.description" placeholder="用户组描述" type="textarea" :rows="4" readonly style="width: 400px;"></Input>
+        <FormItem v-else-if="key === 'description'" :label="$t('L00070')" prop="description" :key="key + '_' + index">
+          <Input v-model="detailInfo.description" type="textarea" :rows="4" readonly style="width: 400px;"></Input>
         </FormItem>
-        <FormItem v-else-if="key === 'status'" label="状态" prop="status" :key="key + '_' + index">
+        <FormItem v-else-if="key === 'status'" :label="$t('L00037')" prop="status" :key="key + '_' + index">
           <Radio-group v-model="detailInfo.status">
-            <Radio :label="0" v-if="0 === detailInfo.status">停用</Radio>
-            <Radio :label="1" v-if="1 === detailInfo.status">启用</Radio>
+            <Radio :label="0" v-if="0 === detailInfo.status">{{ $t('L00106') }}</Radio>
+            <Radio :label="1" v-if="1 === detailInfo.status">{{ $t('L00105') }}</Radio>
           </Radio-group>
         </FormItem>
-        <FormItem v-else-if="key === 'create_user'" label="创建人" prop="url" :key="key + '_' + index">
+        <FormItem v-else-if="key === 'create_user'" :label="$t('L00057')" prop="url" :key="key + '_' + index">
           <span>{{ detailInfo.create_user.name }} {{ detailInfo.create_user.account }}</span>
         </FormItem>
-        <FormItem  v-else-if="key === 'create_time'" label="创建时间" prop="create_time" :key="key + '_' + index">
+        <FormItem  v-else-if="key === 'create_time'" :label="$t('L00043')" prop="create_time" :key="key + '_' + index">
           <div>{{ $X.moment(detailInfo[key]).format('YYYY-MM-DD hh:mm:ss') }}</div>
         </FormItem>
-        <FormItem  v-else-if="key === 'update_time'" label="更新时间" prop="update_time" :key="key + '_' + index">
+        <FormItem  v-else-if="key === 'update_time'" :label="$t('L00044')" prop="update_time" :key="key + '_' + index">
           <div>{{ $X.moment(detailInfo[key]).format('YYYY-MM-DD hh:mm:ss') }}</div>
         </FormItem>
-        <FormItem v-else-if="key === 'resource_id'" label="资源" :key="key + '_' + index">
+        <FormItem v-else-if="key === 'resource_id'" :label="$t('L00066')" :key="key + '_' + index">
           <ElTable
             class="table-card"
             :data="rowList"
@@ -64,48 +64,51 @@
           >
             <ElTableColumn
               prop="title"
-              label="一级菜单"
+              :label="$t('L00072')"
             >
               <template slot-scope="scope">
               <span v-if="scope.row.parent_id === 0">
                 <div class="circle" :style="{ 'background-color': handleResourceTypeTag(scope.row, 'color') }">{{ scope.row.id }}</div>
-                {{ scope.row.title }}
+                {{ scope.row.lang ? $t(scope.row.lang) : scope.row.title }}
               </span>
-                <span v-else>
+              <span v-else>
                 <div class="circle" :style="{ 'background-color': handleResourceTypeTag(scope.row.parent, 'color') }">{{ scope.row.parent.id }}</div>
-                {{ scope.row.parent.title }}
+                {{ scope.row.parent.lang ? $t(scope.row.parent.lang) : scope.row.parent.title }}
               </span>
               </template>
             </ElTableColumn>
             <ElTableColumn
               prop="second"
-              label="二级菜单">
+              :label="$t('L00073')"
+            >
               <template slot-scope="scope">
               <span v-if="scope.row.parent_id != 0">
                 <div class="circle" :style="{ 'background-color': handleResourceTypeTag(scope.row, 'color') }">{{ scope.row.id }}</div>
-                {{ scope.row.title }}
+                {{ scope.row.lang ? $t(scope.row.lang) : scope.row.title }}
               </span>
               </template>
             </ElTableColumn>
             <ElTableColumn
               prop="type"
-              label="资源类别">
+              :label="$t('L00030')"
+            >
               <template slot-scope="scope">
-                <Tag :color="handleResourceTypeTag(scope.row, 'color')">{{ handleResourceTypeTag(scope.row, 'label') }}</Tag>
+                <Tag :color="handleResourceTypeTag(scope.row, 'color')">{{ $t(handleResourceTypeTag(scope.row, 'lang')) }}</Tag>
               </template>
             </ElTableColumn>
             <ElTableColumn
               prop="permission"
-              label="读写权限">
+              :label="$t('L00077')"
+            >
               <template slot-scope="scope">
                 <CheckboxGroup v-if="scope.row.permission.length" v-model="scope.row.permission" style="position: relative;">
                   <div class="mask-disabled" @click.stop.prevent></div>
                   <Checkbox
-                    v-for="(item, index) in $X.config.permissionTypeList.filter(item.enable && scope.row.permission_type.includes(item.key) && scope.row.permission.includes(item.key))"
+                    v-for="(item, index) in $X.config.permissionTypeList.filter(item => item.enable && scope.row.permission_type.includes(item.key) && scope.row.permission.includes(item.key))"
                     :key="index"
                     :label="item.key"
                   >
-                    {{ item.label }}
+                    {{ item.lang ? $t(item.lang) : item.label }}
                   </Checkbox>
                 </CheckboxGroup>
                 <span v-else>-</span>
@@ -116,7 +119,7 @@
       </template>
     </Form>
     <div slot="footer">
-      <Button type="primary" @click="handleCancel">关闭</Button>
+      <Button type="primary" @click="handleCancel">{{ $t('L00113') }}</Button>
     </div>
   </Modal>
 </template>

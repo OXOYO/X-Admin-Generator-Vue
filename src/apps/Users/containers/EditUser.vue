@@ -41,17 +41,13 @@
       </FormItem>
       <FormItem :label="$t('L00055')" prop="type">
         <Radio-group v-model="modalForm.type">
-          <Radio :label="0" v-if="userInfo && [0].includes(userInfo.type)">
-            <Icon :type="userClass[0]['icon']"></Icon>
-            <span>{{ $t('L00127') }}</span>
-          </Radio>
-          <Radio :label="1" v-if="userInfo && [0].includes(userInfo.type)">
-            <Icon :type="userClass[1]['icon']"></Icon>
-            <span>{{ $t('L00126') }}</span>
-          </Radio>
-          <Radio :label="2" v-if="userInfo && [0, 1].includes(userInfo.type)">
-            <Icon :type="userClass[2]['icon']"></Icon>
-            <span>{{ $t('L00125') }}</span>
+          <Radio
+            v-for="(item, index) in userClass.filter(item => item.enable && item.type >= userInfo.type)"
+            :key="index"
+            :label="item.type"
+          >
+            <Icon :type="item.icon"></Icon>
+            <span>{{ $t(item.lang) }}</span>
           </Radio>
         </Radio-group>
       </FormItem>
@@ -96,7 +92,7 @@
     </Form>
     <div slot="footer">
       <Button type="primary" :loading="doSaveLoading" @click="doSave">{{ $t('L00109') }}</Button>
-      <Button :loading="doResetLoading" @click="doReset">{{ $t('L00111') }}</Button>
+      <Button @click="doReset">{{ $t('L00111') }}</Button>
     </div>
   </Modal>
 </template>
@@ -154,8 +150,6 @@
         },
         // 保存loading
         doSaveLoading: false,
-        // 重置loading
-        doResetLoading: false,
         // 备份数据
         backModalInfo: {},
         // 用户组列表
@@ -214,10 +208,8 @@
       // 执行重置
       doReset: function () {
         let _t = this
-        _t.doResetLoading = true
         // 初始化表单数据
         _t.initFormData()
-        _t.doResetLoading = false
       },
       // 初始化表单数据
       initFormData: function () {

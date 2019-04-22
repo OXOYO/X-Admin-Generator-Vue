@@ -74,7 +74,7 @@
 <template>
   <Modal
     v-model="isShowModal"
-    title="排序"
+    :title="$t('L00130')"
     :mask-closable="true"
     :closable="true"
     @on-cancel="handleCancel"
@@ -89,7 +89,7 @@
         :key="item.name"
       >
         <InputNumber class="item-num" v-model="item.num"></InputNumber>
-        <div class="item-title">{{ item.id}} {{ item.title }}</div>
+        <div class="item-title">{{ item.id}} {{ item.lang ? $t(item.lang) : item.title }}</div>
         <div
           v-if="item.resources.children && item.resources.children.length"
           :class="{ 'handler': true, 'handler-open': item.expand }"
@@ -107,14 +107,14 @@
             :key="childItem.name"
           >
             <InputNumber class="item-num" v-model="childItem.num"></InputNumber>
-            <div class="item-title">{{ childItem.id}} {{ childItem.title }}</div>
+            <div class="item-title">{{ childItem.id}} {{ childItem.lang ? $t(childItem.lang) : childItem.title }}</div>
           </div>
         </div>
       </div>
     </div>
     <div slot="footer">
-      <Button type="primary" :loading="doSaveLoading" @click="doSave">保存</Button>
-      <Button :loading="doResetLoading" @click="doReset">重置</Button>
+      <Button type="primary" :loading="doSaveLoading" @click="doSave">{{ $t('L00109') }}</Button>
+      <Button @click="doReset">{{ $t('L00111') }}</Button>
     </div>
   </Modal>
 </template>
@@ -133,8 +133,6 @@
         resourceList: [],
         // 保存loading
         doSaveLoading: false,
-        // 重置loading
-        doResetLoading: false,
         // 备份数据
         backModalInfo: {}
       }
@@ -193,7 +191,6 @@
         // 分发action，调接口
         let res = await _t.$store.dispatch('Apps/Resources/list/all', {
           enable: [1],
-          sidebar: [1],
           type: ['module-system', 'module-app', 'module-link']
         })
         if (!res || res.code !== 200) {
@@ -241,6 +238,7 @@
         }
         getNum(_t.menuMap.children)
         // 分发action，执行保存
+        _t.doSaveLoading = true
         let res = await _t.$store.dispatch('Apps/Resources/sort', tmpArr)
         _t.doSaveLoading = false
         if (!res || res.code !== 200) {
