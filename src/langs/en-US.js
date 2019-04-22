@@ -13,6 +13,7 @@ export default {
   R00006: 'About',
   R00007: 'System',
   R00008: 'System Log',
+  R00009: 'Settings',
   // System text
   L00001: 'SigIn',
   L00002: 'About',
@@ -149,9 +150,15 @@ export default {
   L00139: 'Deactivated successfully! ',
   L00140: 'Enable success! ',
   L00141: 'Hint',
-
-  L000142: 'Please enter the request ID',
-  L000142: 'Response time',
+  L00142: 'Please enter the request ID',
+  L00143: 'Response time',
+  L00144: 'Resource Directory',
+  L00145: 'Please enter the resource directory',
+  L00148: 'The foreground is implicit',
+  L00149: 'Foreground navigation',
+  L00150: 'Backstage implicit',
+  L00151: 'Background navigation',
+  L00152: 'Backstage sidebar',
 
   el: {
     table: {

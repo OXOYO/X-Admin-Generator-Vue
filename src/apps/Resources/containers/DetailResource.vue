@@ -38,6 +38,9 @@
         <FormItem v-else-if="key === 'icon'" :label="$t('L00024')" prop="icon" :key="key + '_' + index">
           <Input v-model="detailInfo.icon" :placeholder="$t('L00025')" :icon="detailInfo.icon" readonly style="width: 200px;"></Input>
         </FormItem>
+        <FormItem v-else-if="key === 'dir'" :label="$t('L00144')" prop="dir" :key="key + '_' + index">
+          <Input v-model="detailInfo.dir" :placeholder="$t('L00145')" readonly style="width: 400px;"></Input>
+        </FormItem>
         <FormItem v-else-if="key === 'parent_id'" :label="$t('L00026')" prop="parent_id" :key="key + '_' + index">
           <Input v-model="detailInfo.parent_id" :placeholder="$t('L00027')" readonly style="width: 200px;"></Input>
         </FormItem>
@@ -82,11 +85,17 @@
             <Radio :label="1" v-if="1 === detailInfo.enable">{{ $t('L00105') }}</Radio>
           </Radio-group>
         </FormItem>
-        <FormItem v-else-if="key === 'sidebar'" :label="$t('L00040')" prop="sidebar" v-show="detailInfo.type !== 'action'" :key="key + '_' + index">
-          <Radio-group v-model="detailInfo.sidebar">
-            <Radio :label="0" v-if="0 === detailInfo.sidebar">{{ $t('L00108') }}</Radio>
-            <Radio :label="1" v-if="1 === detailInfo.sidebar">{{ $t('L00107') }}</Radio>
-          </Radio-group>
+        <FormItem v-else-if="key === 'position'" :label="$t('L00146')" prop="position" :key="key + '_' + index">
+          <CheckboxGroup v-model="detailInfo.position">
+            <div class="mask-disabled" @click.stop.prevent></div>
+            <Checkbox
+              v-for="(item, index) in positionTypeList"
+              :key="index"
+              :label="item.name"
+            >
+              <span>{{ item.lang ? $t(item.lang) : item.label }}</span>
+            </Checkbox>
+          </CheckboxGroup>
         </FormItem>
         <FormItem  v-else-if="key === 'create_time'" :label="$t('L00043')" prop="create_time" :key="key + '_' + index">
           <div>{{ $X.moment(detailInfo[key]).format('YYYY-MM-DD hh:mm:ss') }}</div>
@@ -126,6 +135,10 @@
       permissionTypeList: function () {
         let _t = this
         return _t.$X.config.permissionTypeList.filter(item => item.enable && item.resourceType.includes(_t.detailInfo.type) && _t.detailInfo.permission_type.includes(item.key))
+      },
+      positionTypeList: function () {
+        let _t = this
+        return _t.$X.config.positionTypeList.filter(item => item.enable)
       }
     },
     methods: {

@@ -144,7 +144,7 @@
                     <DatePicker v-model="searchForm.date" type="date" transfer :placeholder="$t('L00087')" style="width: 300px"></DatePicker>
                   </FormItem>
                   <FormItem :label="$t('L000100')" prop="requestId">
-                    <Input type="text" v-model="searchForm.requestId" :placeholder="$t('L000142')"></Input>
+                    <Input type="text" v-model="searchForm.requestId" :placeholder="$t('L00142')"></Input>
                   </FormItem>
                   <FormItem>
                     <Button type="primary" @click="() => doSearch(true)" :loading="doSearchLoading">{{ $t('L00120') }}</Button>
@@ -176,7 +176,6 @@
   export default {
     name: 'SearchLogs',
     data () {
-      let _t = this
       return {
         placeholderMap: {
           account: 'L00045',
@@ -247,7 +246,7 @@
                 required: true,
                 message: _t.$t('L00087')
               }
-            ],
+            ]
           },
           exactQuery: {
             date: [
@@ -259,7 +258,7 @@
             requestId: [
               {
                 required: true,
-                message: _t.$t('L000142')
+                message: _t.$t('L00142')
               }
             ]
           }
@@ -318,7 +317,7 @@
             key: 'responseStatus'
           },
           {
-            title: _t.$t('L000142'),
+            title: _t.$t('L00143'),
             key: 'responseTime',
             sortable: true
           },
@@ -432,7 +431,6 @@
         _t.$refs[_t.currentTab].resetFields()
         // 重置searchForm
         _t.resetSearchForm()
-
       },
       resetSearchForm: function () {
         let _t = this

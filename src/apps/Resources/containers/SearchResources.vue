@@ -408,6 +408,13 @@
           } else {
             item.permission_type = []
           }
+          // 处理position
+          if (item.position) {
+            let tmpArr = item.position.split(',')
+            item.position = tmpArr.map(val => parseInt(val))
+          } else {
+            item.position = []
+          }
           return item
         })
         // 更新表格数据

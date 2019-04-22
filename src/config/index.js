@@ -8,10 +8,12 @@ import cookie from './cookie'
 import system from './system'
 import resourceTypeList from './resourceTypeList'
 import permissionTypeList from './permissionTypeList'
+import positionTypeList from './positionTypeList'
 
 export default {
   cookie,
   system,
   resourceTypeList,
-  permissionTypeList
+  permissionTypeList,
+  positionTypeList
 }

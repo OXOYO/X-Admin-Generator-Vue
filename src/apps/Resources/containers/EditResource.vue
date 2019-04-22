@@ -38,6 +38,9 @@
       <FormItem :label="$t('L00024')" prop="icon">
         <Input v-model="modalForm.icon" :placeholder="$t('L00025')" :icon="modalForm.icon" style="width: 200px;"></Input>
       </FormItem>
+      <FormItem :label="$t('L00144')" prop="dir">
+        <Input v-model="modalForm.dir" :placeholder="$t('L00145')" style="width: 400px;"></Input>
+      </FormItem>
       <FormItem :label="$t('L00026')" prop="parent_id">
         <InputNumber v-model="modalForm.parent_id" :placeholder="$t('L00058')" style="width: 200px;"></InputNumber>
       </FormItem>
@@ -81,11 +84,23 @@
           <Radio :label="1">{{ $t('L00105') }}</Radio>
         </Radio-group>
       </FormItem>
-      <FormItem :label="$t('L00040')" prop="sidebar" v-show="modalForm.type !== 'action'">
+      <!-- TODO 调整sidebar为position -->
+      <FormItem :label="$t('L00040')" prop="sidebar">
         <Radio-group v-model="modalForm.sidebar">
           <Radio :label="0">{{ $t('L00108') }}</Radio>
           <Radio :label="1">{{ $t('L00107') }}</Radio>
         </Radio-group>
+      </FormItem>
+      <FormItem :label="$t('L00146')" prop="position">
+        <CheckboxGroup v-model="modalForm.position">
+          <Checkbox
+            v-for="(item, index) in positionTypeList"
+            :key="index"
+            :label="item.name"
+          >
+            <span>{{ item.lang ? $t(item.lang) : item.label }}</span>
+          </Checkbox>
+        </CheckboxGroup>
       </FormItem>
     </Form>
     <div slot="footer">
@@ -117,6 +132,7 @@
           title: '',
           name: '',
           icon: '',
+          dir: '',
           parent_id: 0,
           num: 0,
           type: 'module-app',
@@ -124,7 +140,8 @@
           target: 0,
           permission_type: [],
           enable: 1,
-          sidebar: 1
+          sidebar: 1,
+          position: ''
         },
         // 表单数据
         modalForm: {},
@@ -142,6 +159,10 @@
       permissionTypeList: function () {
         let _t = this
         return _t.$X.config.permissionTypeList.filter(item => item.enable && item.resourceType.includes(_t.modalForm.type))
+      },
+      positionTypeList: function () {
+        let _t = this
+        return _t.$X.config.positionTypeList.filter(item => item.enable)
       },
       // 表单校验规则
       formRules () {
@@ -206,7 +227,8 @@
         _t.doSaveLoading = true
         let res = await _t.$store.dispatch(actionPath, {
           ..._t.modalForm,
-          permission_type: _t.modalForm.permission_type.join(',')
+          permission_type: _t.modalForm.permission_type.join(','),
+          position: _t.modalForm.position.join(',')
         })
         _t.doSaveLoading = false
         if (!res || res.code !== 200) {
@@ -237,7 +259,8 @@
           let backModalInfo = _t.backModalInfo.info instanceof Object ? JSON.parse(JSON.stringify(_t.backModalInfo.info)) : _t.backModalInfo.info
           _t.modalForm = {
             ...defModalForm,
-            ...backModalInfo
+            ...backModalInfo,
+            position: backModalInfo.position ? backModalInfo.position.split(',') : []
           }
         } else {
           _t.modalForm = {
