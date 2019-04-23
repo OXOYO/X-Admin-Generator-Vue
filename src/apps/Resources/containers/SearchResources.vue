@@ -56,6 +56,18 @@
         </CheckboxGroup>
       </FormItem>
       <FormItem>
+        <Select v-model="searchForm.position" clearable style="width: 200px;" :placeholder="$t('L00147')">
+          <Option
+            v-for="(item, index) in positionTypeList"
+            :value="item.name"
+            :key="index"
+            :label="item.lang ? $t(item.lang) : item.label"
+          >
+            <span>{{ item.lang ? $t(item.lang) : item.label }}</span>
+          </Option>
+        </Select>
+      </FormItem>
+      <FormItem>
         <Button type="primary" @click="doSearch">{{ $t('L00120') }}</Button>
       </FormItem>
     </Form>
@@ -111,7 +123,8 @@
           keywords: '',
           filterType: 'title',
           enable: [],
-          type: []
+          type: [],
+          position: ''
         },
         tableData: [],
         // 分页信息
@@ -128,6 +141,10 @@
         'userClass',
         'verifyPermission'
       ]),
+      positionTypeList: function () {
+        let _t = this
+        return _t.$X.config.positionTypeList.filter(item => item.enable)
+      },
       tableColumns () {
         let _t = this
         return [
@@ -372,7 +389,8 @@
             keywords: '',
             filterType: 'title',
             enable: [],
-            type: []
+            type: [],
+            position: ''
           }
         }
         // 调接口，初始化数据
@@ -384,10 +402,7 @@
         let res = await _t.$store.dispatch('Apps/Resources/list', {
           currentPage: _t.pageInfo.currentPage,
           pageSize: _t.pageInfo.pageSize,
-          keywords: _t.searchForm.keywords,
-          filterType: _t.searchForm.filterType,
-          enable: _t.searchForm.enable,
-          type: _t.searchForm.type
+          ..._t.searchForm
         })
         if (!res || res.code !== 200) {
           return
@@ -411,7 +426,7 @@
           // 处理position
           if (item.position) {
             let tmpArr = item.position.split(',')
-            item.position = tmpArr.map(val => parseInt(val))
+            item.position = tmpArr
           } else {
             item.position = []
           }
@@ -430,10 +445,9 @@
           let item = _t.tableData[index]
           // 准备参数执行状态更新
           let res = await _t.$store.dispatch('Apps/Resources/edit', {
-            ...item,
+            id: item.id,
             // 0 否 1 是
-            target: oldStatus ? 0 : 1,
-            permission_type: item.permission_type.join(',')
+            target: oldStatus ? 0 : 1
           })
           if (!res || res.code !== 200) {
             _t.$Message.error(res.msg)
@@ -442,7 +456,7 @@
           // 处理返回数据
           _t.$Message.success(res.msg)
           // 刷新侧边栏
-          _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
+          // _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
           return false
         } else {
           return true
@@ -456,10 +470,9 @@
           let item = _t.tableData[index]
           // 准备参数执行状态更新
           let res = await _t.$store.dispatch('Apps/Resources/edit', {
-            ...item,
+            id: item.id,
             // 0 停用 1 启用
-            enable: oldStatus ? 0 : 1,
-            permission_type: item.permission_type.join(',')
+            enable: oldStatus ? 0 : 1
           })
           if (!res || res.code !== 200) {
             _t.$Message.error(oldStatus ? _t.$t('L00137') : _t.$t('L00138'))
@@ -468,7 +481,7 @@
           // 处理返回数据
           _t.$Message.success(oldStatus ? _t.$t('L00139') : _t.$t('L00140'))
           // 刷新侧边栏
-          _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
+          // _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
           return false
         } else {
           return true

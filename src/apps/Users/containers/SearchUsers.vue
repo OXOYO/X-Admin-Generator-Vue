@@ -389,11 +389,7 @@
         let res = await _t.$store.dispatch('Apps/Users/list', {
           currentPage: _t.pageInfo.currentPage,
           pageSize: _t.pageInfo.pageSize,
-          keywords: _t.searchForm.keywords,
-          filterType: _t.searchForm.filterType,
-          status: _t.searchForm.status,
-          type: _t.searchForm.type,
-          group_id: _t.searchForm.group_id
+          ..._t.searchForm
         })
         if (!res || res.code !== 200) {
           return
@@ -417,7 +413,7 @@
           let item = _t.tableData[index]
           // 准备参数执行状态更新
           let res = await _t.$store.dispatch('Apps/Users/edit', {
-            ...item,
+            id: item.id,
             // 0 停用 1 启用
             status: oldStatus ? 0 : 1
           })

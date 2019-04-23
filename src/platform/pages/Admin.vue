@@ -235,7 +235,6 @@
                 v-if="item.children && item.children.length"
                 @on-click="triggerMenu"
                 class="collased-menu-dropdown"
-                transfer
                 :key="index"
                 :placement="item.placement ? item.placement : 'right-end'"
               >
@@ -263,7 +262,6 @@
               </Dropdown>
               <Tooltip
                 v-else
-                transfer
                 :content="item.lang ? $t(item.lang) : item.title"
                 placement="right"
                 :key="`drop-menu-${item.name}`"
@@ -544,6 +542,9 @@
     created () {
       let _t = this
       _t.init()
+      // _t.$X.utils.bus.$on('Platform/Sidebar/refresh', function () {
+      //   window.location.reload()
+      // })
     },
     mounted () {
       let _t = this

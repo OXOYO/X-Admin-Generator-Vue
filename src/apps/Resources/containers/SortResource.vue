@@ -251,7 +251,7 @@
         // 刷新列表
         _t.$X.utils.bus.$emit('Apps/Resources/list/refresh')
         // 刷新侧边栏
-        _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
+        // _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
       },
       doReset: function () {}
     },

@@ -84,13 +84,6 @@
           <Radio :label="1">{{ $t('L00105') }}</Radio>
         </Radio-group>
       </FormItem>
-      <!-- TODO 调整sidebar为position -->
-      <FormItem :label="$t('L00040')" prop="sidebar">
-        <Radio-group v-model="modalForm.sidebar">
-          <Radio :label="0">{{ $t('L00108') }}</Radio>
-          <Radio :label="1">{{ $t('L00107') }}</Radio>
-        </Radio-group>
-      </FormItem>
       <FormItem :label="$t('L00146')" prop="position">
         <CheckboxGroup v-model="modalForm.position">
           <Checkbox
@@ -140,7 +133,6 @@
           target: 0,
           permission_type: [],
           enable: 1,
-          sidebar: 1,
           position: ''
         },
         // 表单数据
@@ -241,7 +233,7 @@
         // 刷新列表
         _t.$X.utils.bus.$emit('Apps/Resources/list/refresh')
         // 刷新侧边栏
-        _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
+        // _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
       },
       // 执行重置
       doReset: function () {
@@ -259,8 +251,7 @@
           let backModalInfo = _t.backModalInfo.info instanceof Object ? JSON.parse(JSON.stringify(_t.backModalInfo.info)) : _t.backModalInfo.info
           _t.modalForm = {
             ...defModalForm,
-            ...backModalInfo,
-            position: backModalInfo.position ? backModalInfo.position.split(',') : []
+            ...backModalInfo
           }
         } else {
           _t.modalForm = {

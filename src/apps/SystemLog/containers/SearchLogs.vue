@@ -37,13 +37,13 @@
                     </Select>
                   </FormItem>
                   <FormItem :label="$t('L00086')" prop="date">
-                    <DatePicker v-model="searchForm.date" type="date" transfer :placeholder="$t('L00087')" style="width: 300px"></DatePicker>
+                    <DatePicker v-model="searchForm.date" type="date" :placeholder="$t('L00087')" style="width: 300px"></DatePicker>
                   </FormItem>
                   <FormItem :label="$t('L00088')">
                     <Input type="text" v-model="searchForm.origin" :placeholder="$t('L00089')"></Input>
                   </FormItem>
                   <FormItem :label="$t('L00090')">
-                    <Select v-model="searchForm.method" multiple transfer style="width: 200px;" :placeholder="$t('L00091')">
+                    <Select v-model="searchForm.method" multiple style="width: 200px;" :placeholder="$t('L00091')">
                       <Option
                         v-for="item in methodList"
                         :value="item.value"
@@ -141,7 +141,7 @@
                     </Select>
                   </FormItem>
                   <FormItem :label="$t('L00086')" prop="date">
-                    <DatePicker v-model="searchForm.date" type="date" transfer :placeholder="$t('L00087')" style="width: 300px"></DatePicker>
+                    <DatePicker v-model="searchForm.date" type="date" :placeholder="$t('L00087')" style="width: 300px"></DatePicker>
                   </FormItem>
                   <FormItem :label="$t('L000100')" prop="requestId">
                     <Input type="text" v-model="searchForm.requestId" :placeholder="$t('L00142')"></Input>
