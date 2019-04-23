@@ -17,4 +17,37 @@
 ## 账号
 
 超级管理员：root 123123
+
 管理员：admin 123123
+
+## 配套API
+
+[X-Admin-API-Generator-Koa](https://github.com/OXOYO/X-Admin-API-Generator-Koa)
+
+## 特点
+
+- [x] 基于RBAC的管理系统，已实现用户管理、资源管理、角色管理、日志查询。
+- [x] 同构，Vue + Koa。
+- [x] 前后端模块化，各功能模块高度解耦，独立开发。
+- [x] 前后端国际化。
+- [x] 接口RestFul。
+
+## 预览
+
+![](./docs/images/20190423150822001.png)
+
+![](./docs/images/20190423150822002.png)
+
+![](./docs/images/20190423150822003.png)
+
+![](./docs/images/20190423150822004.png)
+
+![](./docs/images/20190423150822005.png)
+
+![](./docs/images/20190423150822006.png)
+
+## TODO
+
+v2.x
+- [ ] TODO示例模块开发
+- [ ] 基于v2.x开发Blog系统
