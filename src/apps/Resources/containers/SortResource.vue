@@ -250,8 +250,8 @@
         _t.handleCancel()
         // 刷新列表
         _t.$X.utils.bus.$emit('Apps/Resources/list/refresh')
-        // 刷新侧边栏
-        // _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
+        // 刷新页面
+        _t.$X.utils.bus.$emit('Platform/Admin/refresh')
       },
       doReset: function () {}
     },

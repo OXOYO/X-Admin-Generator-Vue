@@ -123,31 +123,6 @@
         },
         // 表单数据
         modalForm: {},
-        // 表单校验规则
-        modalFormRules: {
-          account: [
-            {
-              required: true,
-              message: '请填写账号',
-              trigger: 'blur'
-            }
-          ],
-          name: [
-            {
-              required: true,
-              message: '请填写用户名',
-              trigger: 'blur'
-            }
-          ],
-          group_id: [
-            {
-              type: 'array',
-              // required: true,
-              message: '请选择用户组',
-              trigger: 'change'
-            }
-          ]
-        },
         // 保存loading
         doSaveLoading: false,
         // 备份数据
@@ -162,7 +137,35 @@
       ...mapState('Platform', {
         userInfo: state => state.userInfo,
         userClass: state => state.userClass
-      })
+      }),
+      // 表单校验规则
+      modalFormRules () {
+        let _t = this
+        return {
+          account: [
+            {
+              required: true,
+              message: _t.$t('L00045'),
+              trigger: 'blur'
+            }
+          ],
+          name: [
+            {
+              required: true,
+              message: _t.$t('L00046'),
+              trigger: 'blur'
+            }
+          ],
+          group_id: [
+            {
+              type: 'array',
+              // required: true,
+              message: _t.$t('L00053'),
+              trigger: 'change'
+            }
+          ]
+        }
+      }
     },
     methods: {
       // 执行保存

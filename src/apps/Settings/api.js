@@ -2,4 +2,15 @@
  * Created by OXOYO on 2017/12/5.
  */
 
-export default {}
+import Vue from 'vue'
+const $X = Vue.prototype.$X
+
+export default {
+  Profile: {
+    // 编辑账号
+    doEdit: async (data) => {
+      let res = await $X.http.post('/Settings/Profile/edit', data)
+      return res
+    }
+  }
+}

@@ -2,4 +2,13 @@
  * Created by OXOYO on 2017/12/5.
  */
 
-export default {}
+// 导入api
+import Api from '../api'
+
+export default {
+  'Profile/edit': async ({ commit }, payload) => {
+    // 调接口
+    let res = await Api.Profile.doEdit(payload)
+    return res
+  }
+}

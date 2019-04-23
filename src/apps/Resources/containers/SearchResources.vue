@@ -455,8 +455,8 @@
           }
           // 处理返回数据
           _t.$Message.success(res.msg)
-          // 刷新侧边栏
-          // _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
+          // 刷新页面
+          _t.$X.utils.bus.$emit('Platform/Admin/refresh')
           return false
         } else {
           return true
@@ -480,8 +480,8 @@
           }
           // 处理返回数据
           _t.$Message.success(oldStatus ? _t.$t('L00139') : _t.$t('L00140'))
-          // 刷新侧边栏
-          // _t.$X.utils.bus.$emit('Platform/Sidebar/refresh')
+          // 刷新页面
+          _t.$X.utils.bus.$emit('Platform/Admin/refresh')
           return false
         } else {
           return true

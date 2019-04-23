@@ -14,19 +14,35 @@
 
 <template>
   <div class="main-content-box">
-    TODO MainContent {{ currentActiveName }}
+    <component :is="currentComponent"></component>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
 
+  import EditProfile from '../components/EditProfile'
+  import EditAccount from '../components/EditAccount'
+
   export default {
     name: 'MainContent',
     computed: {
       ...mapState('Apps/Settings', {
         currentActiveName: state => state.currentActiveName
-      })
+      }),
+      currentComponent () {
+        let _t = this
+        let component
+        switch (_t.currentActiveName) {
+          case 'profile':
+            component = EditProfile
+            break
+          case 'account':
+            component = EditAccount
+            break
+        }
+        return component
+      }
     }
   }
 </script>

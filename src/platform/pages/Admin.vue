@@ -542,9 +542,11 @@
     created () {
       let _t = this
       _t.init()
-      // _t.$X.utils.bus.$on('Platform/Sidebar/refresh', function () {
-      //   window.location.reload()
-      // })
+      _t.$X.utils.bus.$on('Platform/Admin/refresh', function () {
+        setTimeout(function () {
+          window.location.reload()
+        }, 500)
+      })
     },
     mounted () {
       let _t = this
