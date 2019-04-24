@@ -1,15 +1,10 @@
 /**
-* Created by OXOYO on 2017/12/5.
-*
-* SigIn 应用根组件
-*/
-/**
 * Created by OXOYO on 2019/4/4.
 *
 * SignIn
 */
 
-<style scoped lang="less" rel="stylesheet/less">
+<style lang="less" rel="stylesheet/less">
   .login-modal {
     .login-modal-header {
       height: auto;
@@ -31,6 +26,21 @@
     }
     .login-modal-body {
       .login-form {
+        text-align: center;
+
+        .form-item {
+          margin: 24px auto 0;
+        }
+        input {
+          // 解决chrome下表单自动填充导致的input框黄底问题
+          &:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+          }
+        }
+        .ivu-input-group-append,
+        .ivu-input-group-prepend {
+          background: #fff;
+        }
       }
     }
   }
@@ -47,19 +57,15 @@
   >
     <div slot="header" class="login-modal-header">
       <img class="login-logo" :src="$X.config.system.logo" :alt="$X.config.system.title">
-      <!--<div class="login-title">{{ $X.config.system.subtitle }}</div>-->
     </div>
     <div class="login-modal-body">
       <Form class="login-form" ref="signInForm" :model="signInForm" :rules="formRules">
         <Form-item prop="account">
-          <Input type="text" v-model="signInForm.account" :placeholder="$t('L00003')">
-            <Icon type="md-person" slot="prepend" style="font-size: 16px;"></Icon>
-          </Input>
+          <Input type="text" v-model="signInForm.account" :placeholder="$t('L00003')"></Input>
         </Form-item>
         <Form-item prop="password">
           <Input :type="passwordInputType" v-model="signInForm.password" :placeholder="$t('L00005')" @on-enter="handleSignIn">
-            <Icon type="md-lock" slot="prepend" style="font-size: 16px;"></Icon>
-            <Button slot="append" :icon="passwordInputType === 'password' ? 'md-eye' : 'md-eye-off'" style="font-size: 16px; line-height: 1;" @click="showPassword"></Button>
+            <Button slot="append" :icon="passwordInputType === 'password' ? 'md-eye' : 'md-eye-off'" @click="showPassword"></Button>
           </Input>
         </Form-item>
       </Form>
