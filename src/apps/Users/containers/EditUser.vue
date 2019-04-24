@@ -45,7 +45,7 @@
       <FormItem :label="$t('L00055')" prop="type">
         <Radio-group v-model="modalForm.type">
           <Radio
-            v-for="(item, index) in userClass.filter(item => item.enable && item.type >= userInfo.type)"
+            v-for="(item, index) in userClass.filter(item => item.enable && (userInfo.type === 0 || item.type > userInfo.type))"
             :key="index"
             :label="item.type"
           >
@@ -55,7 +55,7 @@
         </Radio-group>
       </FormItem>
       <FormItem :label="$t('L00056')" prop="group_id">
-        <Select v-model="modalForm.group_id" multiple filterable :disabled="userInfo.type === 1 && !hasUserGroup" style="width: 300px;">
+        <Select v-model="modalForm.group_id" multiple filterable style="width: 300px;">
           <OptionGroup
             v-for="item in userGroupMap"
             :label="item.createUser.name + ' ' + item.createUser.account"
@@ -72,7 +72,6 @@
             </Option>
           </OptionGroup>
         </Select>
-        <Alert v-if="userInfo.type === 1" class="notice" :type="hasUserGroup ? 'info' : 'error'" show-icon>{{ hasUserGroup ? '只可操作自己创建的用户组！' : '暂无可操作的用户组，请先创建用户组！' }}</Alert>
       </FormItem>
       <FormItem :label="$t('L00037')" prop="status">
         <Radio-group v-model="modalForm.status">
@@ -120,7 +119,7 @@
         // 备份数据
         backModalInfo: {},
         // 用户组列表
-        userGroupMap: [],
+        userGroupMap: {},
         // 当前管理员是否有自己创建的角色
         hasUserGroup: false
       }
@@ -279,10 +278,15 @@
           }
           userGroupMap[item.create_user_id].list.push(item)
         }
-        _t.userGroupMap = userGroupMap
-        // 判断用户类别
-        if (_t.userInfo.type === 1) {
-          _t.hasUserGroup = _t.userGroupMap.hasOwnProperty(_t.userInfo.id)
+        // 依据当前用户类别处理用户组
+        if (_t.userInfo.type === 0) {
+          _t.userGroupMap = userGroupMap
+        } else if (_t.userInfo.type === 1) {
+          _t.userGroupMap = {}
+          _t.userGroupMap[_t.userInfo.id] = userGroupMap[_t.userInfo.id] || {
+            createUser: _t.userInfo,
+            list: []
+          }
         }
       }
     },

@@ -56,7 +56,6 @@
       </FormItem>
       <FormItem
         prop="group_id"
-        v-show="Object.keys(userGroupMap).length && (userInfo.type === 0 || (userInfo.type === 1 && !hasUserGroup))"
       >
         <Select v-model="searchForm.group_id" clearable style="width: 200px;" :placeholder="$t('L00053')">
           <OptionGroup
@@ -133,9 +132,7 @@
         // 选中行信息
         selectedRowData: [],
         // 用户组列表
-        userGroupMap: [],
-        // 当前管理员是否有自己创建的角色
-        hasUserGroup: false
+        userGroupMap: {}
       }
     },
     computed: {
@@ -529,10 +526,15 @@
           }
           userGroupMap[item.create_user_id].list.push(item)
         }
-        _t.userGroupMap = userGroupMap
-        // 判断用户类别
-        if (_t.userInfo.type === 1) {
-          _t.hasUserGroup = _t.userGroupMap.hasOwnProperty(_t.userInfo.id)
+        // 依据当前用户类别处理用户组
+        if (_t.userInfo.type === 0) {
+          _t.userGroupMap = userGroupMap
+        } else if (_t.userInfo.type === 1) {
+          _t.userGroupMap = {}
+          _t.userGroupMap[_t.userInfo.id] = userGroupMap[_t.userInfo.id] || {
+            createUser: _t.userInfo,
+            list: []
+          }
         }
       }
     },
