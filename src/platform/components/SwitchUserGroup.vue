@@ -39,6 +39,7 @@
         <Icon type="ios-arrow-down"></Icon>
       </a>
       <DropdownMenu slot="list">
+        <DropdownItem name="Settings">{{ $t('L00162') }}</DropdownItem>
         <DropdownItem name="SignOut">{{ $t('L00012') }}</DropdownItem>
       </DropdownMenu>
     </Dropdown>
@@ -72,16 +73,21 @@
       },
       handleAction (name) {
         let _t = this
-        if (name === 'SignOut') {
-          // 清除存储的信息
-          _t.$X.utils.storage.clear.apply(_t)
-          _t.$store.commit('Platform/userInfo/reset', {})
-          setTimeout(function () {
-            // 点击菜单跳转路由
-            _t.$router.push({
-              name: 'platform.home'
-            })
-          }, 500)
+        switch (name) {
+          case 'SignOut':
+            // 清除存储的信息
+            _t.$X.utils.storage.clear.apply(_t)
+            _t.$store.commit('Platform/userInfo/reset', {})
+            setTimeout(function () {
+              // 点击菜单跳转路由
+              _t.$router.push({
+                name: 'platform.home'
+              })
+            }, 500)
+            break
+          case 'Settings':
+            _t.$router.push({ name: 'platform.admin.Settings' })
+            break
         }
       }
     }

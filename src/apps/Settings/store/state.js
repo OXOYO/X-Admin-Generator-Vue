@@ -7,14 +7,14 @@ export default {
     {
       name: 'profile',
       label: '个人资料',
-      lang: '',
+      lang: 'L00153',
       icon: '',
       enable: true
     },
     {
       name: 'account',
       label: '账号',
-      lang: '',
+      lang: 'L00049',
       icon: '',
       enable: true
     }

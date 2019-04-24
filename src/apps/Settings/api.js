@@ -12,5 +12,12 @@ export default {
       let res = await $X.http.post('/Settings/Profile/edit', data)
       return res
     }
+  },
+  Account: {
+    // 编辑账号
+    doEdit: async (data) => {
+      let res = await $X.http.post('/Settings/Account/edit', data)
+      return res
+    }
   }
 }

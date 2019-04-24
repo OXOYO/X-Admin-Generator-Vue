@@ -34,29 +34,17 @@
       return {
         // 保存loading
         doSaveLoading: false,
-        isChange: false
+        isChange: false,
+        editForm: {
+          account: '',
+          name: ''
+        }
       }
     },
     computed: {
       ...mapState('Platform', {
         userInfo: state => state.userInfo
       }),
-      editForm () {
-        let _t = this
-        let id = ''
-        let account = ''
-        let name = ''
-        if (_t.userInfo) {
-          id = _t.userInfo.id
-          account = _t.userInfo.account
-          name = _t.userInfo.name
-        }
-        return {
-          id,
-          account,
-          name
-        }
-      },
       // 表单校验规则
       editFormRules () {
         let _t = this
@@ -78,8 +66,33 @@
         }
       }
     },
+    watch: {
+      userInfo: {
+        handler: function () {
+          let _t = this
+          _t.initEditForm()
+        },
+        deep: true
+      }
+    },
     methods: {
-      handleChange: function () {
+      initEditForm () {
+        let _t = this
+        let id = ''
+        let account = ''
+        let name = ''
+        if (_t.userInfo) {
+          id = _t.userInfo.id
+          account = _t.userInfo.account
+          name = _t.userInfo.name
+        }
+        _t.editForm = {
+          id,
+          account,
+          name
+        }
+      },
+      handleChange () {
         let _t = this
         let keys = Object.keys(_t.editForm)
         let flag = false
@@ -93,7 +106,7 @@
         _t.isChange = flag
       },
       // 执行保存
-      doSave: async function () {
+      async doSave () {
         let _t = this
         // 校验结果
         let validResult

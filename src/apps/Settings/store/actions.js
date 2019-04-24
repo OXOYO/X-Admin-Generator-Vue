@@ -10,5 +10,10 @@ export default {
     // 调接口
     let res = await Api.Profile.doEdit(payload)
     return res
+  },
+  'Account/edit': async ({ commit }, payload) => {
+    // 调接口
+    let res = await Api.Account.doEdit(payload)
+    return res
   }
 }

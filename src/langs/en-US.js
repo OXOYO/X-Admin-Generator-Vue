@@ -159,6 +159,16 @@ export default {
   L00150: 'Backstage implicit',
   L00151: 'Background navigation',
   L00152: 'Backstage sidebar',
+  L00153: 'Profile',
+  L00154: 'Old password',
+  L00155: 'Please enter the old password',
+  L00156: 'New password',
+  L00157: 'Please enter a new password',
+  L00158: 'Confirm new password',
+  L00159: 'Please enter new password again',
+  L00160: 'Please enter a numeric combination of 6 to 12 digits! ',
+  L00161: 'Confirm password is inconsistent with new password! ',
+  L00162: 'Settings',
 
   el: {
     table: {
