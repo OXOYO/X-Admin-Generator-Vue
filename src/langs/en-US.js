@@ -14,6 +14,8 @@ export default {
   R00007: 'System',
   R00008: 'System Log',
   R00009: 'Settings',
+  R00010: 'DemoApp',
+  R00011: 'TODO',
   // System text
   L00001: 'SigIn',
   L00002: 'About',
@@ -169,6 +171,9 @@ export default {
   L00160: 'Please enter a numeric combination of 6 to 12 digits! ',
   L00161: 'Confirm password is inconsistent with new password! ',
   L00162: 'Settings',
+  L00163: 'Password',
+  L00164: 'Please enter your password',
+  L00165: 'Copy new',
 
   el: {
     table: {
