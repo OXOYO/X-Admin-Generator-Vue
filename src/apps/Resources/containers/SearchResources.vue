@@ -288,7 +288,7 @@
           {
             title: _t.$t('L00129'),
             key: 'action',
-            width: 250,
+            width: 300,
             render: (h, params) => {
               let btnArr = []
               let readArr = [
@@ -321,6 +321,20 @@
                     }
                   }
                 }, _t.$t('L00123')),
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    margin: '2px'
+                  },
+                  on: {
+                    click: () => {
+                      _t.handleAction('copyAdd', params.row)
+                    }
+                  }
+                }, _t.$t('L00133')),
                 h('Button', {
                   props: {
                     type: 'warning',
@@ -494,14 +508,14 @@
         // 调接口，初始化数据
         _t.getResourceList()
       },
-      pageSizeChange: function (pageSize) {
+      pageSizeChange (pageSize) {
         let _t = this
         // 更新分页量
         _t.pageInfo.pageSize = pageSize
         // 调接口，初始化数据
         _t.getResourceList()
       },
-      doRemove: function (item) {
+      doRemove (item) {
         let _t = this
         // 无选中项直接返回
         if (!item) {
@@ -524,7 +538,7 @@
           }
         })
       },
-      doEdit: async function (item) {
+      doEdit (item) {
         let _t = this
         // 无选中项直接返回
         if (!item) {
@@ -536,7 +550,20 @@
           info: item
         })
       },
-      doAddChild: async function (item) {
+      doCopyAdd (item) {
+        let _t = this
+        // 无选中项直接返回
+        if (!item) {
+          return
+        }
+        let { id, ...info } = item
+        // 广播事件
+        _t.$X.utils.bus.$emit('Apps/Resources/edit', {
+          action: 'copyAdd',
+          info: info
+        })
+      },
+      doAddChild (item) {
         let _t = this
         // 无选中项直接返回
         if (!item) {
@@ -567,6 +594,10 @@
             break
           case 'edit':
             _t.doEdit(item)
+            break
+          case 'copyAdd':
+            _t.doCopyAdd(item)
+            break
             break
           case 'addChild':
             _t.doAddChild(item)

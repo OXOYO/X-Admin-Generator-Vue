@@ -207,7 +207,7 @@
         }
         // 按action类别分别处理
         let actionPath = ''
-        if (['add', 'addChild'].includes(_t.currentAction)) {
+        if (['add', 'addChild', 'copyAdd'].includes(_t.currentAction)) {
           actionPath = 'Apps/Resources/add'
         } else if (_t.currentAction === 'edit') {
           actionPath = 'Apps/Resources/edit'
@@ -247,7 +247,7 @@
         _t.currentAction = _t.backModalInfo && _t.backModalInfo.action ? _t.backModalInfo.action : _t.currentAction
         let defModalForm = JSON.parse(JSON.stringify(_t.defModalForm))
 
-        if (['edit', 'addChild'].includes(_t.currentAction) && _t.backModalInfo && _t.backModalInfo.info) {
+        if (['edit', 'addChild', 'copyAdd'].includes(_t.currentAction) && _t.backModalInfo && _t.backModalInfo.info) {
           let backModalInfo = _t.backModalInfo.info instanceof Object ? JSON.parse(JSON.stringify(_t.backModalInfo.info)) : _t.backModalInfo.info
           _t.modalForm = {
             ...defModalForm,
