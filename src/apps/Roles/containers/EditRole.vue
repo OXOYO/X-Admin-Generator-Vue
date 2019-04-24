@@ -150,7 +150,7 @@
       formRules () {
         let _t = this
         return {
-          title: [
+          name: [
             {
               required: true,
               message: _t.$t('L00067'),

@@ -39,6 +39,9 @@
       <FormItem :label="$t('L00050')" prop="name">
         <Input v-model="modalForm.name" :placeholder="$t('L00046')" style="width: 200px;"></Input>
       </FormItem>
+      <FormItem :label="$t('L00163')" prop="password">
+        <Input type="password" v-model="modalForm.password" :placeholder="$t('L00164')" style="width: 200px;"></Input>
+      </FormItem>
       <FormItem :label="$t('L00055')" prop="type">
         <Radio-group v-model="modalForm.type">
           <Radio
@@ -68,18 +71,6 @@
               {{ groupItem.name }}
             </Option>
           </OptionGroup>
-          <!--
-          <Option
-            v-for="item in userGroupMap"
-            :value="item.id"
-            :key="item.id"
-            :disabled="item.create_user_id !== userInfo.id"
-            style="display: inline-block; width: 100%; position: relative;"
-          >
-            <span style="float: left; margin-top: 5px;">{{ item.title }}</span>
-            <span style="position: absolute; right: 35px; margin-top: 5px;">{{ item.create_user.name }} {{ item.create_user.account }}</span>
-          </Option>
-          -->
         </Select>
         <Alert v-if="userInfo.type === 1" class="notice" :type="hasUserGroup ? 'info' : 'error'" show-icon>{{ hasUserGroup ? '只可操作自己创建的用户组！' : '暂无可操作的用户组，请先创建用户组！' }}</Alert>
       </FormItem>
@@ -117,6 +108,7 @@
         defModalForm: {
           account: '',
           name: '',
+          password: '',
           type: 2,
           group_id: [],
           status: 1
@@ -153,6 +145,18 @@
             {
               required: true,
               message: _t.$t('L00046'),
+              trigger: 'blur'
+            }
+          ],
+          password: [
+            {
+              required: true,
+              message: _t.$t('L00164'),
+              trigger: 'blur'
+            },
+            {
+              pattern: _t.$X.config.system.passwordReg,
+              message: _t.$t('L00160'),
               trigger: 'blur'
             }
           ],
