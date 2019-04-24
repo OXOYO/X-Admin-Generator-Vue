@@ -598,7 +598,6 @@
           case 'copyAdd':
             _t.doCopyAdd(item)
             break
-            break
           case 'addChild':
             _t.doAddChild(item)
             break
