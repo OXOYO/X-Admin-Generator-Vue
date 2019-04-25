@@ -5,7 +5,7 @@
 */
 
 <style scoped lang="less" rel="stylesheet/less">
-  .content-box {
+  .main-box {
     display: flex;
     margin: 0;
 
@@ -19,7 +19,7 @@
 </style>
 
 <template>
-  <div class="content-box">
+  <div class="main-box">
     <Sidebar class="sidebar"></Sidebar>
     <MainContent class="main-content"></MainContent>
   </div>
