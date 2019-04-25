@@ -174,6 +174,10 @@ export default {
   L00163: 'Password',
   L00164: 'Please enter your password',
   L00165: 'Copy new',
+  L00166: 'Add category',
+  L00167: 'Enter to add tasks',
+  L00168: 'The task is open! ',
+  L00169: 'The task is closed! ',
 
   el: {
     table: {
