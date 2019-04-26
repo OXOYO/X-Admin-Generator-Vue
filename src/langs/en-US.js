@@ -156,6 +156,8 @@ export default {
   L00143: 'Response time',
   L00144: 'Resource Directory',
   L00145: 'Please enter the resource directory',
+  L00146: 'Display position',
+  L00147: 'Please select the display location',
   L00148: 'The foreground is implicit',
   L00149: 'Foreground navigation',
   L00150: 'Backstage implicit',
@@ -178,6 +180,8 @@ export default {
   L00167: 'Enter to add tasks',
   L00168: 'The task is open! ',
   L00169: 'The task is closed! ',
+  L00170: 'Please enter a category name',
+  L00171: 'Rename',
 
   el: {
     table: {

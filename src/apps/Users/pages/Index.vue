@@ -83,6 +83,11 @@
         _t.$X.utils.bus.$emit('Apps/Users/list/init')
       })
     },
+    beforeDestroy: function () {
+      let _t = this
+      // 销毁监听
+      _t.$X.utils.bus.$off('Apps/Users/list/init/start')
+    },
     destroyed: function () {
       let _t = this
       // 卸载store

@@ -574,6 +574,11 @@
           })
         }, 500)
       }
+    },
+    beforeDestroy: function () {
+      let _t = this
+      // 销毁监听
+      _t.$X.utils.bus.$off('Platform/Admin/refresh')
     }
   }
 </script>

@@ -444,7 +444,7 @@
         // 删除用户列表中所选用户
         _t.$Modal.confirm({
           title: _t.$t('L00141'),
-          content: '确认删除所选账号吗？',
+          content: _t.$t('L00060'),
           onOk: async function () {
             let res = await _t.$store.dispatch('Apps/Users/remove', [
               item.id
