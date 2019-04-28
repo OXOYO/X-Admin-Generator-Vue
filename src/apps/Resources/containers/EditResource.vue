@@ -118,7 +118,8 @@
         modalTitle: {
           edit: 'L00123',
           add: 'L00122',
-          addChild: 'L00062'
+          addChild: 'L00062',
+          copyAdd: 'L00122'
         },
         // 默认表单数据
         defModalForm: {

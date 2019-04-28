@@ -16,6 +16,7 @@ export default {
   R00009: 'Settings',
   R00010: 'DemoApp',
   R00011: 'TODO',
+  R00012: 'BLOG',
   // System text
   L00001: 'SigIn',
   L00002: 'About',
