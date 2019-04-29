@@ -17,6 +17,8 @@ export default {
   R00010: 'DemoApp',
   R00011: 'TODO',
   R00012: 'BLOG',
+  R00013: 'Category management',
+  R00014: 'Tag management',
   // System text
   L00001: 'SigIn',
   L00002: 'About',
@@ -183,6 +185,18 @@ export default {
   L00169: 'The task is closed! ',
   L00170: 'Please enter a category name',
   L00171: 'Rename',
+  L00172: 'Category name',
+  L00173: 'Please enter a category name',
+  L00174: 'Classification alias',
+  L00175: 'Please enter a category alias',
+  L00176: 'Classification description',
+  L00177: 'Please enter a classification description',
+  L00178: 'Label name',
+  L00179: 'Please enter the tag name',
+  L00180: 'Label alias',
+  L00181: 'Please enter a tag alias',
+  L00182: 'Label description',
+  L00183: 'Please enter a label description',
 
   el: {
     table: {

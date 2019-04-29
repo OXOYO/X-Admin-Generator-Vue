@@ -9,7 +9,8 @@
 
 <template>
   <div class="main-box">
-    <h1>TODO AdminBlog</h1>
+    <!-- TODO 侧边栏 -->
+    <router-view></router-view>
   </div>
 </template>
 

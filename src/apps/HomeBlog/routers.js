@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'Blog',
+  path: 'blog',
   name: 'platform.home.Blog',
   component: () => import(/* webpackChunkName: 'HomeBlog' */ './pages/Index'),
   meta: {
