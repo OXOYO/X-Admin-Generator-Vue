@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'FramePage/:name',
+  path: 'framepage/:name',
   name: 'platform.admin.FramePage',
   component: () => import(/* webpackChunkName: 'FramePage' */ './pages/Index'),
   meta: {

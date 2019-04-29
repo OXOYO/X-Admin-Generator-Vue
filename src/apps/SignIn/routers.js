@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'SigIn',
+  path: 'sigIn',
   name: 'platform.home.SigIn',
   component: () => import(/* webpackChunkName: 'SigIn' */ './pages/Index'),
   meta: {

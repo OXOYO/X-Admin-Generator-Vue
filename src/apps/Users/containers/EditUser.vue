@@ -22,7 +22,7 @@
 <template>
   <Modal
     v-model="isShowModal"
-    :title="modalTitle[currentAction]"
+    :title="$t(modalTitle[currentAction])"
     :mask-closable="true"
     :closable="true"
     @on-cancel="handleCancel"
@@ -100,8 +100,8 @@
         currentAction: '',
         // 弹窗标题
         modalTitle: {
-          edit: '编辑',
-          add: '新增'
+          edit: 'L00123',
+          add: 'L00122'
         },
         // 默认表单数据
         defModalForm: {

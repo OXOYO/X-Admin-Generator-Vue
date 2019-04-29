@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'AdminIndex',
+  path: 'adminindex',
   name: 'platform.admin.AdminIndex',
   component: () => import(/* webpackChunkName: 'AdminIndex' */ './pages/Index'),
   meta: {

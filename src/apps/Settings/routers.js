@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'Settings',
+  path: 'settings',
   name: 'platform.admin.Settings',
   component: () => import(/* webpackChunkName: 'Settings' */ './pages/Index'),
   meta: {

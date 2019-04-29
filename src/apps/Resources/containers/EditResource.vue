@@ -134,7 +134,7 @@
           target: 0,
           permission_type: [],
           enable: 1,
-          position: ''
+          position: []
         },
         // 表单数据
         modalForm: {},

@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'SystemLog',
+  path: 'systemlog',
   name: 'platform.admin.SystemLog',
   component: resolve => require(['./pages/Index'], resolve),
   meta: {

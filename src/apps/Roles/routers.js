@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'Roles',
+  path: 'roles',
   name: 'platform.admin.Roles',
   component: resolve => require(['./pages/Index'], resolve),
   meta: {

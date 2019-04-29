@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'DemoApp',
+  path: 'demoapp',
   name: 'platform.admin.DemoApp',
   component: () => import(/* webpackChunkName: 'DemoApp' */ './pages/Index'),
   meta: {

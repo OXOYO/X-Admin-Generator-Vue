@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'Users',
+  path: 'users',
   name: 'platform.admin.Users',
   dir: 'Users',
   component: () => import(/* webpackChunkName: 'Users' */ './pages/Index'),

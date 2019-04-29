@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'Resources',
+  path: 'resources',
   name: 'platform.admin.Resources',
   component: () => import(/* webpackChunkName: 'Resources' */ './pages/Index'),
   meta: {

@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'ErrorPage/:num',
+  path: 'errorpage/:num',
   name: 'platform.admin.ErrorPage',
   component: () => import(/* webpackChunkName: 'ErrorPage' */ './pages/Index'),
   meta: {

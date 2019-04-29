@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'About',
+  path: 'about',
   name: 'platform.home.About',
   component: () => import(/* webpackChunkName: 'Users' */ './pages/Index'),
   meta: {

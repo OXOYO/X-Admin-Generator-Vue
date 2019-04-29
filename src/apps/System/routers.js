@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'System',
+  path: 'system',
   name: 'platform.admin.System',
   component: () => import(/* webpackChunkName: 'System' */ './pages/Index'),
   meta: {

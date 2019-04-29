@@ -3,7 +3,7 @@
  */
 
 export default {
-  path: 'TODO',
+  path: 'todo',
   name: 'platform.admin.TODO',
   component: () => import(/* webpackChunkName: 'TODO' */ './pages/Index'),
   meta: {
