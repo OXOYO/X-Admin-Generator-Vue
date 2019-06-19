@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/XAdmin/precache-manifest.1bcc393cac88712c52b49f1449a13e1d.js"
+  "/X-Admin-Generator-Vue/precache-manifest.06d5da4001881ccf2a12a118934a56af.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "X-Admin-Generator-Vue"});
