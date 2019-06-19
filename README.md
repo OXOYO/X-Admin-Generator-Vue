@@ -34,17 +34,17 @@
 
 ## 预览
 
-![](./docs/images/20190423150822001.png)
+![](./documents/images/20190423150822001.png)
 
-![](./docs/images/20190423150822002.png)
+![](./documents/images/20190423150822002.png)
 
-![](./docs/images/20190423150822003.png)
+![](./documents/images/20190423150822003.png)
 
-![](./docs/images/20190423150822004.png)
+![](./documents/images/20190423150822004.png)
 
-![](./docs/images/20190423150822005.png)
+![](./documents/images/20190423150822005.png)
 
-![](./docs/images/20190423150822006.png)
+![](./documents/images/20190423150822006.png)
 
 ## TODO
 
