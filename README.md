@@ -34,6 +34,10 @@
 
 ## 预览
 
+[online](http://oxoyo.co/X-Admin-Generator-Vue/)
+
+账号：root 123123
+
 ![](./documents/images/20190423150822001.png)
 
 ![](./documents/images/20190423150822002.png)
