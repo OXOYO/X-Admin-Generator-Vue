@@ -8,7 +8,7 @@
 
 module.exports = {
   // 部署应用包时的基本URL，置空使用相对路径
-  publicPath: '/XAdmin/',
+  publicPath: '/X-Admin-Generator-Vue/',
   // 打包输出目录
   outputDir: 'docs',
   // 静态资源目录
