@@ -14,12 +14,6 @@
  npm run build
 ```
 
-## 账号
-
-超级管理员：root 123123
-
-管理员：admin 123123
-
 ## 配套API
 
 [X-Admin-API-Generator-Koa](https://github.com/OXOYO/X-Admin-API-Generator-Koa)
@@ -36,7 +30,9 @@
 
 [online](http://oxoyo.co/X-Admin-Generator-Vue/)
 
-账号：root 123123
+超级管理员：root 123123
+
+管理员：admin 123123
 
 ![](./documents/images/20190423150822001.png)
 
