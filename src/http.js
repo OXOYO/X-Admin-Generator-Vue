@@ -12,7 +12,7 @@ export default function (Vue) {
     baseURL: process.env.VUE_APP_API_BASE,
     withCredentials: true
   })
-// 设置 拦截器
+  // 设置 拦截器
   http.interceptors.request.use((config) => {
     // loading 进度条启动
     Vue.prototype.$Loading.start()
