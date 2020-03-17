@@ -1,22 +1,22 @@
 self.__precacheManifest = [
   {
-    "revision": "280d24fbfa853960cb40",
-    "url": "/X-Admin-Generator-Vue/js/app.8b110aae.js"
+    "revision": "c5eecfcfbfe2131ff212",
+    "url": "/X-Admin-Generator-Vue/js/app.69e904cf.js"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "/X-Admin-Generator-Vue/robots.txt"
   },
   {
-    "revision": "c6678d6195bab2d25478",
+    "revision": "f6e0c62321f8a6b38d50",
     "url": "/X-Admin-Generator-Vue/css/chunk-0e523145.be41193b.css"
   },
   {
-    "revision": "42555fa5bcc82c5edf97",
+    "revision": "6216170211bbf07ab1b6",
     "url": "/X-Admin-Generator-Vue/css/AdminBlog.c428b630.css"
   },
   {
-    "revision": "f42ae2bd79c4d9d027a9062fbd57c6e3",
+    "revision": "720f7d7843aba55aa31e9e116fc3cb50",
     "url": "/X-Admin-Generator-Vue/index.html"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/e.78a730e3.jpg"
   },
   {
-    "revision": "9ec29296edf53bc2321c",
+    "revision": "001b1de587ec3ac374db",
     "url": "/X-Admin-Generator-Vue/css/FramePage.c5132901.css"
   },
   {
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/brown-papersq.82cd9f5d.png"
   },
   {
-    "revision": "34e7018b3aa2d1507dc2",
+    "revision": "2e6e537ebec3844fd4b9",
     "url": "/X-Admin-Generator-Vue/css/Home.52b6523f.css"
   },
   {
@@ -48,7 +48,7 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/j.49e4cce1.jpg"
   },
   {
-    "revision": "870daecd5b43644fe74e",
+    "revision": "87ad309db78d852623aa",
     "url": "/X-Admin-Generator-Vue/css/Resources.e3061277.css"
   },
   {
@@ -56,15 +56,15 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/d.9edf1792.jpg"
   },
   {
-    "revision": "a69bf14110cbdfdce3b9",
-    "url": "/X-Admin-Generator-Vue/css/Settings.5db9ec38.css"
+    "revision": "b92ae49a3fb0bbf6cd45",
+    "url": "/X-Admin-Generator-Vue/css/Settings.c29ac750.css"
   },
   {
     "revision": "dceb435714d4bed40f29599de9232656",
     "url": "/X-Admin-Generator-Vue/img/b.dceb4357.jpg"
   },
   {
-    "revision": "ef66cdfabc5e24c067b6",
+    "revision": "2f1a4f2ed950437a51ff",
     "url": "/X-Admin-Generator-Vue/css/SigIn.2816a949.css"
   },
   {
@@ -76,7 +76,7 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/f.ef5b0850.jpg"
   },
   {
-    "revision": "9d36104a8c6a0f4cb57d",
+    "revision": "fed7302288eda02faad5",
     "url": "/X-Admin-Generator-Vue/css/TODO.58370284.css"
   },
   {
@@ -84,7 +84,7 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/a.f5e4b115.jpg"
   },
   {
-    "revision": "53c41f95bdae41fcde63",
+    "revision": "af5d6ec3e886250deaa7",
     "url": "/X-Admin-Generator-Vue/css/Users.0b05ec2d.css"
   },
   {
@@ -92,8 +92,8 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/ionicons.a2c4a261.svg"
   },
   {
-    "revision": "280d24fbfa853960cb40",
-    "url": "/X-Admin-Generator-Vue/css/app.8dc97ca9.css"
+    "revision": "c5eecfcfbfe2131ff212",
+    "url": "/X-Admin-Generator-Vue/css/app.e5a8e1ad.css"
   },
   {
     "revision": "d535a25a79fb1365ae814b61e88fae71",
@@ -124,58 +124,58 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/c.a1f76750.jpg"
   },
   {
-    "url": "/X-Admin-Generator-Vue/Settings.a69bf14110cbdfdce3b9.js"
+    "url": "/X-Admin-Generator-Vue/Settings.b92ae49a3fb0bbf6cd45.js"
   },
   {
-    "revision": "83a640c7b5e1f56ccfe0",
+    "revision": "1b2b898c770ff03f208c",
     "url": "/X-Admin-Generator-Vue/css/Admin.13661e48.css"
   },
   {
-    "url": "/X-Admin-Generator-Vue/Resources.870daecd5b43644fe74e.js"
+    "url": "/X-Admin-Generator-Vue/Resources.87ad309db78d852623aa.js"
   },
   {
     "url": "/X-Admin-Generator-Vue/chunk-vendors.4215990faed22b0aef0d.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/HomeBlog.c0936e13d0f63e04c0ad.js"
+    "url": "/X-Admin-Generator-Vue/HomeBlog.8a565478b7a2c578f9f5.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/chunk-0e523145.c6678d6195bab2d25478.js"
+    "url": "/X-Admin-Generator-Vue/chunk-0e523145.f6e0c62321f8a6b38d50.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/chunk-2d0c4f98.3c17c2216ac9c81d6032.js"
+    "url": "/X-Admin-Generator-Vue/chunk-2d0c4f98.aef6b0991a5c33b14bc7.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/Home.34e7018b3aa2d1507dc2.js"
+    "url": "/X-Admin-Generator-Vue/Home.2e6e537ebec3844fd4b9.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/System.4f526f62f5c2d6ce4433.js"
+    "url": "/X-Admin-Generator-Vue/System.06e03ffde62d0c022764.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/TODO.9d36104a8c6a0f4cb57d.js"
+    "url": "/X-Admin-Generator-Vue/TODO.fed7302288eda02faad5.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/Users.53c41f95bdae41fcde63.js"
+    "url": "/X-Admin-Generator-Vue/Users.af5d6ec3e886250deaa7.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/SigIn.ef66cdfabc5e24c067b6.js"
+    "url": "/X-Admin-Generator-Vue/SigIn.2f1a4f2ed950437a51ff.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/FramePage.9ec29296edf53bc2321c.js"
+    "url": "/X-Admin-Generator-Vue/FramePage.001b1de587ec3ac374db.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/ErrorPage.866933ebe9e66d64c6f8.js"
+    "url": "/X-Admin-Generator-Vue/ErrorPage.2398a74204be2fb1b198.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/DemoApp.74df9b9b0e59adb6486d.js"
+    "url": "/X-Admin-Generator-Vue/DemoApp.7b0c2ca17d99ea29a2ac.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/AdminIndex.2b214799eb16ce9ab95b.js"
+    "url": "/X-Admin-Generator-Vue/AdminIndex.fe8e8fdc10b1263044a9.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/AdminBlog.42555fa5bcc82c5edf97.js"
+    "url": "/X-Admin-Generator-Vue/AdminBlog.6216170211bbf07ab1b6.js"
   },
   {
-    "url": "/X-Admin-Generator-Vue/Admin.83a640c7b5e1f56ccfe0.js"
+    "url": "/X-Admin-Generator-Vue/Admin.1b2b898c770ff03f208c.js"
   }
 ];
