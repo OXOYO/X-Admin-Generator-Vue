@@ -16,8 +16,10 @@ export default async function (Vue) {
     enable: [1],
     type: ['module-system', 'module-app', 'module-link']
   })
-  home.children = routerTree.children.filter(item => item.name.includes(home.name))
-  admin.children = routerTree.children.filter(item => item.name.includes(admin.name))
+  if (Array.isArray(routerTree.children)) {
+    home.children = routerTree.children.filter(item => item.name.includes(home.name))
+    admin.children = routerTree.children.filter(item => item.name.includes(admin.name))
+  }
 
   return [
     home,

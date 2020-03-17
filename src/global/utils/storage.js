@@ -8,7 +8,7 @@ export default {
   // 清除存储的信息
   clear (clearAll = false) {
     let _t = this
-    // FIXME 清空Session Storeage
+    // FIXME 清空Session Storage
     sessionStorage.clear()
     // 清空cookie
     let keysArr = Object.keys(_t.$X.Cookies.get())

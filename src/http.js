@@ -49,7 +49,7 @@ export default function (Vue) {
         Vue.prototype.$Message.error(response.msg || resData.msg || Vue.prototype.$t('L00134'))
         if (resData.code === 9999) {
           // 清除存储的信息
-          $X.utils.storage.clear(true)
+          $X.utils.storage.clear.apply(Vue.prototype, [true])
           // 跳转登录页
           if (Vue.prototype.$router) {
             Vue.prototype.$router.push({
