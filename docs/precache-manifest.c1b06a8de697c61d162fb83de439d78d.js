@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "c5eecfcfbfe2131ff212",
-    "url": "/X-Admin-Generator-Vue/js/app.69e904cf.js"
+    "revision": "255f06bbe289848cb59a",
+    "url": "/X-Admin-Generator-Vue/js/app.3d59c56c.js"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/css/AdminBlog.c428b630.css"
   },
   {
-    "revision": "720f7d7843aba55aa31e9e116fc3cb50",
+    "revision": "a7df0ebda6ad2c88bd47c769a4427fe8",
     "url": "/X-Admin-Generator-Vue/index.html"
   },
   {
@@ -92,7 +92,7 @@ self.__precacheManifest = [
     "url": "/X-Admin-Generator-Vue/img/ionicons.a2c4a261.svg"
   },
   {
-    "revision": "c5eecfcfbfe2131ff212",
+    "revision": "255f06bbe289848cb59a",
     "url": "/X-Admin-Generator-Vue/css/app.e5a8e1ad.css"
   },
   {
